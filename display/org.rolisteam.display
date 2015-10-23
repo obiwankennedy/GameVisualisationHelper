@@ -1,11 +1,16 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
-  <interface name="local.MainWindow">
+  <interface name="local.qdbuscpp2xml.MainWindow">
     <signal name="changeCurrentAvatar">
       <arg type="s" direction="out"/>
     </signal>
     <method name="displayCorrectImage">
       <arg name="user" type="s" direction="in"/>
+    </method>
+    <method name="hideImage">
+      <arg name="user" type="s" direction="in"/>
+    </method>
+    <method name="setImageInLabel">
     </method>
   </interface>
 </node>

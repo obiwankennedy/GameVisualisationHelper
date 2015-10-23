@@ -45,6 +45,23 @@ MainWindow::MainWindow(QWidget *parent) :
     m_youngMap.insert("Frah",":/resources/Asako.jpg");
     m_youngMap.insert("obi",":/resources/mj.jpg");
 
+
+	m_widgetMap.insert("Akodo Eiichi",ui->m_labelAkodo);
+	m_widgetMap.insert("Shinjo Zhia",ui->m_labelShinjo);
+	m_widgetMap.insert("Chewba",ui->m_labelBauyshi);
+	m_widgetMap.insert("Frah",ui->m_labelTsuruchi);
+	m_widgetMap.insert("obi",ui->m_gmlabel);
+
+	setImageInLabel();
+
+	foreach(QLabel* current,m_widgetMap.values())
+	{
+		if(NULL!=current)
+		{
+			current->setVisible(true);
+			hideImage(m_widgetMap.key(current));
+		}
+	}
 }
 
 MainWindow::~MainWindow()
@@ -53,28 +70,111 @@ MainWindow::~MainWindow()
 }
 void  MainWindow::displayCorrectImage(QString user)
 {
-    QMap<QString,QString>* map = NULL;
-    if(ui->actionYoung->isChecked())
-    {
-        map = &m_youngMap;
-    }
-    else
-    {
-        map = &m_map;
-    }
+	bool found = false;
+	QMap<QString,QString>* map = NULL;
+	 if(ui->actionYoung->isChecked())
+	 {
+		 map = &m_youngMap;
+	 }
+	 else
+	 {
+		 map = &m_map;
+	 }
+	foreach(QString name,map->keys())
+	{
+		if(name.contains(user,Qt::CaseInsensitive))
+		{
+			QLabel* current     = m_widgetMap[name];
+			QString img = map->value(name);
+			if(NULL!=current)
+			{
+				current->setPixmap(QPixmap(img));
+				found = true;
+			}
 
-    foreach(QString name,map->keys())
-    {
-        if(user.contains(name,Qt::CaseInsensitive))
-        {
-
-            ui->label->setText(name);
-            ui->label->setPixmap(QPixmap(map->value(name)));
-
-        }
-    }
+		}
+	}
+	if(!found)
+	{
+		qDebug() << "not found "<< user;
+	}
 }
 void MainWindow::hideImage(QString user)
 {
-	
+	QMap<QString,QString>* map = NULL;
+	 if(ui->actionYoung->isChecked())
+	 {
+		 map = &m_youngMap;
+	 }
+	 else
+	 {
+		 map = &m_map;
+	 }
+	foreach(QString name,map->keys())
+	{
+		if(name.contains(user,Qt::CaseInsensitive))
+		{
+			QLabel* current     = m_widgetMap[name];
+			QString img = map->value(name);
+			if(NULL!=current)
+			{
+				img.insert(img.lastIndexOf('.'),"-gray");
+				current->setPixmap(QPixmap(img));
+			}
+
+		}
+	}
+}
+void MainWindow::setImageInLabel()
+{
+	QMap<QString,QString>* map = NULL;
+	if(ui->actionYoung->isChecked())
+	{
+		map = &m_youngMap;
+	}
+	else
+	{
+		map = &m_map;
+	}
+	foreach(QString name,m_widgetMap.keys())
+	{
+		QString img = map->value(name);
+		QLabel* current     = m_widgetMap[name];
+		if(NULL!=current)
+		{
+			setMaximumSizeOnLabel(img,current);
+		}
+	}
+}
+void MainWindow::resizeEvent(QResizeEvent * ev)
+{
+	QMainWindow::resizeEvent(ev);
+	setImageInLabel();
+}
+
+void MainWindow::setMaximumSizeOnLabel(QString img, QLabel* lbl)
+{
+	QPixmap pix(img);
+
+	QRect rectImg = pix.rect();
+	qreal ratioImg = (qreal)rectImg.width()/rectImg.height();
+
+	qreal normal, adjusted;
+	QRect target2 = ui->centralWidget->geometry();//ui->scrollAreaWidgetContents->geometry();
+	//qDebug() << target2;
+	qreal ratioZone = (qreal)target2.width()/target2.height();
+
+	if(ratioZone>=1)
+	{
+		adjusted = target2.height()*ratioImg;
+		normal = target2.height();
+		lbl->setMaximumSize(adjusted,normal);
+	}
+	else
+	{
+		adjusted = target2.width()/ratioImg;
+		normal = target2.width();
+		lbl->setMaximumSize(normal,adjusted);
+	}
+
 }

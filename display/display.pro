@@ -11,7 +11,7 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
         guiadaptor.h \
-    main.h
+	main.h
 
 FORMS    += mainwindow.ui
 

@@ -23,7 +23,7 @@
 
 #include <QMainWindow>
 #include <QMap>
-#include <QThread>
+#include <QLabel>
 
 namespace Ui {
 class MainWindow;
@@ -41,7 +41,12 @@ public:
 public slots:
     void displayCorrectImage(QString user);
     void hideImage(QString user);
+	void setImageInLabel();
 
+	void setMaximumSizeOnLabel(QString img, QLabel* lbl);
+
+protected:
+	void resizeEvent(QResizeEvent *);
 signals:
     void changeCurrentAvatar(QString);
 
@@ -50,6 +55,7 @@ private:
 
     QMap<QString,QString> m_map;
     QMap<QString,QString> m_youngMap;
+	QMap<QString,QLabel*>  m_widgetMap;
 };
 
 #endif // MAINWINDOW_H

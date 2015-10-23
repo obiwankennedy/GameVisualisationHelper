@@ -9,5 +9,14 @@
         <file>resources/Isawa.jpg</file>
         <file>resources/kakita.jpg</file>
         <file>resources/mj.jpg</file>
+        <file>resources/Akodo_Eiichi-gray.png</file>
+        <file>resources/Asako-gray.jpg</file>
+        <file>resources/Bayushi_Takayoshi-gray.png</file>
+        <file>resources/Isawa-gray.jpg</file>
+        <file>resources/kakita-gray.jpg</file>
+        <file>resources/kitsuki-gray.jpg</file>
+        <file>resources/mj-gray.jpg</file>
+        <file>resources/Shinjo_Zhia-gray.jpg</file>
+        <file>resources/Tsuruchi_Nayu-gray.jpg</file>
     </qresource>
 </RCC>
