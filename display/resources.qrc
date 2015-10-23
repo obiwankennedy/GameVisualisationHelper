@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resources/Tsuruchi_Nayu.jpg</file>
+        <file>resources/Bayushi_Takayoshi.png</file>
+        <file>resources/Akodo_Eiichi.png</file>
+        <file>resources/Shinjo_Zhia.jpg</file>
+        <file>resources/kitsuki.jpg</file>
+        <file>resources/Asako.jpg</file>
+        <file>resources/Isawa.jpg</file>
+        <file>resources/kakita.jpg</file>
+        <file>resources/mj.jpg</file>
+    </qresource>
+</RCC>
