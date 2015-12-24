@@ -33,6 +33,8 @@
 
 #include "plugin.h"
 
+
+
 #define PLUGIN_API_VERSION 20
 #define PATH_BUFSIZE 512
 #define COMMAND_BUFSIZE 128
@@ -44,9 +46,12 @@
 static struct TS3Functions ts3Functions;
 static char* pluginID = NULL;
 
+
+#define _strcpy(dest, destSize, src) { strncpy(dest, src, destSize-1); (dest)[destSize-1] = '\0'; }
+
 const char* ts3plugin_name()
 {
-    return "Speaker Plugin";
+    return "Dbus Plugin";
 }
 
 
@@ -90,6 +95,10 @@ int ts3plugin_init()
     char configPath[PATH_BUFSIZE];
     char pluginPath[PATH_BUFSIZE];
 
+    ts3Functions.getAppPath(appPath, PATH_BUFSIZE);
+    ts3Functions.getResourcesPath(resourcesPath, PATH_BUFSIZE);
+    ts3Functions.getConfigPath(configPath, PATH_BUFSIZE);
+    ts3Functions.getPluginPath(pluginPath, PATH_BUFSIZE);
 
     printf("PLUGIN: App path: %s\nResources path: %s\nConfig path: %s\nPlugin path: %s\n", appPath, resourcesPath, configPath, pluginPath);
 
@@ -110,8 +119,31 @@ void ts3plugin_shutdown() {
         pluginID = NULL;
     }
 }
+
+
+
+
+void ts3plugin_onUpdateClientEvent(uint64 serverConnectionHandlerID, anyID clientID, anyID invokerID, const char* invokerName, const char* invokerUniqueIdentifier)
+{
+    using namespace std;
+	
+	anyID ownID = 0;
+	ts3Functions.getClientID(serverConnectionHandlerID, &ownID);
+	if (ownID == 0 || ownID != clientID) return;
+	
+	int val = -1;
+	ts3Functions.getClientVariableAsInt(serverConnectionHandlerID, clientID, CLIENT_IS_RECORDING, &val);
+	if(val == 1)
+        {
+              std::string str;
+              str += "dbus-send --type=method_call --session --dest=be.maartenbaert.ssr /  local.PageRecord.OnRecordStartPause";
+              system(str.c_str());
+     }
+}
+
 void ts3plugin_onTalkStatusChangeEvent(uint64 serverConnectionHandlerID, int status, int isReceivedWhisper, anyID clientID)
 {
+    //printf("ts3plugin_onTalkStatusChangeEvent\n");
     /* Demonstrate usage of getClientDisplayName */
     char name[512];
     if(ts3Functions.getClientDisplayName(serverConnectionHandlerID, clientID, name, 512) == ERROR_ok)
@@ -124,25 +156,18 @@ void ts3plugin_onTalkStatusChangeEvent(uint64 serverConnectionHandlerID, int sta
             str += "'";
 
             system(str.c_str());
+
         }
-	else if(status == STATUS_NOT_TALKING)
-	{
-            std::string str;
-            str += "dbus-send --type=method_call --session --dest=org.rolisteam.display /  local.MainWindow.hideImage string:'";
-            str += name;
-            str += "'";
+        else
+        {
+                std::string str;
+                str += "dbus-send --type=method_call --session --dest=org.rolisteam.display /  local.MainWindow.hideImage string:'";
+                str += name;
+                str += "'";
 
-            system(str.c_str());
+               system(str.c_str());
 
-	}
+        }
     }
 }
-/*
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
 
-    return a.exec();
-}*/

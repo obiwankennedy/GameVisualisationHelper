@@ -43,7 +43,9 @@ public slots:
     void hideImage(QString user);
 	void setImageInLabel();
 
+private slots:
 	void setMaximumSizeOnLabel(QString img, QLabel* lbl);
+    void setFrameLess();
 
 protected:
 	void resizeEvent(QResizeEvent *);

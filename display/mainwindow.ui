@@ -44,7 +44,7 @@
          <x>0</x>
          <y>0</y>
          <width>398</width>
-         <height>206</height>
+         <height>211</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0,0">
@@ -161,7 +161,7 @@
      <x>0</x>
      <y>0</y>
      <width>400</width>
-     <height>27</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAction">
@@ -169,6 +169,7 @@
      <string>Action</string>
     </property>
     <addaction name="actionYoung"/>
+    <addaction name="m_framelessAct"/>
    </widget>
    <addaction name="menuAction"/>
   </widget>
@@ -178,6 +179,11 @@
    </property>
    <property name="text">
     <string>Young</string>
+   </property>
+  </action>
+  <action name="m_framelessAct">
+   <property name="text">
+    <string>Frameless</string>
    </property>
   </action>
  </widget>

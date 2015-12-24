@@ -29,27 +29,30 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::WindowStaysOnTopHint );
 
 
+
+    connect(ui->m_framelessAct,SIGNAL(triggered()),this,SLOT(setFrameLess()));
 
     m_map.insert("Akodo Eiichi",":/resources/Akodo_Eiichi.png");
-    m_map.insert("Frah",":/resources/Tsuruchi_Nayu.jpg");
-    m_map.insert("Shinjo Zhia",":/resources/Shinjo_Zhia.jpg");
+    //m_map.insert("Frah",":/resources/Tsuruchi_Nayu.jpg");
+    m_map.insert("Zhia",":/resources/Shinjo_Zhia.jpg");
     m_map.insert("Chewba",":/resources/Bayushi_Takayoshi.png");
     m_map.insert("obi",":/resources/mj.jpg");
 
     m_youngMap.insert("Akodo Eiichi",":/resources/kakita.jpg");
-    m_youngMap.insert("Shinjo Zhia",":/resources/Isawa.jpg");
+    m_youngMap.insert("Zhia",":/resources/Isawa.jpg");
     m_youngMap.insert("Chewba",":/resources/kitsuki.jpg");
-    m_youngMap.insert("Frah",":/resources/Asako.jpg");
+    //m_youngMap.insert("Frah",":/resources/Asako.jpg");
     m_youngMap.insert("obi",":/resources/mj.jpg");
 
 
 	m_widgetMap.insert("Akodo Eiichi",ui->m_labelAkodo);
-	m_widgetMap.insert("Shinjo Zhia",ui->m_labelShinjo);
+    m_widgetMap.insert("Zhia",ui->m_labelShinjo);
 	m_widgetMap.insert("Chewba",ui->m_labelBauyshi);
-	m_widgetMap.insert("Frah",ui->m_labelTsuruchi);
+    //m_widgetMap.insert("Frah",ui->m_labelTsuruchi);
+    ui->m_labelTsuruchi->setVisible(false);
 	m_widgetMap.insert("obi",ui->m_gmlabel);
 
 	setImageInLabel();
@@ -177,4 +180,9 @@ void MainWindow::setMaximumSizeOnLabel(QString img, QLabel* lbl)
 		lbl->setMaximumSize(normal,adjusted);
 	}
 
+}
+void MainWindow::setFrameLess()
+{
+    //setWindowFlags(Qt::FramelessWindowHint);
+    ui->menuBar->setVisible(false);
 }
