@@ -18,5 +18,13 @@
         <file>resources/mj-gray.jpg</file>
         <file>resources/Shinjo_Zhia-gray.jpg</file>
         <file>resources/Tsuruchi_Nayu-gray.jpg</file>
+        <file>resources/Cops/Daniel_Mark.png</file>
+        <file>resources/Cops/Daniel_Mark-gray.png</file>
+        <file>resources/Cops/Guillermo_Gonzalvez.png</file>
+        <file>resources/Cops/Guillermo_Gonzalvez-gray.png</file>
+        <file>resources/Cops/Lynn_Gray-Rike.png</file>
+        <file>resources/Cops/Lynn_Gray-Rike-gray.png</file>
+        <file>resources/Cops/Rick_Darcy.png</file>
+        <file>resources/Cops/Rick_Darcy-gray.png</file>
     </qresource>
 </RCC>

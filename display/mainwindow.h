@@ -29,7 +29,9 @@ namespace Ui {
 class MainWindow;
 }
 
-
+/**
+ * @brief The MainWindow class
+ */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -57,7 +59,8 @@ private:
 
     QMap<QString,QString> m_map;
     QMap<QString,QString> m_youngMap;
-	QMap<QString,QLabel*>  m_widgetMap;
+    QMap<QString,QString> m_copsMap;
+    QList<QLabel*>  m_widgetList;
 };
 
 #endif // MAINWINDOW_H

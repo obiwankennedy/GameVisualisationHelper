@@ -32,39 +32,58 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowFlags(Qt::WindowStaysOnTopHint );
 
 
+    //m_youngMap.insert("Frah",":/resources/Asako.jpg");
+    //m_map.insert("Frah",":/resources/Tsuruchi_Nayu.jpg");
+    //m_widgetMap.insert("Frah",ui->m_labelTsuruchi);
 
     connect(ui->m_framelessAct,SIGNAL(triggered()),this,SLOT(setFrameLess()));
+    connect(ui->actionCops,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
+    connect(ui->actionYoung,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
 
     m_map.insert("Akodo Eiichi",":/resources/Akodo_Eiichi.png");
-    //m_map.insert("Frah",":/resources/Tsuruchi_Nayu.jpg");
     m_map.insert("Zhia",":/resources/Shinjo_Zhia.jpg");
     m_map.insert("Chewba",":/resources/Bayushi_Takayoshi.png");
-    m_map.insert("obi",":/resources/mj.jpg");
+    m_map.insert("Obi",":/resources/mj.jpg");
 
     m_youngMap.insert("Akodo Eiichi",":/resources/kakita.jpg");
     m_youngMap.insert("Zhia",":/resources/Isawa.jpg");
     m_youngMap.insert("Chewba",":/resources/kitsuki.jpg");
-    //m_youngMap.insert("Frah",":/resources/Asako.jpg");
-    m_youngMap.insert("obi",":/resources/mj.jpg");
+    m_youngMap.insert("Obi",":/resources/mj.jpg");
+
+    m_copsMap.insert("Cyb",":/resources/Cops/Rick_Darcy.png");
+    m_copsMap.insert("Tlon Uqbar",":/resources/Cops/Guillermo_Gonzalvez.png");
+    m_copsMap.insert("Squirrel",":/resources/Cops/Daniel_Mark.png");
+    m_copsMap.insert("kromisback",":/resources/Bayushi_Takayoshi.png");
+    m_copsMap.insert("Obi",":/resources/Cops/Lynn_Gray-Rike.png");
 
 
-	m_widgetMap.insert("Akodo Eiichi",ui->m_labelAkodo);
-    m_widgetMap.insert("Zhia",ui->m_labelShinjo);
-	m_widgetMap.insert("Chewba",ui->m_labelBauyshi);
-    //m_widgetMap.insert("Frah",ui->m_labelTsuruchi);
-    ui->m_labelTsuruchi->setVisible(false);
-	m_widgetMap.insert("obi",ui->m_gmlabel);
+    m_widgetList.append(new QLabel(ui->m_scrollArea));
+    m_widgetList.append(new QLabel(ui->m_scrollArea));
+    m_widgetList.append(new QLabel(ui->m_scrollArea));
+    m_widgetList.append(new QLabel(ui->m_scrollArea));
+    m_widgetList.append(new QLabel(ui->m_scrollArea));
 
-	setImageInLabel();
+    //QWidget* wid = new QWidget();
+    delete ui->m_scrollArea->layout();
+    QHBoxLayout* layout = new QHBoxLayout();
+    layout->setSpacing(0);
+    layout->setMargin(0);
+    ui->m_scrollArea->setLayout(layout);
 
-	foreach(QLabel* current,m_widgetMap.values())
-	{
-		if(NULL!=current)
-		{
-			current->setVisible(true);
-			hideImage(m_widgetMap.key(current));
-		}
-	}
+    setImageInLabel();
+
+    foreach(QLabel* current,m_widgetList)
+    {
+        if(NULL!=current)
+        {
+            current->setScaledContents(true);
+            current->setMaximumHeight(200);
+            current->setAlignment(Qt::AlignCenter);
+            layout->addWidget(current);
+            current->setVisible(true);
+        }
+    }
+   // ui->scrollArea->setWidget(wid);
 }
 
 MainWindow::~MainWindow()
@@ -73,112 +92,136 @@ MainWindow::~MainWindow()
 }
 void  MainWindow::displayCorrectImage(QString user)
 {
-	bool found = false;
-	QMap<QString,QString>* map = NULL;
-	 if(ui->actionYoung->isChecked())
-	 {
-		 map = &m_youngMap;
-	 }
-	 else
-	 {
-		 map = &m_map;
-	 }
-	foreach(QString name,map->keys())
-	{
-		if(name.contains(user,Qt::CaseInsensitive))
-		{
-			QLabel* current     = m_widgetMap[name];
-			QString img = map->value(name);
-			if(NULL!=current)
-			{
-				current->setPixmap(QPixmap(img));
-				found = true;
-			}
+    bool found = false;
+    QMap<QString,QString>* map = NULL;
+    if(ui->actionCops->isChecked())
+    {
+        map = &m_copsMap;
+    }
+    else if(ui->actionYoung->isChecked())
+    {
+        map = &m_youngMap;
+    }
+    else
+    {
+        map = &m_map;
+    }
+    int index = map->keys().indexOf(user);
+    if(index>-1)
+    {
+        QLabel* current = m_widgetList[index];
+        QString img = map->value(user);
+        if(NULL!=current)
+        {
+            current->setPixmap(QPixmap(img));
+            found = true;
+        }
+    }
 
-		}
-	}
-	if(!found)
-	{
-		qDebug() << "not found "<< user;
-	}
+    if(!found)
+    {
+        qDebug() << "not found "<< user;
+    }
 }
 void MainWindow::hideImage(QString user)
 {
-	QMap<QString,QString>* map = NULL;
-	 if(ui->actionYoung->isChecked())
-	 {
-		 map = &m_youngMap;
-	 }
-	 else
-	 {
-		 map = &m_map;
-	 }
-	foreach(QString name,map->keys())
-	{
-		if(name.contains(user,Qt::CaseInsensitive))
-		{
-			QLabel* current     = m_widgetMap[name];
-			QString img = map->value(name);
-			if(NULL!=current)
-			{
-				img.insert(img.lastIndexOf('.'),"-gray");
-				current->setPixmap(QPixmap(img));
-			}
+    QMap<QString,QString>* map = NULL;
+    if(ui->actionCops->isChecked())
+    {
+        map = &m_copsMap;
+    }
+    else if(ui->actionYoung->isChecked())
+    {
+        map = &m_youngMap;
+    }
+    else
+    {
+        map = &m_map;
+    }
 
-		}
-	}
+    int index = map->keys().indexOf(user);
+    if(index>-1)
+    {
+        QLabel* current = m_widgetList[index];
+        QString img = map->value(user);
+        if(NULL!=current)
+        {
+            img.insert(img.lastIndexOf('.'),"-gray");
+            current->setPixmap(QPixmap(img));
+        }
+
+
+    }
+
 }
 void MainWindow::setImageInLabel()
 {
-	QMap<QString,QString>* map = NULL;
-	if(ui->actionYoung->isChecked())
-	{
-		map = &m_youngMap;
-	}
-	else
-	{
-		map = &m_map;
-	}
-	foreach(QString name,m_widgetMap.keys())
-	{
-		QString img = map->value(name);
-		QLabel* current     = m_widgetMap[name];
-		if(NULL!=current)
-		{
-			setMaximumSizeOnLabel(img,current);
-		}
-	}
+    QMap<QString,QString>* map = NULL;
+    if(ui->actionCops->isChecked())
+    {
+        map = &m_copsMap;
+    }
+    else if(ui->actionYoung->isChecked())
+    {
+        map = &m_youngMap;
+    }
+    else
+    {
+        map = &m_map;
+    }
+
+    foreach(QLabel* current,m_widgetList)
+    {
+        int i = m_widgetList.indexOf(current);
+        if(i>-1 && i<map->values().size())
+        {
+            QString img = map->values().at(i);
+            if(NULL!=current)
+            {
+                qDebug() << "setImg in label"<< img << current  ;
+                current->setText("user");
+                setMaximumSizeOnLabel(img,current);
+                img.insert(img.lastIndexOf('.'),"-gray");
+                current->setPixmap(QPixmap(img));
+                current->setVisible(true);
+            }
+        }
+        else
+        {
+            current->setVisible(false);
+        }
+    }
 }
 void MainWindow::resizeEvent(QResizeEvent * ev)
 {
-	QMainWindow::resizeEvent(ev);
-	setImageInLabel();
+    QMainWindow::resizeEvent(ev);
+    setImageInLabel();
 }
 
 void MainWindow::setMaximumSizeOnLabel(QString img, QLabel* lbl)
 {
-	QPixmap pix(img);
+    QPixmap pix(img);
 
-	QRect rectImg = pix.rect();
-	qreal ratioImg = (qreal)rectImg.width()/rectImg.height();
+    QRect rectImg = pix.rect();
+    qreal ratioImg = (qreal)rectImg.width()/rectImg.height();
 
-	qreal normal, adjusted;
-	QRect target2 = ui->centralWidget->geometry();//ui->scrollAreaWidgetContents->geometry();
-	//qDebug() << target2;
-	qreal ratioZone = (qreal)target2.width()/target2.height();
+    qreal normal, adjusted;
+    QRect target2 = ui->centralWidget->geometry();//ui->scrollAreaWidgetContents->geometry();
+    //qDebug() << target2;
+    qreal ratioZone = (qreal)target2.width()/target2.height();
 
-	if(ratioZone>=1)
-	{
-		adjusted = target2.height()*ratioImg;
-		normal = target2.height();
-		lbl->setMaximumSize(adjusted,normal);
-	}
-	else
-	{
-		adjusted = target2.width()/ratioImg;
-		normal = target2.width();
-		lbl->setMaximumSize(normal,adjusted);
-	}
+    if(ratioZone>=1)
+    {
+        adjusted = target2.height()*ratioImg;
+        normal = target2.height();
+        lbl->setMaximumSize(adjusted,normal);
+    }
+    else
+    {
+        adjusted = target2.width()/ratioImg;
+        normal = target2.width();
+        lbl->setMaximumSize(normal,adjusted);
+    }
 
 }
 void MainWindow::setFrameLess()
@@ -186,3 +229,4 @@ void MainWindow::setFrameLess()
     //setWindowFlags(Qt::FramelessWindowHint);
     ui->menuBar->setVisible(false);
 }
+
