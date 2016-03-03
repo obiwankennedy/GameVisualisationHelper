@@ -40,7 +40,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionCops,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
     connect(ui->actionYoung,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
 
-    m_map.insert("Akodo Eiichi",":/resources/Akodo_Eiichi.png");
+    m_map.insert("Akodo Eiichi",":/resources/Mirumoto Tomoe.png");
+    //m_map.insert("Akodo Eiichi",":/resources/Akodo_Eiichi.png");
     m_map.insert("Zhia",":/resources/Shinjo_Zhia.jpg");
     m_map.insert("Chewba",":/resources/Bayushi_Takayoshi.png");
     m_map.insert("Obi",":/resources/mj.jpg");
@@ -51,12 +52,15 @@ MainWindow::MainWindow(QWidget *parent) :
     m_youngMap.insert("Obi",":/resources/mj.jpg");
 
     m_copsMap.insert("Cyb",":/resources/Cops/Rick_Darcy.png");
-    m_copsMap.insert("Tlon Uqbar",":/resources/Cops/Guillermo_Gonzalvez.png");
+    m_copsMap.insert("Tlön Uqbar",":/resources/Cops/Guillermo_Gonzalvez.png");
     m_copsMap.insert("Squirrel",":/resources/Cops/Daniel_Mark.png");
-    m_copsMap.insert("kromisback",":/resources/Bayushi_Takayoshi.png");
+    m_copsMap.insert("kromisback",":/resources/Cops/mj.png");
     m_copsMap.insert("Obi",":/resources/Cops/Lynn_Gray-Rike.png");
+    m_copsMap.insert("Wedge",":/resources/Cops/Denis_Aquillian.png");
 
 
+
+    m_widgetList.append(new QLabel(ui->m_scrollArea));
     m_widgetList.append(new QLabel(ui->m_scrollArea));
     m_widgetList.append(new QLabel(ui->m_scrollArea));
     m_widgetList.append(new QLabel(ui->m_scrollArea));
@@ -149,8 +153,6 @@ void MainWindow::hideImage(QString user)
             img.insert(img.lastIndexOf('.'),"-gray");
             current->setPixmap(QPixmap(img));
         }
-
-
     }
 
 }
@@ -160,14 +162,17 @@ void MainWindow::setImageInLabel()
     if(ui->actionCops->isChecked())
     {
         map = &m_copsMap;
+        setWindowTitle("Cops");
     }
     else if(ui->actionYoung->isChecked())
     {
         map = &m_youngMap;
+        setWindowTitle("Les jeunes L5R");
     }
     else
     {
         map = &m_map;
+        setWindowTitle("Le livre des 5 anneaux");
     }
 
     foreach(QLabel* current,m_widgetList)
@@ -178,7 +183,7 @@ void MainWindow::setImageInLabel()
             QString img = map->values().at(i);
             if(NULL!=current)
             {
-                qDebug() << "setImg in label"<< img << current  ;
+                //qDebug() << "setImg in label"<< img << current  ;
                 current->setText("user");
                 setMaximumSizeOnLabel(img,current);
                 img.insert(img.lastIndexOf('.'),"-gray");
@@ -214,13 +219,13 @@ void MainWindow::setMaximumSizeOnLabel(QString img, QLabel* lbl)
     {
         adjusted = target2.height()*ratioImg;
         normal = target2.height();
-        lbl->setMaximumSize(adjusted,normal);
+        lbl->setMaximumSize(adjusted,normal-2);
     }
     else
     {
         adjusted = target2.width()/ratioImg;
         normal = target2.width();
-        lbl->setMaximumSize(normal,adjusted);
+        lbl->setMaximumSize(normal,adjusted-2);
     }
 
 }

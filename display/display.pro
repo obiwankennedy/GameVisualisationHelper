@@ -10,8 +10,7 @@ SOURCES += main.cpp\
         mainwindow.cpp
 
 HEADERS  += mainwindow.h \
-        guiadaptor.h \
-	main.h
+        guiadaptor.h
 
 FORMS    += mainwindow.ui
 

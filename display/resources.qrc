@@ -26,5 +26,11 @@
         <file>resources/Cops/Lynn_Gray-Rike-gray.png</file>
         <file>resources/Cops/Rick_Darcy.png</file>
         <file>resources/Cops/Rick_Darcy-gray.png</file>
+        <file>resources/Cops/mj.png</file>
+        <file>resources/Cops/mj-gray.png</file>
+        <file>resources/Cops/Denis_Aquillian.png</file>
+        <file>resources/Cops/Denis_Aquillian-gray.png</file>
+        <file>resources/Mirumoto Tomoe.png</file>
+        <file>resources/Mirumoto Tomoe-gray.png</file>
     </qresource>
 </RCC>
