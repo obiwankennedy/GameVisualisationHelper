@@ -24,6 +24,9 @@
 #include <QMainWindow>
 #include <QMap>
 #include <QLabel>
+#include <QFile>
+#include <QTime>
+#include <QTextStream>
 
 namespace Ui {
 class MainWindow;
@@ -44,10 +47,12 @@ public slots:
     void displayCorrectImage(QString user);
     void hideImage(QString user);
 	void setImageInLabel();
+    void recordedStart();
 
 private slots:
 	void setMaximumSizeOnLabel(QString img, QLabel* lbl);
     void setFrameLess();
+    void showLabel(bool);
 
 protected:
 	void resizeEvent(QResizeEvent *);
@@ -59,8 +64,22 @@ private:
 
     QMap<QString,QString> m_map;
     QMap<QString,QString> m_youngMap;
+    QMap<QString,QString> m_catsMap;
+    QList<QString> m_keyCopOrder;
+    QList<QString> m_keyYoungOrder;
+    QList<QString> m_keyL5rOrder;
+    QList<QString> m_keyCatsOrder;
     QMap<QString,QString> m_copsMap;
     QList<QLabel*>  m_widgetList;
+    QList<QAction*>  m_actionList;
+    QMap<QString,QTime*> m_timeTotalByUser;
+    QMap<QString,qreal> m_cumulTimeByUser;
+    int m_numberOfActiveTime;
+    QTime m_timeOfSilence;
+    quint64 m_debutStr;
+    quint64 m_endStr;
+    QFile* m_file;
+    QTextStream m_fileStream;
 };
 
 #endif // MAINWINDOW_H

@@ -45,6 +45,7 @@
 
 static struct TS3Functions ts3Functions;
 static char* pluginID = NULL;
+static bool s_recording = false;
 
 
 #define _strcpy(dest, destSize, src) { strncpy(dest, src, destSize-1); (dest)[destSize-1] = '\0'; }
@@ -135,10 +136,40 @@ void ts3plugin_onUpdateClientEvent(uint64 serverConnectionHandlerID, anyID clien
 	ts3Functions.getClientVariableAsInt(serverConnectionHandlerID, clientID, CLIENT_IS_RECORDING, &val);
 	if(val == 1)
         {
+            if(s_recording)//record but in pause
+            {
               std::string str;
               str += "dbus-send --type=method_call --session --dest=be.maartenbaert.ssr /  local.PageRecord.OnRecordStartPause";
               system(str.c_str());
+            }
+            else
+            {
+
+              std::string str2;
+              str2 += "dbus-send --type=method_call --session --dest=org.rolisteam.display /  local.MainWindow.recordedStart";
+              system(str2.c_str());
+              s_recording = true;
+            }
+            std::string startAudioRecorder;
+            startAudioRecorder +="audio-recorder -c start &";
+            system(startAudioRecorder.c_str());
+
      }
+    else
+    {
+
+        std::string str;
+        str += "dbus-send --type=method_call --session --dest=be.maartenbaert.ssr /  local.PageRecord.OnRecordStartPause";
+        system(str.c_str());
+
+        std::string startAudioRecorder;
+        startAudioRecorder +="audio-recorder -c stop &";
+        system(startAudioRecorder.c_str());
+
+        /*std::string str2;
+        str2 += "dbus-send --type=method_call --session --dest=org.rolisteam.display /  local.MainWindow.recordedStart";
+        system(str2.c_str());*/
+    }
 }
 
 void ts3plugin_onTalkStatusChangeEvent(uint64 serverConnectionHandlerID, int status, int isReceivedWhisper, anyID clientID)

@@ -47,7 +47,7 @@
          <height>211</height>
         </rect>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout" stretch="">
+       <layout class="QHBoxLayout" name="horizontalLayout">
         <property name="spacing">
          <number>0</number>
         </property>
@@ -87,9 +87,16 @@
     </property>
     <addaction name="actionYoung"/>
     <addaction name="actionCops"/>
+    <addaction name="actionCats"/>
     <addaction name="m_framelessAct"/>
    </widget>
+   <widget class="QMenu" name="m_hideMenu">
+    <property name="title">
+     <string>Hide</string>
+    </property>
+   </widget>
    <addaction name="menuAction"/>
+   <addaction name="m_hideMenu"/>
   </widget>
   <action name="actionYoung">
    <property name="checkable">
@@ -110,6 +117,14 @@
    </property>
    <property name="text">
     <string>Cops</string>
+   </property>
+  </action>
+  <action name="actionCats">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Cats</string>
    </property>
   </action>
  </widget>

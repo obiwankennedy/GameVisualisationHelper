@@ -32,5 +32,31 @@
         <file>resources/Cops/Denis_Aquillian-gray.png</file>
         <file>resources/Mirumoto Tomoe.png</file>
         <file>resources/Mirumoto Tomoe-gray.png</file>
+        <file>resources/Asako_misako.png</file>
+        <file>resources/Asako_misako-gray.png</file>
+        <file>resources/Saito.jpg</file>
+        <file>resources/Saito-gray.jpg</file>
+        <file>resources/Cops/Christopher_Atkins.jpg</file>
+        <file>resources/Cops/Christopher_Atkins-gray.jpg</file>
+        <file>resources/Cops/Anpaytoo_Yepa-gray.jpg</file>
+        <file>resources/Cops/Anpaytoo_Yepa.jpg</file>
+        <file>resources/Cops/Khu_Ying_Kim.jpg</file>
+        <file>resources/Cops/Khu_Ying_Kim-gray.jpg</file>
+        <file>resources/cats/Matou_Jovial.jpg</file>
+        <file>resources/cats/Matou_Jovial-gray.jpg</file>
+        <file>resources/hidaMaki1.jpg</file>
+        <file>resources/hidaMaki1-gray.jpg</file>
+        <file>resources/cats/tatcher.jpg</file>
+        <file>resources/cats/tatcher-gray.jpg</file>
+        <file>resources/cats/Sherlock.jpg</file>
+        <file>resources/cats/Sherlock-gray.jpg</file>
+        <file>resources/cats/Hercule.jpg</file>
+        <file>resources/cats/Hercule-gray.jpg</file>
+        <file>resources/cats/Ghandi.jpg</file>
+        <file>resources/cats/Ghandi-gray.jpg</file>
+        <file>resources/cats/arsene2.jpg</file>
+        <file>resources/cats/arsene2-gray.jpg</file>
+        <file>resources/Cops/max_ohara_bis.jpg</file>
+        <file>resources/Cops/max_ohara_bis-gray.jpg</file>
     </qresource>
 </RCC>
