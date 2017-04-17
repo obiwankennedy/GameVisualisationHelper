@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->actionCops->setChecked(true);
         str="COPS";
     }
-    m_file = new QFile(QString("/home/renaud/Parties/%1_silence_%2.txt").arg(str).arg(QDate::currentDate().toString("yyyy_MM_dd")));
+   /* m_file = new QFile(QString("/home/renaud/Parties/%1_silence_%2.txt").arg(str).arg(QDate::currentDate().toString("yyyy_MM_dd")));
     if(m_file->open(QIODevice::WriteOnly))
     {
         m_fileStream.setDevice(m_file);
@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
     else
     {
         qDebug() << "Impossible to create file at:"<< m_file->fileName() ;
-    }
+    }*/
 
     //m_youngMap.insert("Frah",":/resources/Asako.jpg");
     //m_map.insert("Frah",":/resources/Tsuruchi_Nayu.jpg");
@@ -61,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //m_map.insert("Akodo Eiichi",":/resources/Mirumoto Tomoe.png");
     m_map.insert("Akodo Eiichi",":/resources/Akodo_Eiichi.png");
-    m_map.insert("Zhia",":/resources/Shinjo_Zhia.jpg");
+    m_map.insert("Capitaine Red",":/resources/Shinjo_Zhia.jpg");
     //m_map.insert("Zhia",":/resources/hidaMaki1.jpg");
     //m_map.insert("Zhia",":/resources/Asako_misako.png");
     //m_map.insert("Zhia",":/resources/Saito.jpg");
@@ -70,7 +70,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //m_map.insert("Chewba",":/resources/Saito.jpg");
     //m_map.insert("Chewba",":/resources/Asako_misako.png");
     m_map.insert("Obi",":/resources/mj.jpg");
-    m_keyL5rOrder<< "Akodo Eiichi" << "Zhia" << "Chewba" << "Obi"  ;
+    m_keyL5rOrder<< "Akodo Eiichi" << "Capitaine Red" << "Chewba" << "Obi"  ;
 
 
     ///CATs
@@ -87,13 +87,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ///YOUNG
     m_youngMap.insert("Akodo Eiichi",":/resources/kakita.jpg");
-    m_youngMap.insert("Zhia",":/resources/Isawa.jpg");
+    m_youngMap.insert("Capitaine Red",":/resources/Isawa.jpg");
     m_youngMap.insert("Chewba",":/resources/kitsuki.jpg");
     m_youngMap.insert("Obi",":/resources/mj.jpg");
 
 
 
-    m_keyYoungOrder << "Akodo Eiichi" << "Zhia" << "Chewba" << "Obi"  ;
+    m_keyYoungOrder << "Akodo Eiichi" << "Capitaine Red" << "Chewba" << "Obi"  ;
 
     //COPS
   //  m_copsMap.insert("Cyb",":/resources/Cops/Rick_Darcy.png");
@@ -207,8 +207,8 @@ void  MainWindow::displayCorrectImage(QString user)
                 m_endStr = m_timeOfSilence.elapsed();
                 if(m_endStr != 0)
                 {
-                    m_fileStream << m_debutStr <<";" << m_endStr << "\n";
-                    m_fileStream.flush();
+                   // m_fileStream << m_debutStr <<";" << m_endStr << "\n";
+                   // m_fileStream.flush();
                 }
             }
             ++m_numberOfActiveTime;

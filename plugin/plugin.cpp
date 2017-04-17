@@ -25,17 +25,17 @@
 #include <string.h>
 #include <string>
 
-#include "public_errors.h"
-#include "public_errors_rare.h"
-#include "public_definitions.h"
-#include "public_rare_definitions.h"
+#include "teamspeak/public_errors.h"
+#include "teamspeak/public_errors_rare.h"
+#include "teamspeak/public_definitions.h"
+#include "teamspeak/public_rare_definitions.h"
 #include "ts3_functions.h"
 
 #include "plugin.h"
 
 
 
-#define PLUGIN_API_VERSION 20
+#define PLUGIN_API_VERSION 21
 #define PATH_BUFSIZE 512
 #define COMMAND_BUFSIZE 128
 #define INFODATA_BUFSIZE 128
@@ -99,7 +99,7 @@ int ts3plugin_init()
     ts3Functions.getAppPath(appPath, PATH_BUFSIZE);
     ts3Functions.getResourcesPath(resourcesPath, PATH_BUFSIZE);
     ts3Functions.getConfigPath(configPath, PATH_BUFSIZE);
-    ts3Functions.getPluginPath(pluginPath, PATH_BUFSIZE);
+    ts3Functions.getPluginPath(pluginPath, PATH_BUFSIZE,pluginID);
 
     printf("PLUGIN: App path: %s\nResources path: %s\nConfig path: %s\nPlugin path: %s\n", appPath, resourcesPath, configPath, pluginPath);
 
@@ -138,33 +138,38 @@ void ts3plugin_onUpdateClientEvent(uint64 serverConnectionHandlerID, anyID clien
         {
             if(s_recording)//record but in pause
             {
+                  printf("PLUGIN: inside if OnRecordStartPase\n");
               std::string str;
               str += "dbus-send --type=method_call --session --dest=be.maartenbaert.ssr /  local.PageRecord.OnRecordStartPause";
               system(str.c_str());
             }
             else
             {
-
+                printf("PLUGIN: inside else recordedStart\n");
               std::string str2;
-              str2 += "dbus-send --type=method_call --session --dest=org.rolisteam.display /  local.MainWindow.recordedStart";
+              str2 += "dbus-send --type=method_call --session --dest=be.maartenbaert.ssr /  local.PageRecord.OnRecordStartPause";
               system(str2.c_str());
               s_recording = true;
             }
-            std::string startAudioRecorder;
+           /* std::string startAudioRecorder;
             startAudioRecorder +="audio-recorder -c start &";
-            system(startAudioRecorder.c_str());
+            system(startAudioRecorder.c_str());*/
 
      }
     else
     {
 
-        std::string str;
-        str += "dbus-send --type=method_call --session --dest=be.maartenbaert.ssr /  local.PageRecord.OnRecordStartPause";
-        system(str.c_str());
+        if(s_recording)
+        {
+            printf("PLUGIN: inside else val == 1 OnRecordStartPause\n");
+            std::string str;
+            str += "dbus-send --type=method_call --session --dest=be.maartenbaert.ssr /  local.PageRecord.OnRecordStartPause";
+            system(str.c_str());
+        }
 
-        std::string startAudioRecorder;
+       /* std::string startAudioRecorder;
         startAudioRecorder +="audio-recorder -c stop &";
-        system(startAudioRecorder.c_str());
+        system(startAudioRecorder.c_str());*/
 
         /*std::string str2;
         str2 += "dbus-send --type=method_call --session --dest=org.rolisteam.display /  local.MainWindow.recordedStart";
