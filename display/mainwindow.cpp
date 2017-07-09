@@ -40,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->actionCops->setChecked(true);
         str="COPS";
     }
+    ui->m_oneshotAct->setChecked(true);
    /* m_file = new QFile(QString("/home/renaud/Parties/%1_silence_%2.txt").arg(str).arg(QDate::currentDate().toString("yyyy_MM_dd")));
     if(m_file->open(QIODevice::WriteOnly))
     {
@@ -57,6 +58,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_framelessAct,SIGNAL(triggered()),this,SLOT(setFrameLess()));
     connect(ui->actionCops,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
     connect(ui->actionCats,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
+    connect(ui->m_oneshotAct,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
 
 
     //m_map.insert("Akodo Eiichi",":/resources/Mirumoto Tomoe.png");
@@ -69,7 +71,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_map.insert("Chewba",":/resources/Bayushi_Takayoshi.png");
     //m_map.insert("Chewba",":/resources/Saito.jpg");
     //m_map.insert("Chewba",":/resources/Asako_misako.png");
-    m_map.insert("Obi",":/resources/mj.jpg");
+    m_map.insert("Obi",":/resources/oneshot/Daidoji_Hiru.jpg");
     m_keyL5rOrder<< "Akodo Eiichi" << "Capitaine Red" << "Chewba" << "Obi"  ;
 
 
@@ -89,11 +91,22 @@ MainWindow::MainWindow(QWidget *parent) :
     m_youngMap.insert("Akodo Eiichi",":/resources/kakita.jpg");
     m_youngMap.insert("Capitaine Red",":/resources/Isawa.jpg");
     m_youngMap.insert("Chewba",":/resources/kitsuki.jpg");
-    m_youngMap.insert("Obi",":/resources/mj.jpg");
-
-
-
+    m_youngMap.insert("Obi",":/resources/oneshot/Daidoji_Hiru.jpg");
     m_keyYoungOrder << "Akodo Eiichi" << "Capitaine Red" << "Chewba" << "Obi"  ;
+
+
+
+    ///// ONESHOT L5R
+    m_l5rOneshotMap.insert("anaisurprise",":/resources/oneshot/Tsuruchi_Tamoe.jpg");
+    m_l5rOneshotMap.insert("Flow0333",":/resources/oneshot/Mirumoto_Kitsawa.jpg");
+    m_l5rOneshotMap.insert("Wedge",":/resources/oneshot/Isawa_Kenko.jpg");
+    m_l5rOneshotMap.insert("brice",":/resources/oneshot/Hida_Kokujin.jpg");
+    m_l5rOneshotMap.insert("pseudo6",":/resources/oneshot/Daidoji_Hiru.jpg");
+    m_l5rOneshotMap.insert("Natsu*",":/resources/oneshot/Bayushi_Sahime.jpg");
+    m_l5rOneshotMap.insert("Ciennte",":/resources/oneshot/Akodo_Neru.jpg");
+    m_l5rOneshotMap.insert("Obi",":/resources/mj.jpg");
+
+    m_keyL5rOneshotOrder << "anaisurprise"<< "Flow0333"<< "Wedge"<< "brice" << "pseudo6"<< "Natsu*"<< "Ciennte"<< "Obi";
 
     //COPS
   //  m_copsMap.insert("Cyb",":/resources/Cops/Rick_Darcy.png");
@@ -110,6 +123,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
+
+
+
+
+
+
+    m_widgetList.append(new QLabel(ui->m_scrollArea));
+    m_widgetList.append(new QLabel(ui->m_scrollArea));
     m_widgetList.append(new QLabel(ui->m_scrollArea));
     m_widgetList.append(new QLabel(ui->m_scrollArea));
     m_widgetList.append(new QLabel(ui->m_scrollArea));
@@ -187,6 +208,11 @@ void  MainWindow::displayCorrectImage(QString user)
         map = &m_catsMap;
         keys = m_keyCatsOrder;
     }
+    else if(ui->m_oneshotAct->isChecked())
+    {
+        map = &m_l5rOneshotMap;
+        keys = m_keyL5rOneshotOrder;
+    }
     else
     {
         map = &m_map;
@@ -249,6 +275,11 @@ void MainWindow::hideImage(QString user)
     {
         map = &m_catsMap;
         keys = m_keyCatsOrder;
+    }
+    else if(ui->m_oneshotAct->isChecked())
+    {
+        map = &m_l5rOneshotMap;
+        keys = m_keyL5rOneshotOrder;
     }
     else
     {
@@ -316,6 +347,13 @@ void MainWindow::setImageInLabel()
         map = &m_catsMap;
         keys = m_keyCatsOrder;
         setWindowTitle("Découvertes JDR en Ligne: Cats La mascarade!");
+
+    }
+    else if(ui->m_oneshotAct->isChecked())
+    {
+        map = &m_l5rOneshotMap;
+        keys = m_keyL5rOneshotOrder;
+        setWindowTitle("Oneshot L5R");
 
     }
     else

@@ -63,11 +63,15 @@ private:
     Ui::MainWindow *ui;
 
     QMap<QString,QString> m_map;
+    QMap<QString,QString> m_mapL5RTibo;
     QMap<QString,QString> m_youngMap;
     QMap<QString,QString> m_catsMap;
+    QMap<QString,QString> m_l5rOneshotMap;
+
     QList<QString> m_keyCopOrder;
     QList<QString> m_keyYoungOrder;
     QList<QString> m_keyL5rOrder;
+    QList<QString> m_keyL5rOneshotOrder;
     QList<QString> m_keyCatsOrder;
     QMap<QString,QString> m_copsMap;
     QList<QLabel*>  m_widgetList;
