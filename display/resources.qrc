@@ -58,5 +58,19 @@
         <file>resources/cats/arsene2-gray.jpg</file>
         <file>resources/Cops/max_ohara_bis.jpg</file>
         <file>resources/Cops/max_ohara_bis-gray.jpg</file>
+        <file>resources/oneshot/Tsuruchi_Tamoe-gray.jpg</file>
+        <file>resources/oneshot/Tsuruchi_Tamoe.jpg</file>
+        <file>resources/oneshot/Mirumoto_Kitsawa-gray.jpg</file>
+        <file>resources/oneshot/Mirumoto_Kitsawa.jpg</file>
+        <file>resources/oneshot/Isawa_Kenko-gray.jpg</file>
+        <file>resources/oneshot/Isawa_Kenko.jpg</file>
+        <file>resources/oneshot/Hida_Kokujin-gray.jpg</file>
+        <file>resources/oneshot/Hida_Kokujin.jpg</file>
+        <file>resources/oneshot/Daidoji_Hiru-gray.jpg</file>
+        <file>resources/oneshot/Daidoji_Hiru.jpg</file>
+        <file>resources/oneshot/Bayushi_Sahime-gray.jpg</file>
+        <file>resources/oneshot/Bayushi_Sahime.jpg</file>
+        <file>resources/oneshot/Akodo_Neru-gray.jpg</file>
+        <file>resources/oneshot/Akodo_Neru.jpg</file>
     </qresource>
 </RCC>
