@@ -40,7 +40,17 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->actionCops->setChecked(true);
         str="COPS";
     }
-    ui->m_oneshotAct->setChecked(true);
+    else if(QDate::currentDate().dayOfWeek() == 3 )//wednesday
+    {
+        ui->m_13legion->setChecked(true);
+        str="L5R - La 13ème Légion";
+    }
+    else if(QDate::currentDate().dayOfWeek() == 4)
+    {
+        ui->m_warhammerAct->setChecked(true);
+        str="Warhammer - Campagne Impériale";
+    }
+
    /* m_file = new QFile(QString("/home/renaud/Parties/%1_silence_%2.txt").arg(str).arg(QDate::currentDate().toString("yyyy_MM_dd")));
     if(m_file->open(QIODevice::WriteOnly))
     {
@@ -59,6 +69,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionCops,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
     connect(ui->actionCats,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
     connect(ui->m_oneshotAct,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
+    connect(ui->m_13legion,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
 
 
     //m_map.insert("Akodo Eiichi",":/resources/Mirumoto Tomoe.png");
@@ -71,7 +82,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_map.insert("Chewba",":/resources/Bayushi_Takayoshi.png");
     //m_map.insert("Chewba",":/resources/Saito.jpg");
     //m_map.insert("Chewba",":/resources/Asako_misako.png");
-    m_map.insert("Obi",":/resources/oneshot/Daidoji_Hiru.jpg");
+    m_map.insert("Obi",":/resources/mj.jpg");
     m_keyL5rOrder<< "Akodo Eiichi" << "Capitaine Red" << "Chewba" << "Obi"  ;
 
 
@@ -81,17 +92,24 @@ MainWindow::MainWindow(QWidget *parent) :
     m_catsMap.insert("HyiHyil",":/resources/cats/Hercule.jpg");
     m_catsMap.insert("Gilgamesh",":/resources/cats/Sherlock.jpg");
     m_catsMap.insert("Selawyr",":/resources/cats/tatcher.jpg");
-
     m_catsMap.insert("Obi",":/resources/cats/Matou_Jovial.jpg");
-
     m_keyCatsOrder << "HyiHyil" << "Leia Tortoise" << "Selawyr" <<  "Gilgamesh" << "Obi";
 
+
+    /// 13 Légions
+    m_map13Legion.insert("Hythlodée",":/resources/l5rTibo/MJ.jpg");
+    m_map13Legion.insert("Capitaine Red",":/resources/l5rTibo/Hida_Kyonyu.jpg");
+    m_map13Legion.insert("Obi",":/resources/l5rTibo/Ikoma_Kae.jpg");
+    m_map13Legion.insert("Chewba",":/resources/l5rTibo/Shiba_Yasuhiro.jpg");
+    m_map13Legion.insert("Beskargam",":/resources/l5rTibo/Bayushi_Miro.jpg");
+
+    m_key13LegionOrder << "Chewba" << "Capitaine Red" << "Obi" << "Beskargam"  << "Hythlodée" ;
 
     ///YOUNG
     m_youngMap.insert("Akodo Eiichi",":/resources/kakita.jpg");
     m_youngMap.insert("Capitaine Red",":/resources/Isawa.jpg");
     m_youngMap.insert("Chewba",":/resources/kitsuki.jpg");
-    m_youngMap.insert("Obi",":/resources/oneshot/Daidoji_Hiru.jpg");
+    m_youngMap.insert("Obi",":/resources/mj.jpg");
     m_keyYoungOrder << "Akodo Eiichi" << "Capitaine Red" << "Chewba" << "Obi"  ;
 
 
@@ -122,12 +140,13 @@ MainWindow::MainWindow(QWidget *parent) :
     m_keyCopOrder  << "Obi" << "TlonUqbar" << "Chewba"<< "Wedge"<< "kromisback";
 
 
-
-
-
-
-
-
+    //Warhammer
+    m_warHammerMap.insert("TlonUqbar",":/resources/warhammer/out/Beatrix_Buchwald.jpg");
+    m_warHammerMap.insert("Squirrel",":/resources/warhammer/out/KeA.jpg");
+    m_warHammerMap.insert("Obi",":/resources/warhammer/out/Dornthal.jpg");
+    m_warHammerMap.insert("Wedge",":/resources/warhammer/out/Kranich_Vogel.jpg");
+    m_warHammerMap.insert("kromisback",":/resources/warhammer/out/Sepp_Breuer.jpg");
+    m_warHammerOrder  << "Obi" << "TlonUqbar" << "kromisback"<< "Wedge"<< "Squirrel";
 
     m_widgetList.append(new QLabel(ui->m_scrollArea));
     m_widgetList.append(new QLabel(ui->m_scrollArea));
@@ -213,6 +232,16 @@ void  MainWindow::displayCorrectImage(QString user)
         map = &m_l5rOneshotMap;
         keys = m_keyL5rOneshotOrder;
     }
+    else if(ui->m_13legion->isChecked())
+    {
+        map = &m_map13Legion;
+        keys = m_key13LegionOrder;
+    }
+    else if(ui->m_warhammerAct->isChecked())
+    {
+        map = &m_warHammerMap;
+        keys = m_warHammerOrder;
+    }
     else
     {
         map = &m_map;
@@ -280,6 +309,16 @@ void MainWindow::hideImage(QString user)
     {
         map = &m_l5rOneshotMap;
         keys = m_keyL5rOneshotOrder;
+    }
+    else if(ui->m_13legion->isChecked())
+    {
+        map = &m_map13Legion;
+        keys = m_key13LegionOrder;
+    }
+    else if(ui->m_warhammerAct->isChecked())
+    {
+        map = &m_warHammerMap;
+        keys = m_warHammerOrder;
     }
     else
     {
@@ -349,11 +388,24 @@ void MainWindow::setImageInLabel()
         setWindowTitle("Découvertes JDR en Ligne: Cats La mascarade!");
 
     }
+    else if(ui->m_13legion->isChecked())
+    {
+        map = &m_map13Legion;
+        keys = m_key13LegionOrder;
+        setWindowTitle("L5R - La 13ème Légion");
+    }
     else if(ui->m_oneshotAct->isChecked())
     {
         map = &m_l5rOneshotMap;
         keys = m_keyL5rOneshotOrder;
         setWindowTitle("Oneshot L5R");
+
+    }
+    else if(ui->m_warhammerAct->isChecked())
+    {
+        map = &m_warHammerMap;
+        keys = m_warHammerOrder;
+        setWindowTitle("Warhammer v2 - Campagne Impériale");
 
     }
     else
@@ -370,6 +422,7 @@ void MainWindow::setImageInLabel()
         QAction* act = m_actionList.at(i);
         if(i>-1 && i<keys.size())
         {
+
             QString img = map->value(keys.at(i));
             m_timeTotalByUser.insert(keys.at(i),new QTime());
             if(NULL!=current)
@@ -435,8 +488,6 @@ void MainWindow::setFrameLess()
 
 void MainWindow::showLabel(bool b)
 {
-
-
     QAction* action = qobject_cast<QAction*>(sender());
     int i = action->data().toInt();
 

@@ -92,7 +92,9 @@
     <addaction name="actionYoung"/>
     <addaction name="actionCops"/>
     <addaction name="m_oneshotAct"/>
+    <addaction name="m_13legion"/>
     <addaction name="actionCats"/>
+    <addaction name="m_warhammerAct"/>
     <addaction name="m_framelessAct"/>
    </widget>
    <widget class="QMenu" name="m_hideMenu">
@@ -138,6 +140,22 @@
    </property>
    <property name="text">
     <string>L5R oneshot</string>
+   </property>
+  </action>
+  <action name="m_13legion">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>13 légions</string>
+   </property>
+  </action>
+  <action name="m_warhammerAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Warhammer</string>
    </property>
   </action>
  </widget>

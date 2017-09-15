@@ -72,5 +72,25 @@
         <file>resources/oneshot/Bayushi_Sahime.jpg</file>
         <file>resources/oneshot/Akodo_Neru-gray.jpg</file>
         <file>resources/oneshot/Akodo_Neru.jpg</file>
+        <file>resources/l5rTibo/Hida_Kyonyu.jpg</file>
+        <file>resources/l5rTibo/Hida_Kyonyu-gray.jpg</file>
+        <file>resources/l5rTibo/Ikoma_Kae.jpg</file>
+        <file>resources/l5rTibo/Ikoma_Kae-gray.jpg</file>
+        <file>resources/l5rTibo/MJ.jpg</file>
+        <file>resources/l5rTibo/MJ-gray.jpg</file>
+        <file>resources/l5rTibo/Shiba_Yasuhiro.jpg</file>
+        <file>resources/l5rTibo/Shiba_Yasuhiro-gray.jpg</file>
+        <file>resources/l5rTibo/Bayushi_Miro.jpg</file>
+        <file>resources/l5rTibo/Bayushi_Miro-gray.jpg</file>
+        <file>resources/warhammer/out/Beatrix_Buchwald.jpg</file>
+        <file>resources/warhammer/out/Beatrix_Buchwald-gray.jpg</file>
+        <file>resources/warhammer/out/Dornthal.jpg</file>
+        <file>resources/warhammer/out/Dornthal-gray.jpg</file>
+        <file>resources/warhammer/out/Kranich_Vogel.jpg</file>
+        <file>resources/warhammer/out/Kranich_Vogel-gray.jpg</file>
+        <file>resources/warhammer/out/Sepp_Breuer.jpg</file>
+        <file>resources/warhammer/out/Sepp_Breuer-gray.jpg</file>
+        <file>resources/warhammer/out/KeA.jpg</file>
+        <file>resources/warhammer/out/KeA-gray.jpg</file>
     </qresource>
 </RCC>
