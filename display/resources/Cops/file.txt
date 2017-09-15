@@ -1,0 +1,21 @@
+digraph ExecutionTree {
+"{439f26a1-7c4a-484e-bd14-3c0348b83a99}" [label="StartingNode"];
+"{439f26a1-7c4a-484e-bd14-3c0348b83a99}" -> "{ffc32137-d1a1-48d3-866a-3de01702c003}";
+"{ffc32137-d1a1-48d3-866a-3de01702c003}" [label="NumberNode 8"];
+"{ffc32137-d1a1-48d3-866a-3de01702c003}" -> "{5e728a64-a439-40ee-92fd-76c4bb1492e0}";
+"{5e728a64-a439-40ee-92fd-76c4bb1492e0}" [label="DiceRollerNode faces: 20"];
+"{5e728a64-a439-40ee-92fd-76c4bb1492e0}" -> "{fd2db45b-5ee8-44bb-b778-6b8487da6cb5}";
+"{fd2db45b-5ee8-44bb-b778-6b8487da6cb5}" [label="CountExecuteNode [=1]"];
+"{fd2db45b-5ee8-44bb-b778-6b8487da6cb5}" -> "{7e9f2070-8594-4480-9901-6b605e9c1368}";
+"{7e9f2070-8594-4480-9901-6b605e9c1368}" [label="ScalarOperatorNode *"];
+"{7e9f2070-8594-4480-9901-6b605e9c1368}" -> NULL [label="nextNode"];
+
+"{7e9f2070-8594-4480-9901-6b605e9c1368}" -> "{7c5ad0cb-e065-413c-a87b-e70c30458c73}" [label="internalNode"];
+"{7c5ad0cb-e065-413c-a87b-e70c30458c73}" [label="JumpBackwardNode"];
+"{7c5ad0cb-e065-413c-a87b-e70c30458c73}" -> "{ecc4e293-e8e0-404f-a078-0bcac1a95790}";
+"{ecc4e293-e8e0-404f-a078-0bcac1a95790}" [label="CountExecuteNode [=20]"];
+"{ecc4e293-e8e0-404f-a078-0bcac1a95790}" -> NULL;
+"{ecc4e293-e8e0-404f-a078-0bcac1a95790}" ->"{f3394b0b-5f92-4069-85c6-817bb2e40eaa}" [label="Result"];
+"{f3394b0b-5f92-4069-85c6-817bb2e40eaa}" [label="ScalarResult 0"];
+"{f3394b0b-5f92-4069-85c6-817bb2e40eaa}" -> NULL [label="previousResult"];
+}
