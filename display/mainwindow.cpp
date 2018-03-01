@@ -42,8 +42,11 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     else if(QDate::currentDate().dayOfWeek() == 3 )//wednesday
     {
-        ui->m_13legion->setChecked(true);
-        str="L5R - La 13ème Légion";
+        //ui->m_13legion->setChecked(true);
+        //str="L5R - La 13ème Légion";
+
+        ui->m_secondeCite->setChecked(true);
+        str="L5R - Seconde Cité Saison 2";
     }
     else if(QDate::currentDate().dayOfWeek() == 4)
     {
@@ -51,15 +54,6 @@ MainWindow::MainWindow(QWidget *parent) :
         str="Warhammer - Campagne Impériale";
     }
 
-   /* m_file = new QFile(QString("/home/renaud/Parties/%1_silence_%2.txt").arg(str).arg(QDate::currentDate().toString("yyyy_MM_dd")));
-    if(m_file->open(QIODevice::WriteOnly))
-    {
-        m_fileStream.setDevice(m_file);
-    }
-    else
-    {
-        qDebug() << "Impossible to create file at:"<< m_file->fileName() ;
-    }*/
 
     //m_youngMap.insert("Frah",":/resources/Asako.jpg");
     //m_map.insert("Frah",":/resources/Tsuruchi_Nayu.jpg");
@@ -70,72 +64,86 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionCats,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
     connect(ui->m_oneshotAct,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
     connect(ui->m_13legion,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
+    connect(ui->m_lgIrlAct,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
+    connect(ui->m_secondeCite,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
 
 
-    //m_map.insert("Akodo Eiichi",":/resources/Mirumoto Tomoe.png");
+    //Second City
     m_map.insert("Akodo Eiichi",":/resources/Akodo_Eiichi.png");
     m_map.insert("Capitaine Red",":/resources/Shinjo_Zhia.jpg");
-    //m_map.insert("Zhia",":/resources/hidaMaki1.jpg");
-    //m_map.insert("Zhia",":/resources/Asako_misako.png");
-    //m_map.insert("Zhia",":/resources/Saito.jpg");
-
     m_map.insert("Chewba",":/resources/Bayushi_Takayoshi.png");
-    //m_map.insert("Chewba",":/resources/Saito.jpg");
-    //m_map.insert("Chewba",":/resources/Asako_misako.png");
     m_map.insert("Obi",":/resources/mj.jpg");
+
     m_keyL5rOrder<< "Akodo Eiichi" << "Capitaine Red" << "Chewba" << "Obi"  ;
 
 
     ///CATs
     m_catsMap.insert("Leia Tortoise",":/resources/cats/arsene2.jpg");
-   // m_catsMap.insert("Gilgamesh",":/resources/cats/Ghandi.jpg");
+    //m_catsMap.insert("Gilgamesh",":/resources/cats/Ghandi.jpg");
     m_catsMap.insert("HyiHyil",":/resources/cats/Hercule.jpg");
     m_catsMap.insert("Gilgamesh",":/resources/cats/Sherlock.jpg");
     m_catsMap.insert("Selawyr",":/resources/cats/tatcher.jpg");
     m_catsMap.insert("Obi",":/resources/cats/Matou_Jovial.jpg");
+
     m_keyCatsOrder << "HyiHyil" << "Leia Tortoise" << "Selawyr" <<  "Gilgamesh" << "Obi";
 
 
     /// 13 Légions
-    m_map13Legion.insert("Hythlodée",":/resources/l5rTibo/MJ.jpg");
+    m_map13Legion.insert("Alci",":/resources/l5rTibo/MJ.jpg");
     m_map13Legion.insert("Capitaine Red",":/resources/l5rTibo/Hida_Kyonyu.jpg");
     m_map13Legion.insert("Obi",":/resources/l5rTibo/Ikoma_Kae.jpg");
     m_map13Legion.insert("Chewba",":/resources/l5rTibo/Shiba_Yasuhiro.jpg");
-    m_map13Legion.insert("Beskargam",":/resources/l5rTibo/Bayushi_Miro.jpg");
+    m_map13Legion.insert("Beskargam",":/resources/l5rTibo/Togashi_Sento.jpg");
 
-    m_key13LegionOrder << "Chewba" << "Capitaine Red" << "Obi" << "Beskargam"  << "Hythlodée" ;
+    m_key13LegionOrder << "Chewba" << "Capitaine Red" << "Obi" << "Beskar'gam"  << "Alci" ;
+
+    /// Lg IRL
+    m_lgIrlLegion.insert("Alci",":/resources/lgIrl/Claudia_Strauss.jpg");
+    m_lgIrlLegion.insert("Capitaine Red",":/resources/lgIrl/Ludovic_Clain.jpg");
+    m_lgIrlLegion.insert("Obi",":/resources/lgIrl/MJ.jpg");
+    //m_lgIrlLegion.insert("Chewba",":/resources/l5rTibo/Shiba_Yasuhiro.jpg");
+    m_lgIrlLegion.insert("Beskargam",":/resources/lgIrl/Ruth_Sullivan.jpg");
+
+    m_keyLgIrlOrder << "Capitaine Red" << "Beskargam"  << "Alci" << "Obi";
 
     ///YOUNG
     m_youngMap.insert("Akodo Eiichi",":/resources/kakita.jpg");
     m_youngMap.insert("Capitaine Red",":/resources/Isawa.jpg");
     m_youngMap.insert("Chewba",":/resources/kitsuki.jpg");
     m_youngMap.insert("Obi",":/resources/mj.jpg");
+
     m_keyYoungOrder << "Akodo Eiichi" << "Capitaine Red" << "Chewba" << "Obi"  ;
 
 
 
-    ///// ONESHOT L5R
-    m_l5rOneshotMap.insert("anaisurprise",":/resources/oneshot/Tsuruchi_Tamoe.jpg");
-    m_l5rOneshotMap.insert("Flow0333",":/resources/oneshot/Mirumoto_Kitsawa.jpg");
-    m_l5rOneshotMap.insert("Wedge",":/resources/oneshot/Isawa_Kenko.jpg");
-    m_l5rOneshotMap.insert("brice",":/resources/oneshot/Hida_Kokujin.jpg");
-    m_l5rOneshotMap.insert("pseudo6",":/resources/oneshot/Daidoji_Hiru.jpg");
-    m_l5rOneshotMap.insert("Natsu*",":/resources/oneshot/Bayushi_Sahime.jpg");
-    m_l5rOneshotMap.insert("Ciennte",":/resources/oneshot/Akodo_Neru.jpg");
-    m_l5rOneshotMap.insert("Obi",":/resources/mj.jpg");
+    ///Seconde City saison 2
+    m_secondeCityS2Map.insert("Alci",":/resources/sc2saison/out/Shosuro_Ryûu.jpg");
+    m_secondeCityS2Map.insert("Capitaine Red",":/resources/sc2saison/out/Shusuro_Shiemi.jpg");
+    m_secondeCityS2Map.insert("Chewba",":/resources/sc2saison/out/Soshi_Akimitsu.jpg");
+   // m_secondeCityS2Map.insert("Beskargam",":/resources/sc2saison/out/Soshi_Akimitsu.jpg"); //<< "Beskargam"
+    m_secondeCityS2Map.insert("Obi",":/resources/mj.jpg");
 
-    m_keyL5rOneshotOrder << "anaisurprise"<< "Flow0333"<< "Wedge"<< "brice" << "pseudo6"<< "Natsu*"<< "Ciennte"<< "Obi";
+    m_secondeCityS2Order << "Alci" << "Capitaine Red"  << "Chewba"  << "Obi";
+
+
+    ///// ONESHOT L5R
+    m_l5rOneshotMap.insert("TlonUqbar",":/resources/oneshotFreaks/out/Lilly_Claudel.jpg");
+    m_l5rOneshotMap.insert("kromisback",":/resources/oneshotFreaks/out/MJ_.jpg");
+    m_l5rOneshotMap.insert("Wedge",":/resources/oneshotFreaks/out/Hikaru_Ichijo.jpg");
+    m_l5rOneshotMap.insert("Obi",":/resources/oneshotFreaks/out/Renan_Charbonnier.jpg");
+
+    //m_keyL5rOneshotOrder << "anaisurprise"<< "Flow0333"<< "Wedge"<< "brice" << "pseudo6"<< "Natsu*"<< "Ciennte"<< "Obi";
+    m_keyL5rOneshotOrder << "Obi" << "Wedge" << "TlonUqbar" << "kromisback";
 
     //COPS
-  //  m_copsMap.insert("Cyb",":/resources/Cops/Rick_Darcy.png");
     m_copsMap.insert("TlonUqbar",":/resources/Cops/Guillermo_Gonzalvez.png");
     m_copsMap.insert("Chewba",":/resources/Cops/max_ohara_bis.jpg");
     //m_copsMap.insert("Squirrel",":/resources/Cops/Daniel_Mark.png");
+    //m_copsMap.insert("Cyb",":/resources/Cops/Rick_Darcy.png");
     m_copsMap.insert("Obi",":/resources/Cops/Lynn_Gray-Rike.png");
     m_copsMap.insert("Wedge",":/resources/Cops/Denis_Aquillian.png");
-   // m_copsMap.insert("Cocoon",":/resources/Cops/Christopher_Atkins.jpg");
+    //m_copsMap.insert("Cocoon",":/resources/Cops/Christopher_Atkins.jpg");
     m_copsMap.insert("kromisback",":/resources/Cops/mj.png");
-//<< "Cocoon"
 
     m_keyCopOrder  << "Obi" << "TlonUqbar" << "Chewba"<< "Wedge"<< "kromisback";
 
@@ -146,7 +154,9 @@ MainWindow::MainWindow(QWidget *parent) :
     m_warHammerMap.insert("Obi",":/resources/warhammer/out/Dornthal.jpg");
     m_warHammerMap.insert("Wedge",":/resources/warhammer/out/Kranich_Vogel.jpg");
     m_warHammerMap.insert("kromisback",":/resources/warhammer/out/Sepp_Breuer.jpg");
-    m_warHammerOrder  << "Obi" << "TlonUqbar" << "kromisback"<< "Wedge"<< "Squirrel";
+    m_warHammerMap.insert("SombreLune",":/resources/warhammer/out/Hoeneïm_Raynster.png");
+
+    m_warHammerOrder  << "Obi" << "TlonUqbar" << "SombreLune" << "kromisback"<< "Wedge"<< "Squirrel";
 
     m_widgetList.append(new QLabel(ui->m_scrollArea));
     m_widgetList.append(new QLabel(ui->m_scrollArea));
@@ -242,6 +252,16 @@ void  MainWindow::displayCorrectImage(QString user)
         map = &m_warHammerMap;
         keys = m_warHammerOrder;
     }
+    else if(ui->m_lgIrlAct->isChecked())
+    {
+        map = &m_lgIrlLegion;
+        keys = m_keyLgIrlOrder;
+    }
+    else if(ui->m_secondeCite->isChecked())
+    {
+        map = &m_secondeCityS2Map;
+        keys = m_secondeCityS2Order;
+    }
     else
     {
         map = &m_map;
@@ -319,6 +339,16 @@ void MainWindow::hideImage(QString user)
     {
         map = &m_warHammerMap;
         keys = m_warHammerOrder;
+    }
+    else if(ui->m_lgIrlAct->isChecked())
+    {
+        map = &m_lgIrlLegion;
+        keys = m_keyLgIrlOrder;
+    }
+    else if(ui->m_secondeCite->isChecked())
+    {
+        map = &m_secondeCityS2Map;
+        keys = m_secondeCityS2Order;
     }
     else
     {
@@ -407,6 +437,18 @@ void MainWindow::setImageInLabel()
         keys = m_warHammerOrder;
         setWindowTitle("Warhammer v2 - Campagne Impériale");
 
+    }
+    else if(ui->m_lgIrlAct->isChecked())
+    {
+        map = &m_lgIrlLegion;
+        keys = m_keyLgIrlOrder;
+        setWindowTitle("Loup Garou Les déchus - Oneshot découverte");
+    }
+    else if(ui->m_secondeCite->isChecked())
+    {
+        map = &m_secondeCityS2Map;
+        keys = m_secondeCityS2Order;
+        setWindowTitle("L5R - Seconde Cité - Saison 2");
     }
     else
     {

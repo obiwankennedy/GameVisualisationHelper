@@ -48,7 +48,7 @@
          <x>0</x>
          <y>0</y>
          <width>398</width>
-         <height>214</height>
+         <height>211</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout">
@@ -82,7 +82,7 @@
      <x>0</x>
      <y>0</y>
      <width>400</width>
-     <height>19</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAction">
@@ -95,6 +95,8 @@
     <addaction name="m_13legion"/>
     <addaction name="actionCats"/>
     <addaction name="m_warhammerAct"/>
+    <addaction name="m_lgIrlAct"/>
+    <addaction name="m_secondeCite"/>
     <addaction name="m_framelessAct"/>
    </widget>
    <widget class="QMenu" name="m_hideMenu">
@@ -156,6 +158,22 @@
    </property>
    <property name="text">
     <string>Warhammer</string>
+   </property>
+  </action>
+  <action name="m_lgIrlAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>LG-IRL</string>
+   </property>
+  </action>
+  <action name="m_secondeCite">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Seconde Cité</string>
    </property>
   </action>
  </widget>

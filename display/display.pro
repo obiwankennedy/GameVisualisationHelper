@@ -6,6 +6,7 @@ CONFIG += c++11
 
 TEMPLATE = app
 TARGET = display
+RESOURCES += resources.qrc
 
 SOURCES += main.cpp\
         guiadaptor.cpp \
@@ -16,4 +17,14 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui
 
-RESOURCES += resources.qrc
+DISTFILES += \
+    resources/oneshotFreaks/out/Hikaru_Ichijo.jpg \
+    resources/oneshotFreaks/out/Hikaru_Ichijo-gray.jpg \
+    resources/oneshotFreaks/out/Lilly_Claudel.jpg \
+    resources/oneshotFreaks/out/Lilly_Claudel-gray.jpg \
+    resources/oneshotFreaks/out/MJ_.jpg \
+    resources/oneshotFreaks/out/MJ_-gray.jpg \
+    resources/oneshotFreaks/out/Renan_Charbonnier.jpg \
+    resources/oneshotFreaks/out/Renan_Charbonnier-gray.jpg
+
+

@@ -92,5 +92,36 @@
         <file>resources/warhammer/out/Sepp_Breuer-gray.jpg</file>
         <file>resources/warhammer/out/KeA.jpg</file>
         <file>resources/warhammer/out/KeA-gray.jpg</file>
+        <file>resources/lgIrl/Claudia_Strauss-gray.jpg</file>
+        <file>resources/lgIrl/Claudia_Strauss.jpg</file>
+        <file>resources/lgIrl/Dermot_OConneil-gray.jpg</file>
+        <file>resources/lgIrl/Dermot_OConneil.jpg</file>
+        <file>resources/lgIrl/Ludovic_Clain-gray.jpg</file>
+        <file>resources/lgIrl/Ludovic_Clain.jpg</file>
+        <file>resources/lgIrl/Ruth_Sullivan-gray.jpg</file>
+        <file>resources/lgIrl/Ruth_Sullivan.jpg</file>
+        <file>resources/lgIrl/MJ.jpg</file>
+        <file>resources/lgIrl/MJ-gray.jpg</file>
+        <file>resources/l5rTibo/Togashi_Sento.jpg</file>
+        <file>resources/l5rTibo/Togashi_Sento-gray.jpg</file>
+        <file>resources/sc2saison/out/Daisuke_-gray.jpg</file>
+        <file>resources/sc2saison/out/Daisuke_.jpg</file>
+        <file>resources/sc2saison/out/groupe.png</file>
+        <file>resources/sc2saison/out/Shosuro_Ryûu-gray.jpg</file>
+        <file>resources/sc2saison/out/Shosuro_Ryûu.jpg</file>
+        <file>resources/sc2saison/out/Shusuro_Shiemi-gray.jpg</file>
+        <file>resources/sc2saison/out/Shusuro_Shiemi.jpg</file>
+        <file>resources/sc2saison/out/Soshi_Akimitsu-gray.jpg</file>
+        <file>resources/sc2saison/out/Soshi_Akimitsu.jpg</file>
+        <file>resources/oneshotFreaks/out/Hikaru_Ichijo.jpg</file>
+        <file>resources/oneshotFreaks/out/Hikaru_Ichijo-gray.jpg</file>
+        <file>resources/oneshotFreaks/out/Lilly_Claudel.jpg</file>
+        <file>resources/oneshotFreaks/out/Lilly_Claudel-gray.jpg</file>
+        <file>resources/oneshotFreaks/out/MJ_.jpg</file>
+        <file>resources/oneshotFreaks/out/MJ_-gray.jpg</file>
+        <file>resources/oneshotFreaks/out/Renan_Charbonnier.jpg</file>
+        <file>resources/oneshotFreaks/out/Renan_Charbonnier-gray.jpg</file>
+        <file>resources/warhammer/out/Hoeneïm_Raynster.png</file>
+        <file>resources/warhammer/out/Hoeneïm_Raynster-gray.png</file>
     </qresource>
 </RCC>

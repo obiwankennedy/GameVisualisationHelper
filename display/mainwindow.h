@@ -64,10 +64,12 @@ private:
 
     QMap<QString,QString> m_map;
     QMap<QString,QString> m_map13Legion;
+    QMap<QString,QString> m_lgIrlLegion;
     QMap<QString,QString> m_youngMap;
     QMap<QString,QString> m_catsMap;
     QMap<QString,QString> m_l5rOneshotMap;
     QMap<QString,QString> m_warHammerMap;
+    QMap<QString,QString> m_secondeCityS2Map;
 
     QList<QString> m_keyCopOrder;
     QList<QString> m_key13LegionOrder;
@@ -75,7 +77,9 @@ private:
     QList<QString> m_keyL5rOrder;
     QList<QString> m_keyL5rOneshotOrder;
     QList<QString> m_keyCatsOrder;
+    QList<QString> m_keyLgIrlOrder;
     QList<QString> m_warHammerOrder;
+    QList<QString> m_secondeCityS2Order;
 
 
     QMap<QString,QString> m_copsMap;
