@@ -27,11 +27,15 @@
 #include <QFile>
 #include <QTime>
 #include <QTextStream>
+#include <QQmlApplicationEngine>
 
 namespace Ui {
 class MainWindow;
 }
 
+class PresentProxyModel;
+class CharacterAvatarModel;
+class SelectPresentProxyModel;
 /**
  * @brief The MainWindow class
  */
@@ -47,12 +51,6 @@ public slots:
     void displayCorrectImage(QString user);
     void hideImage(QString user);
 	void setImageInLabel();
-    void recordedStart();
-
-private slots:
-	void setMaximumSizeOnLabel(QString img, QLabel* lbl);
-    void setFrameLess();
-    void showLabel(bool);
 
 protected:
 	void resizeEvent(QResizeEvent *);
@@ -62,35 +60,13 @@ signals:
 private:
     Ui::MainWindow *ui;
 
-    QMap<QString,QString> m_map;
-    QMap<QString,QString> m_map13Legion;
-    QMap<QString,QString> m_lgIrlLegion;
-    QMap<QString,QString> m_youngMap;
-    QMap<QString,QString> m_catsMap;
-    QMap<QString,QString> m_l5rOneshotMap;
-    QMap<QString,QString> m_warHammerMap;
-    QMap<QString,QString> m_secondeCityS2Map;
+    PresentProxyModel* m_proxyModel;
+    SelectPresentProxyModel* m_selectModel;
+    CharacterAvatarModel* m_model;
+    QQmlApplicationEngine* m_engine;
 
-    QList<QString> m_keyCopOrder;
-    QList<QString> m_key13LegionOrder;
-    QList<QString> m_keyYoungOrder;
-    QList<QString> m_keyL5rOrder;
-    QList<QString> m_keyL5rOneshotOrder;
-    QList<QString> m_keyCatsOrder;
-    QList<QString> m_keyLgIrlOrder;
-    QList<QString> m_warHammerOrder;
-    QList<QString> m_secondeCityS2Order;
-
-
-    QMap<QString,QString> m_copsMap;
-    QList<QLabel*>  m_widgetList;
-    QList<QAction*>  m_actionList;
     QMap<QString,QTime*> m_timeTotalByUser;
     QMap<QString,qreal> m_cumulTimeByUser;
-    int m_numberOfActiveTime;
-    QTime m_timeOfSilence;
-    quint64 m_debutStr;
-    quint64 m_endStr;
     QFile* m_file;
     QTextStream m_fileStream;
 };

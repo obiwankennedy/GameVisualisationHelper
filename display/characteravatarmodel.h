@@ -2,6 +2,7 @@
 #define CHARACTERAVATARMODEL_H
 
 #include <QAbstractListModel>
+#include <QMap>
 class Character;
 
 class CharacterAvatarModel : public QAbstractListModel
@@ -12,7 +13,9 @@ public:
               PlayerName,
               ImageId,
               IsSpeaking,
-              Campaign};
+              Campaign,
+              SpeakingTime,
+              Color};
 
     CharacterAvatarModel();
 
@@ -26,9 +29,12 @@ public:
     void addPerson(Character* person);
 
 
+    void speakingStatusChanged(QString user, bool isSpeaking);
+
+
 
 private:
-    std::vector<Character*> m_person;
+    std::vector<Character*> m_persons;
 };
 
 #endif // CHARACTERAVATARMODEL_H

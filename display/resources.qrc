@@ -123,5 +123,6 @@
         <file>resources/oneshotFreaks/out/Renan_Charbonnier-gray.jpg</file>
         <file>resources/warhammer/out/Hoeneïm_Raynster.png</file>
         <file>resources/warhammer/out/Hoeneïm_Raynster-gray.png</file>
+        <file>qml/main.qml</file>
     </qresource>
 </RCC>
