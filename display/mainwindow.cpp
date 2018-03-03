@@ -24,6 +24,9 @@
 #include <QDebug>
 #include <QDate>
 
+#include "character.h"
+#include "characteravatarmodel.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -33,6 +36,57 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setWindowFlags(Qt::WindowStaysOnTopHint );
     connect(ui->actionYoung,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
+
+
+
+    //Init data
+    m_model = new CharacterAvatarModel();
+    /// 13 Légions
+    m_map13Legion.insert("Hythlodée",":/resources/l5rTibo/MJ.jpg");
+    m_map13Legion.insert("Capitaine Red",":/resources/l5rTibo/Hida_Kyonyu.jpg");
+    m_map13Legion.insert("Obi",":/resources/l5rTibo/Ikoma_Kae.jpg");
+    m_map13Legion.insert("Chewba",":/resources/l5rTibo/Shiba_Yasuhiro.jpg");
+    m_map13Legion.insert("Beskargam",":/resources/l5rTibo/Bayushi_Miro.jpg");
+
+    m_key13LegionOrder << "Chewba" << "Capitaine Red" << "Obi" << "Beskargam"  << "Hythlodée" ;
+
+    m_model->addPerson(new Character(QStringLiteral("Shiba Yasuhiro"),
+                                     QStringLiteral("Chewba"),
+                                     QStringLiteral(":/resources/l5rTibo/Shiba_Yasuhiro.jpg"),
+                                     QStringLiteral("13eme")));
+
+    m_model->addPerson(new Character(QStringLiteral("Hida Kyonyu"),
+                                     QStringLiteral("Capitaine Red"),
+                                     QStringLiteral(":/resources/l5rTibo/Hida_Kyonyu.jpg"),
+                                     QStringLiteral("13eme")));
+
+    m_model->addPerson(new Character(QStringLiteral("Ikoma Kae"),
+                                     QStringLiteral("Obi"),
+                                     QStringLiteral(":/resources/l5rTibo/Ikoma_Kae.jpg"),
+                                     QStringLiteral("13eme")));
+
+    m_model->addPerson(new Character(QStringLiteral("Togashi Sento"),
+                                     QStringLiteral("Beskargam"),
+                                     QStringLiteral(":/resources/l5rTibo/Togashi_Sento.jpg"),
+                                     QStringLiteral("13eme")));
+
+    m_model->addPerson(new Character(QStringLiteral("Togashi Sento"),
+                                     QStringLiteral("Alci"),
+                                     QStringLiteral(":/resources/l5rTibo/Togashi_Sento.jpg"),
+                                     QStringLiteral("13eme")));
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     QString str="L5R";
     if(QDate::currentDate().dayOfWeek() == 1 )//monday

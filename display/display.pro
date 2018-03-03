@@ -10,10 +10,16 @@ RESOURCES += resources.qrc
 
 SOURCES += main.cpp\
         guiadaptor.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    characteravatarmodel.cpp \
+    character.cpp \
+    presentproxymodel.cpp
 
 HEADERS  += mainwindow.h \
-        guiadaptor.h
+        guiadaptor.h \
+    characteravatarmodel.h \
+    character.h \
+    presentproxymodel.h
 
 FORMS    += mainwindow.ui
 
