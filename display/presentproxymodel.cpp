@@ -4,7 +4,8 @@
 #include <QModelIndex>
 
 
-PresentProxyModel::PresentProxyModel()
+PresentProxyModel::PresentProxyModel(QObject* parent)
+    : QSortFilterProxyModel(parent)
 {
 
 }
@@ -40,7 +41,8 @@ void PresentProxyModel::setCurrentCampaign(const QString &currentCampaign)
 /////////////////
 /// \brief SelectPresentProxyModel::SelectPresentProxyModel
 ///////////////////
-SelectPresentProxyModel::SelectPresentProxyModel()
+SelectPresentProxyModel::SelectPresentProxyModel(QObject* parent)
+: QSortFilterProxyModel(parent)
 {
 
 }

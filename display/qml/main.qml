@@ -6,10 +6,15 @@ import QtQuick.Controls 2.0
 
 ApplicationWindow {
     id: root
+    x: 2560+1920-width
+    y: 5
     width: 1000
     height: 200
     visible: true
     title: "GameVisualHelper"
+
+
+    flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
 
     Rectangle {
         anchors.fill: parent
@@ -41,7 +46,7 @@ ApplicationWindow {
                 }
                 Rectangle {
                     id: border
-                    color: "transparent"
+                    color: "transparent"//img.lenght() > 0 ? "transparent" : colorCh
                     anchors.fill: avatar
                     border.width: 4
                     border.color: colorCh
@@ -56,7 +61,7 @@ ApplicationWindow {
                         right: parent.right
                     }
                     height: parent.height*0.2
-                    color:"black"
+                    color: isSpeaking ? colorCh : "black"
                 }
                 Text {
                     anchors.centerIn:rect
@@ -64,9 +69,44 @@ ApplicationWindow {
                     font.bold: true
                     text: name
                 }
+                Rectangle {
+                    id: line
+                    anchors {
+                        bottom: parent.children[0].bottom
+                        bottomMargin: 3
+                        left: parent.left
+                    }
+                    height: 1
+                    width: parent.width*percent
+                    color:"orange"
+                }
+                Glow {
+                    anchors.fill: line
+                    radius: 8
+                    samples: 17
+                    color: "orange"
+                    source: line
+                }
             }
 
         }
+    }
+    MouseArea {
+        anchors.fill:parent
+        property int previousX : 0
+        property int previousY : 0
+        onPressed: {
+            previousX = mouse.x
+            previousY = mouse.y
+            parent.focus = true
+        }
+        onPositionChanged: {
+            console.log(previousX+" "+mouse.x+" "+(mouse.x-previousX))
+            root.x += mouse.x-previousX
+            root.y += mouse.y-previousY
+            previousX = mouse.x
+            previousY = mouse.y
+        }   
     }
 
 }

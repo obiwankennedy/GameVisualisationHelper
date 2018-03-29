@@ -80,6 +80,9 @@
              </property>
              <widget class="QTableView" name="m_characterView">
               <attribute name="horizontalHeaderVisible">
+               <bool>true</bool>
+              </attribute>
+              <attribute name="horizontalHeaderCascadingSectionResizes">
                <bool>false</bool>
               </attribute>
               <attribute name="horizontalHeaderStretchLastSection">

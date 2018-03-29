@@ -124,5 +124,10 @@
         <file>resources/warhammer/out/Hoeneïm_Raynster.png</file>
         <file>resources/warhammer/out/Hoeneïm_Raynster-gray.png</file>
         <file>qml/main.qml</file>
+        <file>resources/OneShotGeneral/alci.jpg</file>
+        <file>resources/OneShotGeneral/chewb.jpg</file>
+        <file>resources/OneShotGeneral/krom.jpg</file>
+        <file>resources/OneShotGeneral/predateur.jpg</file>
+        <file>resources/OneShotGeneral/tlon.jpg</file>
     </qresource>
 </RCC>

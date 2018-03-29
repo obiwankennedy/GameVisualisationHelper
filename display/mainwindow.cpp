@@ -23,6 +23,7 @@
 
 #include <QDebug>
 #include <QDate>
+#include <QTimer>
 
 #include "character.h"
 #include "characteravatarmodel.h"
@@ -37,12 +38,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowFlags(Qt::WindowStaysOnTopHint );
-    connect(ui->actionYoung,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
-
-
 
     //Init data
-    m_model = new CharacterAvatarModel();
+    m_model = new CharacterAvatarModel(this);
 
 
     // 13eme légion
@@ -146,18 +144,68 @@ MainWindow::MainWindow(QWidget *parent) :
                                      QStringLiteral("Warhammer"),
                                      QColor("#CE5C00")));
 
+
+    //OneShot
+    m_model->addPerson(new Character(QStringLiteral("Obi"),
+                                     QStringLiteral("Obi"),
+                                     QStringLiteral("qrc:/resources/OneShotGeneral/predateur.jpg"),
+                                     QStringLiteral("OneShot"),
+                                     QColor(Qt::red)));
+
+    m_model->addPerson(new Character(QStringLiteral("TlonUqbar"),
+                                     QStringLiteral("TlonUqbar"),
+                                     QStringLiteral("qrc:/resources/OneShotGeneral/tlon.jpg"),
+                                     QStringLiteral("OneShot"),
+                                     QColor("#7e4640")));
+
+    m_model->addPerson(new Character(QStringLiteral("SombreLune"),
+                                     QStringLiteral("SombreLune"),
+                                     QStringLiteral(""),
+                                     QStringLiteral("OneShot"),
+                                     QColor(Qt::lightGray)));
+
+    m_model->addPerson(new Character(QStringLiteral("Wedge"),
+                                     QStringLiteral("Wedge"),
+                                     QStringLiteral(""),
+                                     QStringLiteral("OneShot"),
+                                     QColor(Qt::red)));
+
+    m_model->addPerson(new Character(QStringLiteral("Alci (MJ)"),
+                                     QStringLiteral("Alci"),
+                                     QStringLiteral("qrc:/resources/OneShotGeneral/alci.jpg"),
+                                     QStringLiteral("OneShot"),
+                                     QColor(Qt::darkCyan)));
+
+    m_model->addPerson(new Character(QStringLiteral("Chewba"),
+                                     QStringLiteral("Chewba"),
+                                     QStringLiteral("qrc:/resources/OneShotGeneral/chewb.jpg"),
+                                     QStringLiteral("OneShot"),
+                                     QColor(Qt::darkGreen)));
+
+    m_model->addPerson(new Character(QStringLiteral("kromisback"),
+                                     QStringLiteral("kromisback"),
+                                     QStringLiteral("qrc:/resources/OneShotGeneral/krom.jpg"),
+                                     QStringLiteral("OneShot"),
+                                     QColor(Qt::darkBlue)));
+
+    m_model->addPerson(new Character(QStringLiteral("Squirrel (MJ)"),
+                                     QStringLiteral("Squirrel"),
+                                     QStringLiteral(""),
+                                     QStringLiteral("OneShot"),
+                                     QColor("#CE5C00")));
+
     QStringList camp;
-    camp << "Warhammer" << "COPS" << "13eme";
+    camp << "Warhammer" << "COPS" << "13eme" << "OneShot";
     ui->comboBox->addItems(camp);
 
 
 
-    m_selectModel = new SelectPresentProxyModel();
+    m_selectModel = new SelectPresentProxyModel(this);
 
 
 
 
-    m_proxyModel = new PresentProxyModel();
+    m_proxyModel = new PresentProxyModel(this);
     connect(ui->comboBox,&QComboBox::currentTextChanged,this,[=](QString str){
         m_proxyModel->setCurrentCampaign(str);
         m_selectModel->setCurrentCampaign(str);
@@ -174,29 +222,36 @@ MainWindow::MainWindow(QWidget *parent) :
     m_proxyModel->setCurrentCampaign("Warhammer");
     m_selectModel->setCurrentCampaign("Warhammer");
 
-    m_engine = new QQmlApplicationEngine();
+    m_engine = new QQmlApplicationEngine(this);
     m_engine->rootContext()->setContextProperty("_model",m_proxyModel);
 
     m_engine->load(QUrl("qrc:/qml/main.qml"));
+    setAttribute(Qt::WA_DeleteOnClose,true);
+
 
 }
 
 MainWindow::~MainWindow()
 {
+    qDebug() << "delete mainwindow" << m_cumulTimeByUser.size();
     for(auto keyItem : m_cumulTimeByUser.keys())
     {
         qDebug() << keyItem <<":"<<m_cumulTimeByUser.value(keyItem) ;
     }
-    delete ui;
 }
+
+
 void MainWindow::displayCorrectImage(QString user)
 {
     m_model->speakingStatusChanged(user,true);
-    if(m_timeTotalByUser.contains(user))
+    if(!m_timeTotalByUser.contains(user))
     {
-        QTime* time = m_timeTotalByUser.value(user);
-        time->start();
+        m_timeTotalByUser.insert(user,new QTime());
     }
+
+    QTime* time = m_timeTotalByUser.value(user);
+    time->start();
+
 }
 void MainWindow::hideImage(QString user)
 {
@@ -214,14 +269,17 @@ void MainWindow::hideImage(QString user)
         {
             m_cumulTimeByUser.insert(user,time);
         }
+
+        if(m_model->maxSpeakingTime() < m_cumulTimeByUser[user])
+        {
+            m_model->setMaxSpeakingTime(m_cumulTimeByUser[user]);
+        }
+        m_model->setSpeakingTimeForUser(user,ui->comboBox->currentText(),m_cumulTimeByUser[user]);
+
     }
 }
-void MainWindow::setImageInLabel()
-{
 
-}
 void MainWindow::resizeEvent(QResizeEvent * ev)
 {
     QMainWindow::resizeEvent(ev);
-    setImageInLabel();
 }

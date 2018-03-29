@@ -9,7 +9,7 @@ class SelectPresentProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 public:
-    SelectPresentProxyModel();
+    SelectPresentProxyModel(QObject* parent = nullptr);
 
 
     QVariant data(const QModelIndex &index, int role) const;
@@ -36,7 +36,7 @@ private:
 class PresentProxyModel : public QSortFilterProxyModel
 {
 public:
-    PresentProxyModel();
+    PresentProxyModel(QObject* parent = nullptr);
 
 
     QStringList hiddenPeople() const;

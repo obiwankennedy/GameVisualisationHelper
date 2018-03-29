@@ -50,10 +50,10 @@ public:
 public slots:
     void displayCorrectImage(QString user);
     void hideImage(QString user);
-	void setImageInLabel();
 
 protected:
 	void resizeEvent(QResizeEvent *);
+
 signals:
     void changeCurrentAvatar(QString);
 

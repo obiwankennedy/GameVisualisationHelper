@@ -27,13 +27,13 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
-    new GuiAdaptor(&w);
-    w.show();
+    MainWindow* w = new MainWindow();
+    new GuiAdaptor(w);
+    w->show();
 
     QDBusConnection connection = QDBusConnection::sessionBus();
     bool rel = connection.registerService("org.rolisteam.display");
-    rel = connection.registerObject("/",&w);
+    rel = connection.registerObject("/",w);
 
 
     return a.exec();
