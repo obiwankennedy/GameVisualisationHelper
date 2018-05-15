@@ -99,12 +99,17 @@ MainWindow::MainWindow(QWidget *parent) :
                                      QStringLiteral("COPS"),
                                      QColor("#CE5C00")));
 
+    m_model->addPerson(new Character(QStringLiteral("Scott J. Spann"),
+                                     QStringLiteral("Alci"),
+                                     QStringLiteral("qrc:/resources/Cops/Rob-Mills-head-shot.jpg"),
+                                     QStringLiteral("COPS"),
+                                     QColor(Qt::darkCyan)));
+
     m_model->addPerson(new Character(QStringLiteral("MJ"),
                                      QStringLiteral("kromisback"),
                                      QStringLiteral("qrc:/resources/Cops/mj.png"),
                                      QStringLiteral("COPS"),
                                      QColor(Qt::darkBlue)));
-
 
 
     //Warhammer
@@ -146,7 +151,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     //OneShot
-    m_model->addPerson(new Character(QStringLiteral("Obi"),
+    m_model->addPerson(new Character(QStringLiteral("Obi (MJ)"),
                                      QStringLiteral("Obi"),
                                      QStringLiteral("qrc:/resources/OneShotGeneral/predateur.jpg"),
                                      QStringLiteral("OneShot"),
@@ -170,7 +175,7 @@ MainWindow::MainWindow(QWidget *parent) :
                                      QStringLiteral("OneShot"),
                                      QColor(Qt::red)));
 
-    m_model->addPerson(new Character(QStringLiteral("Alci (MJ)"),
+    m_model->addPerson(new Character(QStringLiteral("Alci"),
                                      QStringLiteral("Alci"),
                                      QStringLiteral("qrc:/resources/OneShotGeneral/alci.jpg"),
                                      QStringLiteral("OneShot"),
