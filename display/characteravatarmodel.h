@@ -35,6 +35,9 @@ public:
 
     void addPerson(Character* person);
 
+    void writeData(QJsonArray& object);
+    void readData(QJsonArray& object);
+
 
     void speakingStatusChanged(QString user, bool isSpeaking);
     void setSpeakingTimeForUser(QString user,QString camp, qreal time);

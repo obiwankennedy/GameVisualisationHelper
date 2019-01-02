@@ -5,38 +5,10 @@
 #include <QSortFilterProxyModel>
 #include <QStringList>
 
-class SelectPresentProxyModel : public QSortFilterProxyModel
-{
-    Q_OBJECT
-public:
-    SelectPresentProxyModel(QObject* parent = nullptr);
-
-
-    QVariant data(const QModelIndex &index, int role) const;
-    bool setData(const QModelIndex &index, const QVariant &value, int role);
-
-    QString currentCampaign() const;
-    void setCurrentCampaign(const QString &currentCampaign);
-
-    QStringList list() const;
-    void setList(const QStringList &list);
-    Qt::ItemFlags flags(const QModelIndex &index) const;
-protected:
-    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
-signals:
-    void selectionChanged();
-
-private:
-    QString m_currentCampaign;
-    QStringList m_list;
-};
-
-
-
 class PresentProxyModel : public QSortFilterProxyModel
 {
 public:
-    PresentProxyModel(QObject* parent = nullptr);
+    explicit PresentProxyModel(QObject* parent = nullptr);
 
 
     QStringList hiddenPeople() const;
@@ -45,11 +17,33 @@ public:
     QString currentCampaign() const;
     void setCurrentCampaign(const QString &currentCampaign);
 
+    void writeSettings() const;
+    void readSettings();
+
 protected:
-    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
-private:
+    virtual bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
+protected:
     QStringList m_hiddenPeople;
     QString m_currentCampaign;
+};
+
+class SelectPresentProxyModel : public PresentProxyModel
+{
+    Q_OBJECT
+public:
+    explicit SelectPresentProxyModel(QObject* parent = nullptr);
+
+
+    QVariant data(const QModelIndex &index, int role) const;
+    bool setData(const QModelIndex &index, const QVariant &value, int role);
+
+ /*   QStringList list() const;
+    void setList(const QStringList &list);*/
+    Qt::ItemFlags flags(const QModelIndex &index) const;
+protected:
+    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
+signals:
+    void selectionChanged();
 };
 
 #endif // PRESENTPROXYMODEL_H

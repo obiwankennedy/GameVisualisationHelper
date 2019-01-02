@@ -12,9 +12,10 @@ ApplicationWindow {
     height: 200
     visible: true
     title: "GameVisualHelper"
+    property bool deco: true
 
 
-    flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
+    flags: deco ? Qt.WindowStaysOnTopHint : Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
 
     Rectangle {
         anchors.fill: parent
@@ -93,9 +94,11 @@ ApplicationWindow {
     }
     MouseArea {
         anchors.fill:parent
-        property int previousX : 0
-        property int previousY : 0
-        onPressed: {
+//        property int previousX : 0
+//        property int previousY : 0
+        //drag.target: root
+        onClicked: root.deco = !root.deco
+        /*onPressed: {
             previousX = mouse.x
             previousY = mouse.y
             parent.focus = true
@@ -106,7 +109,7 @@ ApplicationWindow {
             root.y += mouse.y-previousY
             previousX = mouse.x
             previousY = mouse.y
-        }   
+        } */
     }
 
 }

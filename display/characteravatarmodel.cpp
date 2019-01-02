@@ -2,6 +2,8 @@
 
 #include "character.h"
 #include <QDebug>
+#include <QJsonArray>
+#include <QJsonObject>
 
 CharacterAvatarModel::CharacterAvatarModel(QObject* parent)
     : QAbstractItemModel(parent)
@@ -73,29 +75,39 @@ bool CharacterAvatarModel::setData(const QModelIndex &index, const QVariant &val
 {
     if(!index.isValid())
         return false;
+    if(value.toString().isEmpty())
+        return false;
 
     if(role == Qt::DisplayRole|| role == Qt::EditRole)
     {
+        QVector<int> roles;
         auto item =  m_persons[index.row()];
+        roles << role;
 
         switch(index.column())
         {
         case 0:
             item->setName(value.toString());
+            roles << Name;
         break;
         case 1:
             item->setPlayerName(value.toString());
+            roles << PlayerName;
         break;
         case 2:
             item->setImgId(value.toString());
+            roles << ImageId;
         break;
         case 3:
             item->setCampaign(value.toString());
+            roles << Campaign;
         break;
         case 4:
             item->setColor(value.value<QColor>());
+            roles << Color;
         break;
         }
+        dataChanged(index,index,roles);
         return true;
     }
     return false;
@@ -177,15 +189,15 @@ void CharacterAvatarModel::speakingStatusChanged(QString user, bool isSpeaking)
 
 void CharacterAvatarModel::setSpeakingTimeForUser(QString user,QString camp, qreal time)
 {
-    if(m_maxSpeakingTime < time)
-    {
-        m_maxSpeakingTime = time;
-    }
     auto it = std::find_if(m_persons.begin(),m_persons.end(),[=](const Character* a){
         return (a->playerName() == user && a->campaign() == camp);
     });
     if(it == m_persons.end())
         return;
+    if(m_maxSpeakingTime < time)
+    {
+        m_maxSpeakingTime = time;
+    }
     //int i = std::distance(m_persons.begin(),it);
     auto start = createIndex(0,0);
     auto end = createIndex(m_persons.size(),0);
@@ -213,4 +225,31 @@ qreal CharacterAvatarModel::maxSpeakingTime() const
 void CharacterAvatarModel::setMaxSpeakingTime(const qreal &maxSpeakingTime)
 {
     m_maxSpeakingTime = maxSpeakingTime;
+}
+void CharacterAvatarModel::writeData(QJsonArray& array)
+{
+    for(auto character : m_persons)
+    {
+        QJsonObject object;
+        object["name"]=character->name();
+        object["playername"]=character->playerName();
+        object["imageId"]=character->imgId();
+        object["color"]=character->color().name();
+        object["campaign"]=character->campaign();
+        array.append(object);
+    }
+}
+void CharacterAvatarModel::readData(QJsonArray& array)
+{
+    for(auto item : array)
+    {
+        auto obj = item.toObject();
+        auto name = obj["name"].toString();
+        auto playerName = obj["playername"].toString();
+        auto imageId = obj["imageId"].toString();
+        auto color = obj["color"].toString();
+        auto campaign = obj["campaign"].toString();
+        auto character = new Character(name,playerName,imageId,campaign,QColor(color));
+        m_persons.push_back(character);
+    }
 }

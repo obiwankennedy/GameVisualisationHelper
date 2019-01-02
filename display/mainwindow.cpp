@@ -24,6 +24,10 @@
 #include <QDebug>
 #include <QDate>
 #include <QTimer>
+#include <QFileDialog>
+#include <QJsonDocument>
+#include <QJsonArray>
+
 
 #include "character.h"
 #include "characteravatarmodel.h"
@@ -44,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // 13eme légion
-    m_model->addPerson(new Character(QStringLiteral("Shiba Yasuhiro"),
+    m_model->addPerson(new Character(QStringLiteral("Isawa Yasuhiro"),
                                      QStringLiteral("Chewba"),
                                      QStringLiteral("qrc:/resources/l5rTibo/Shiba_Yasuhiro.jpg"),
                                      QStringLiteral("13eme"),
@@ -81,7 +85,7 @@ MainWindow::MainWindow(QWidget *parent) :
                                      QStringLiteral("COPS"),
                                      QColor("#003B8C")));
 
-    m_model->addPerson(new Character(QStringLiteral("Guillermo Gonzalvez"),
+    m_model->addPerson(new Character(QStringLiteral("Juan Ramirez"),
                                      QStringLiteral("TlonUqbar"),
                                      QStringLiteral("qrc:/resources/Cops/Guillermo_Gonzalvez.png"),
                                      QStringLiteral("COPS"),
@@ -175,6 +179,12 @@ MainWindow::MainWindow(QWidget *parent) :
                                      QStringLiteral("OneShot"),
                                      QColor(Qt::red)));
 
+    m_model->addPerson(new Character(QStringLiteral("Capitaine Red"),
+                                     QStringLiteral("Capitaine Red"),
+                                     QStringLiteral("qrc:/resources/l5rTibo/Hida_Kyonyu.jpg"),
+                                     QStringLiteral("OneShot"),
+                                     QColor(Qt::darkBlue)));
+
     m_model->addPerson(new Character(QStringLiteral("Alci"),
                                      QStringLiteral("Alci"),
                                      QStringLiteral("qrc:/resources/OneShotGeneral/alci.jpg"),
@@ -199,16 +209,61 @@ MainWindow::MainWindow(QWidget *parent) :
                                      QStringLiteral("OneShot"),
                                      QColor("#CE5C00")));
 
+
+    // SOMBRE
+    m_model->addPerson(new Character(QStringLiteral("John Mc Cain"),
+                                     QStringLiteral("Akima"),
+                                     QStringLiteral("http://tomcatsite.pagesperso-orange.fr/images/agence%20risque/images/colonel_jpg.jpg"),
+                                     QStringLiteral("SOMBRE"),
+                                     QColor(Qt::darkBlue)));
+
+    m_model->addPerson(new Character(QStringLiteral("Keith Wagner"),
+                                     QStringLiteral("Akima"),
+                                     QStringLiteral("http://imgix.ranker.com/user_node_img/41/806932/original/damian-lewis-theater-actors-photo-u6?w=280&h=280&fit=crop&crop=faces&q=50&fmt=jpg"),
+                                     QStringLiteral("SOMBRE"),
+                                     QColor(Qt::darkCyan)));
+
+    m_model->addPerson(new Character(QStringLiteral("Steve Works"),
+                                     QStringLiteral("SombreLune"),
+                                     QStringLiteral("qrc:/resources/OneShotGeneral/chewb.jpg"),
+                                     QStringLiteral("SOMBRE"),
+                                     QColor(Qt::darkGreen)));
+
+    m_model->addPerson(new Character(QStringLiteral("kromisback"),
+                                     QStringLiteral("kromisback"),
+                                     QStringLiteral("qrc:/resources/OneShotGeneral/krom.jpg"),
+                                     QStringLiteral("SOMBRE"),
+                                     QColor(Qt::darkBlue)));
+
+    m_model->addPerson(new Character(QStringLiteral("Cyril Panouna"),
+                                     QStringLiteral("Amakiir"),
+                                     QStringLiteral("http://cdn.programme-television.org/var/premiere/storage/images/tele-7-jours/news-tv/said-taghmaoui-rejoint-la-serie-legion-inspiree-des-x-men-4510946/91476062-1-fre-FR/Said-Taghmaoui-rejoint-la-serie-Legion-inspiree-des-X-Men_news_full.jpg"),
+                                     QStringLiteral("SOMBRE"),
+                                     QColor("#CE5C00")));
+
+    m_model->addPerson(new Character(QStringLiteral("Micheal O'Malley"),
+                                     QStringLiteral("Xenorius"),
+                                     QStringLiteral("http://i.imgur.com/rCpydBL.png"),
+                                     QStringLiteral("SOMBRE"),
+                                     QColor("#7e4640")));
+    // end of sombre
+
+
     QStringList camp;
-    camp << "Warhammer" << "COPS" << "13eme" << "OneShot";
+    camp << "Warhammer" << "COPS" << "13eme" << "OneShot" << "SOMBRE";
     ui->comboBox->addItems(camp);
 
 
 
     m_selectModel = new SelectPresentProxyModel(this);
 
-
-
+    connect(ui->actionSave_As,&QAction::triggered,this,[this](){
+        saveFile(true);
+    });
+    connect(ui->actionSave,&QAction::triggered,this,[this](){
+        saveFile(false);
+    });
+    connect(ui->actionOpen,&QAction::triggered,this,&MainWindow::loadFile);
 
     m_proxyModel = new PresentProxyModel(this);
     connect(ui->comboBox,&QComboBox::currentTextChanged,this,[=](QString str){
@@ -216,7 +271,7 @@ MainWindow::MainWindow(QWidget *parent) :
         m_selectModel->setCurrentCampaign(str);
     });
     connect(m_selectModel,&SelectPresentProxyModel::selectionChanged,this,[=](){
-        m_proxyModel->setHiddenPeople(m_selectModel->list());
+        m_proxyModel->setHiddenPeople(m_selectModel->hiddenPeople());
     });
 
     m_proxyModel->setSourceModel(m_model);
@@ -224,8 +279,27 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_presentList->setModel(m_selectModel);
 
     ui->m_characterView->setModel(m_proxyModel);
-    m_proxyModel->setCurrentCampaign("Warhammer");
-    m_selectModel->setCurrentCampaign("Warhammer");
+    auto today = QDate::currentDate();
+    QString currentCampaign="OneShot";
+    if(today.dayOfWeek() == 1)//monday
+    {
+        currentCampaign ="COPS";
+    }
+    else if( today.dayOfWeek() == 2)
+    {
+        currentCampaign ="Warhammer";
+    }
+    else if( today.dayOfWeek() == 3)
+    {
+        currentCampaign ="13eme";
+    }
+    else if( today.dayOfWeek() == 5)
+    {
+        currentCampaign ="OneShot";
+    }
+    m_proxyModel->setCurrentCampaign(currentCampaign);
+    m_selectModel->setCurrentCampaign(currentCampaign);
+    ui->comboBox->setCurrentText(currentCampaign);
 
     m_engine = new QQmlApplicationEngine(this);
     m_engine->rootContext()->setContextProperty("_model",m_proxyModel);
@@ -238,11 +312,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    qDebug() << "delete mainwindow" << m_cumulTimeByUser.size();
-    for(auto keyItem : m_cumulTimeByUser.keys())
-    {
-        qDebug() << keyItem <<":"<<m_cumulTimeByUser.value(keyItem) ;
-    }
+
 }
 
 
@@ -284,7 +354,61 @@ void MainWindow::hideImage(QString user)
     }
 }
 
+void MainWindow::loadFile()
+{
+    QString filename = QFileDialog::getOpenFileName(this,tr("Load file"),QDir::homePath(),"Character Base (*.cdb *.json)");
+    if(filename.isEmpty())
+        return;
+
+    m_filename = filename;
+
+    QFile file(m_filename);
+    file.open(QIODevice::ReadOnly);
+    QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
+    auto array = doc.array();
+    m_model->readData(array);
+}
+
+void MainWindow::saveFile(bool saveAs)
+{
+    if(saveAs || m_filename.isEmpty())
+    {
+        QString filename = QFileDialog::getSaveFileName(this,tr("Save file"),QDir::homePath(),"Character Base (*.cdb *.json)");
+        if(filename.isEmpty())
+            return;
+        m_filename = filename;
+    }
+
+    QJsonDocument doc;
+    QJsonArray array;
+    m_model->writeData(array);
+    doc.setArray(array);
+    QFile file(m_filename);
+    file.open(QIODevice::WriteOnly);
+    file.write(doc.toJson());
+}
 void MainWindow::resizeEvent(QResizeEvent * ev)
 {
     QMainWindow::resizeEvent(ev);
+}
+bool MainWindow::maybeSave()
+{
+    return true;
+}
+void MainWindow::closeEvent(QCloseEvent* event)
+{
+    if(maybeSave())
+    {
+        qDebug() << "delete mainwindow" << m_cumulTimeByUser.size();
+        for(auto keyItem : m_cumulTimeByUser.keys())
+        {
+            qDebug() << keyItem <<":"<<m_cumulTimeByUser.value(keyItem) ;
+        }
+        //saveFile(false);
+        event->accept();
+    }
+    else
+    {
+        event->ignore();
+    }
 }

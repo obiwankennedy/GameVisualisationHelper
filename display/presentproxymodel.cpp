@@ -1,13 +1,14 @@
 #include "presentproxymodel.h"
 #include "characteravatarmodel.h"
 
+#include <QSettings>
 #include <QModelIndex>
 
 
 PresentProxyModel::PresentProxyModel(QObject* parent)
     : QSortFilterProxyModel(parent)
 {
-
+    readSettings();
 }
 
 bool PresentProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
@@ -26,6 +27,7 @@ void PresentProxyModel::setHiddenPeople(const QStringList &present)
 {
     m_hiddenPeople = present;
     invalidateFilter();
+    writeSettings();
 }
 
 QString PresentProxyModel::currentCampaign() const
@@ -36,13 +38,30 @@ QString PresentProxyModel::currentCampaign() const
 void PresentProxyModel::setCurrentCampaign(const QString &currentCampaign)
 {
     m_currentCampaign = currentCampaign;
+    readSettings();
     invalidateFilter();
 }
+
+
+void PresentProxyModel::writeSettings() const
+{
+    QSettings setting("Rolisteam","display");
+
+   setting.setValue(QStringLiteral("presentlist_%1").arg(m_currentCampaign),m_hiddenPeople);
+}
+
+void PresentProxyModel::readSettings()
+{
+   QSettings setting("Rolisteam","display");
+   m_hiddenPeople = setting.value(QStringLiteral("presentlist_%1").arg(m_currentCampaign)).toStringList();
+}
+
+
 /////////////////
 /// \brief SelectPresentProxyModel::SelectPresentProxyModel
 ///////////////////
 SelectPresentProxyModel::SelectPresentProxyModel(QObject* parent)
-: QSortFilterProxyModel(parent)
+: PresentProxyModel(parent)
 {
 
 }
@@ -54,7 +73,7 @@ QVariant SelectPresentProxyModel::data(const QModelIndex &index, int role) const
     if(Qt::CheckStateRole == role)
     {
         auto name = QSortFilterProxyModel::data(index, CharacterAvatarModel::Name).toString();
-        if(m_list.contains(name))
+        if(m_hiddenPeople.contains(name))
         {
             return Qt::Checked;
         }
@@ -74,42 +93,23 @@ bool SelectPresentProxyModel::setData(const QModelIndex &index, const QVariant &
         auto name = QSortFilterProxyModel::data(index, CharacterAvatarModel::Name).toString();
         if(value.value<Qt::CheckState>() == Qt::Unchecked)
         {
-             m_list.removeAll(name);
+             m_hiddenPeople.removeAll(name);
         }
         else
         {
-            m_list.append(name);
+            m_hiddenPeople.append(name);
         }
+        writeSettings();
         emit selectionChanged();
         return true;
     }
     return QSortFilterProxyModel::setData(index,value,role);
 }
 
-QString SelectPresentProxyModel::currentCampaign() const
-{
-    return m_currentCampaign;
-}
 
 Qt::ItemFlags SelectPresentProxyModel::flags(const QModelIndex &index) const
 {
     return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsUserCheckable;
-}
-
-void SelectPresentProxyModel::setCurrentCampaign(const QString &currentCampaign)
-{
-    m_currentCampaign = currentCampaign;
-    invalidateFilter();
-}
-
-QStringList SelectPresentProxyModel::list() const
-{
-    return m_list;
-}
-
-void SelectPresentProxyModel::setList(const QStringList &list)
-{
-    m_list = list;
 }
 
 bool SelectPresentProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const

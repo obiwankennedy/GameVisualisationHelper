@@ -28,6 +28,7 @@
 #include <QTime>
 #include <QTextStream>
 #include <QQmlApplicationEngine>
+#include <QCloseEvent>
 
 namespace Ui {
 class MainWindow;
@@ -47,12 +48,16 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    bool maybeSave();
 public slots:
     void displayCorrectImage(QString user);
     void hideImage(QString user);
+    void loadFile();
 
+    void saveFile(bool saveAs = false);
 protected:
 	void resizeEvent(QResizeEvent *);
+    void closeEvent(QCloseEvent* event);
 
 signals:
     void changeCurrentAvatar(QString);
@@ -69,6 +74,7 @@ private:
     QMap<QString,qreal> m_cumulTimeByUser;
     QFile* m_file;
     QTextStream m_fileStream;
+    QString m_filename;
 };
 
 #endif // MAINWINDOW_H
