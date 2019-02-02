@@ -23,312 +23,318 @@
 
 #include <QDebug>
 #include <QDate>
+#include <QTimer>
+#include <QFileDialog>
+#include <QJsonDocument>
+#include <QJsonArray>
+
+
+#include "character.h"
+#include "characteravatarmodel.h"
+#include "presentproxymodel.h"
+
+#include <QQmlContext>
 
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    m_numberOfActiveTime=0;
     ui->setupUi(this);
     setWindowFlags(Qt::WindowStaysOnTopHint );
-    connect(ui->actionYoung,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
 
-    QString str="L5R";
-    if(QDate::currentDate().dayOfWeek() == 1 )//monday
-    {
-        ui->actionCops->setChecked(true);
-        str="COPS";
-    }
-    else if(QDate::currentDate().dayOfWeek() == 3 )//wednesday
-    {
-        ui->m_13legion->setChecked(true);
-        str="L5R - La 13ème Légion";
-    }
-    else if(QDate::currentDate().dayOfWeek() == 4)
-    {
-        ui->m_warhammerAct->setChecked(true);
-        str="Warhammer - Campagne Impériale";
-    }
-
-   /* m_file = new QFile(QString("/home/renaud/Parties/%1_silence_%2.txt").arg(str).arg(QDate::currentDate().toString("yyyy_MM_dd")));
-    if(m_file->open(QIODevice::WriteOnly))
-    {
-        m_fileStream.setDevice(m_file);
-    }
-    else
-    {
-        qDebug() << "Impossible to create file at:"<< m_file->fileName() ;
-    }*/
-
-    //m_youngMap.insert("Frah",":/resources/Asako.jpg");
-    //m_map.insert("Frah",":/resources/Tsuruchi_Nayu.jpg");
-    //m_widgetMap.insert("Frah",ui->m_labelTsuruchi);
-
-    connect(ui->m_framelessAct,SIGNAL(triggered()),this,SLOT(setFrameLess()));
-    connect(ui->actionCops,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
-    connect(ui->actionCats,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
-    connect(ui->m_oneshotAct,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
-    connect(ui->m_13legion,SIGNAL(triggered(bool)),this,SLOT(setImageInLabel()));
+    //Init data
+    m_model = new CharacterAvatarModel(this);
 
 
-    //m_map.insert("Akodo Eiichi",":/resources/Mirumoto Tomoe.png");
-    m_map.insert("Akodo Eiichi",":/resources/Akodo_Eiichi.png");
-    m_map.insert("Capitaine Red",":/resources/Shinjo_Zhia.jpg");
-    //m_map.insert("Zhia",":/resources/hidaMaki1.jpg");
-    //m_map.insert("Zhia",":/resources/Asako_misako.png");
-    //m_map.insert("Zhia",":/resources/Saito.jpg");
+    // 13eme légion
+    m_model->addPerson(new Character(QStringLiteral("Isawa Yasuhiro"),
+                                     QStringLiteral("Chewba"),
+                                     QStringLiteral("qrc:/resources/l5rTibo/Shiba_Yasuhiro.jpg"),
+                                     QStringLiteral("13eme"),
+                                     QColor(Qt::red)));
 
-    m_map.insert("Chewba",":/resources/Bayushi_Takayoshi.png");
-    //m_map.insert("Chewba",":/resources/Saito.jpg");
-    //m_map.insert("Chewba",":/resources/Asako_misako.png");
-    m_map.insert("Obi",":/resources/mj.jpg");
-    m_keyL5rOrder<< "Akodo Eiichi" << "Capitaine Red" << "Chewba" << "Obi"  ;
+    m_model->addPerson(new Character(QStringLiteral("Hida Kyonyu"),
+                                     QStringLiteral("Capitaine Red"),
+                                     QStringLiteral("qrc:/resources/l5rTibo/Hida_Kyonyu.jpg"),
+                                     QStringLiteral("13eme"),
+                                     QColor(Qt::darkBlue)));
 
+    m_model->addPerson(new Character(QStringLiteral("Ikoma Kae"),
+                                     QStringLiteral("Obi"),
+                                     QStringLiteral("qrc:/resources/l5rTibo/Ikoma_Kae.jpg"),
+                                     QStringLiteral("13eme"),
+                                     QColor("#9C9C00")));
 
-    ///CATs
-    m_catsMap.insert("Leia Tortoise",":/resources/cats/arsene2.jpg");
-   // m_catsMap.insert("Gilgamesh",":/resources/cats/Ghandi.jpg");
-    m_catsMap.insert("HyiHyil",":/resources/cats/Hercule.jpg");
-    m_catsMap.insert("Gilgamesh",":/resources/cats/Sherlock.jpg");
-    m_catsMap.insert("Selawyr",":/resources/cats/tatcher.jpg");
-    m_catsMap.insert("Obi",":/resources/cats/Matou_Jovial.jpg");
-    m_keyCatsOrder << "HyiHyil" << "Leia Tortoise" << "Selawyr" <<  "Gilgamesh" << "Obi";
+    m_model->addPerson(new Character(QStringLiteral("Togashi Sento"),
+                                     QStringLiteral("Beskargam"),
+                                     QStringLiteral("qrc:/resources/l5rTibo/Togashi_Sento.jpg"),
+                                     QStringLiteral("13eme"),
+                                     QColor(Qt::darkGreen)));
 
+    m_model->addPerson(new Character(QStringLiteral("Alci (MJ)"),
+                                     QStringLiteral("Alci"),
+                                     QStringLiteral("qrc:/resources/l5rTibo/MJ.jpg"),
+                                     QStringLiteral("13eme"),
+                                     QColor(Qt::darkMagenta)));
 
-    /// 13 Légions
-    m_map13Legion.insert("Hythlodée",":/resources/l5rTibo/MJ.jpg");
-    m_map13Legion.insert("Capitaine Red",":/resources/l5rTibo/Hida_Kyonyu.jpg");
-    m_map13Legion.insert("Obi",":/resources/l5rTibo/Ikoma_Kae.jpg");
-    m_map13Legion.insert("Chewba",":/resources/l5rTibo/Shiba_Yasuhiro.jpg");
-    m_map13Legion.insert("Beskargam",":/resources/l5rTibo/Bayushi_Miro.jpg");
+    // COPS
+    m_model->addPerson(new Character(QStringLiteral("Lynn Gray-Rike"),
+                                     QStringLiteral("Obi"),
+                                     QStringLiteral("qrc:/resources/Cops/Lynn_Gray-Rike.png"),
+                                     QStringLiteral("COPS"),
+                                     QColor("#003B8C")));
 
-    m_key13LegionOrder << "Chewba" << "Capitaine Red" << "Obi" << "Beskargam"  << "Hythlodée" ;
+    m_model->addPerson(new Character(QStringLiteral("Juan Ramirez"),
+                                     QStringLiteral("TlonUqbar"),
+                                     QStringLiteral("qrc:/resources/Cops/Guillermo_Gonzalvez.png"),
+                                     QStringLiteral("COPS"),
+                                     QColor(Qt::darkGreen)));
 
-    ///YOUNG
-    m_youngMap.insert("Akodo Eiichi",":/resources/kakita.jpg");
-    m_youngMap.insert("Capitaine Red",":/resources/Isawa.jpg");
-    m_youngMap.insert("Chewba",":/resources/kitsuki.jpg");
-    m_youngMap.insert("Obi",":/resources/mj.jpg");
-    m_keyYoungOrder << "Akodo Eiichi" << "Capitaine Red" << "Chewba" << "Obi"  ;
+    m_model->addPerson(new Character(QStringLiteral("Max O'Hara"),
+                                     QStringLiteral("Chewba"),
+                                     QStringLiteral("qrc:/resources/Cops/max_ohara_bis.jpg"),
+                                     QStringLiteral("COPS"),
+                                     QColor(Qt::red)));
 
+    m_model->addPerson(new Character(QStringLiteral("Denis Aquillian"),
+                                     QStringLiteral("Wedge"),
+                                     QStringLiteral("qrc:/resources/Cops/Denis_Aquillian.png"),
+                                     QStringLiteral("COPS"),
+                                     QColor("#CE5C00")));
 
+    m_model->addPerson(new Character(QStringLiteral("Scott J. Spann"),
+                                     QStringLiteral("Alci"),
+                                     QStringLiteral("qrc:/resources/Cops/Rob-Mills-head-shot.jpg"),
+                                     QStringLiteral("COPS"),
+                                     QColor(Qt::darkCyan)));
 
-    ///// ONESHOT L5R
-    m_l5rOneshotMap.insert("anaisurprise",":/resources/oneshot/Tsuruchi_Tamoe.jpg");
-    m_l5rOneshotMap.insert("Flow0333",":/resources/oneshot/Mirumoto_Kitsawa.jpg");
-    m_l5rOneshotMap.insert("Wedge",":/resources/oneshot/Isawa_Kenko.jpg");
-    m_l5rOneshotMap.insert("brice",":/resources/oneshot/Hida_Kokujin.jpg");
-    m_l5rOneshotMap.insert("pseudo6",":/resources/oneshot/Daidoji_Hiru.jpg");
-    m_l5rOneshotMap.insert("Natsu*",":/resources/oneshot/Bayushi_Sahime.jpg");
-    m_l5rOneshotMap.insert("Ciennte",":/resources/oneshot/Akodo_Neru.jpg");
-    m_l5rOneshotMap.insert("Obi",":/resources/mj.jpg");
-
-    m_keyL5rOneshotOrder << "anaisurprise"<< "Flow0333"<< "Wedge"<< "brice" << "pseudo6"<< "Natsu*"<< "Ciennte"<< "Obi";
-
-    //COPS
-  //  m_copsMap.insert("Cyb",":/resources/Cops/Rick_Darcy.png");
-    m_copsMap.insert("TlonUqbar",":/resources/Cops/Guillermo_Gonzalvez.png");
-    m_copsMap.insert("Chewba",":/resources/Cops/max_ohara_bis.jpg");
-    //m_copsMap.insert("Squirrel",":/resources/Cops/Daniel_Mark.png");
-    m_copsMap.insert("Obi",":/resources/Cops/Lynn_Gray-Rike.png");
-    m_copsMap.insert("Wedge",":/resources/Cops/Denis_Aquillian.png");
-   // m_copsMap.insert("Cocoon",":/resources/Cops/Christopher_Atkins.jpg");
-    m_copsMap.insert("kromisback",":/resources/Cops/mj.png");
-//<< "Cocoon"
-
-    m_keyCopOrder  << "Obi" << "TlonUqbar" << "Chewba"<< "Wedge"<< "kromisback";
+    m_model->addPerson(new Character(QStringLiteral("MJ"),
+                                     QStringLiteral("kromisback"),
+                                     QStringLiteral("qrc:/resources/Cops/mj.png"),
+                                     QStringLiteral("COPS"),
+                                     QColor(Qt::darkBlue)));
 
 
     //Warhammer
-    m_warHammerMap.insert("TlonUqbar",":/resources/warhammer/out/Beatrix_Buchwald.jpg");
-    m_warHammerMap.insert("Squirrel",":/resources/warhammer/out/KeA.jpg");
-    m_warHammerMap.insert("Obi",":/resources/warhammer/out/Dornthal.jpg");
-    m_warHammerMap.insert("Wedge",":/resources/warhammer/out/Kranich_Vogel.jpg");
-    m_warHammerMap.insert("kromisback",":/resources/warhammer/out/Sepp_Breuer.jpg");
-    m_warHammerOrder  << "Obi" << "TlonUqbar" << "kromisback"<< "Wedge"<< "Squirrel";
+    m_model->addPerson(new Character(QStringLiteral("Dornthal"),
+                                     QStringLiteral("Obi"),
+                                     QStringLiteral("qrc:/resources/warhammer/out/Dornthal.jpg"),
+                                     QStringLiteral("Warhammer"),
+                                     QColor("#087D1D")));
 
-    m_widgetList.append(new QLabel(ui->m_scrollArea));
-    m_widgetList.append(new QLabel(ui->m_scrollArea));
-    m_widgetList.append(new QLabel(ui->m_scrollArea));
-    m_widgetList.append(new QLabel(ui->m_scrollArea));
-    m_widgetList.append(new QLabel(ui->m_scrollArea));
-    m_widgetList.append(new QLabel(ui->m_scrollArea));
-    m_widgetList.append(new QLabel(ui->m_scrollArea));
-    m_widgetList.append(new QLabel(ui->m_scrollArea));
-    m_widgetList.append(new QLabel(ui->m_scrollArea));
+    m_model->addPerson(new Character(QStringLiteral("Beatrix"),
+                                     QStringLiteral("TlonUqbar"),
+                                     QStringLiteral("qrc:/resources/warhammer/out/Beatrix_Buchwald.jpg"),
+                                     QStringLiteral("Warhammer"),
+                                     QColor("#7e4640")));
 
-    //QWidget* wid = new QWidget();
-    delete ui->m_scrollArea->layout();
-    QHBoxLayout* layout = new QHBoxLayout();
-    layout->setSpacing(0);
-    layout->setMargin(0);
-    ui->m_scrollArea->setLayout(layout);
-    int i = 0;
-    foreach(QLabel* current,m_widgetList)
+    m_model->addPerson(new Character(QStringLiteral("Hoeneïm"),
+                                     QStringLiteral("SombreLune"),
+                                     QStringLiteral("qrc:/resources/warhammer/out/Hoeneïm_Raynster.png"),
+                                     QStringLiteral("Warhammer"),
+                                     QColor(Qt::lightGray)));
+
+    m_model->addPerson(new Character(QStringLiteral("Kranich"),
+                                     QStringLiteral("Wedge"),
+                                     QStringLiteral("qrc:/resources/warhammer/out/Kranich_Vogel.jpg"),
+                                     QStringLiteral("Warhammer"),
+                                     QColor(Qt::red)));
+
+    m_model->addPerson(new Character(QStringLiteral("Sepp Breuer"),
+                                     QStringLiteral("kromisback"),
+                                     QStringLiteral("qrc:/resources/warhammer/out/Sepp_Breuer.jpg"),
+                                     QStringLiteral("Warhammer"),
+                                     QColor(Qt::darkBlue)));
+
+    m_model->addPerson(new Character(QStringLiteral("Squirrel (MJ)"),
+                                     QStringLiteral("Squirrel"),
+                                     QStringLiteral("qrc:/resources/warhammer/out/KeA.jpg"),
+                                     QStringLiteral("Warhammer"),
+                                     QColor("#CE5C00")));
+
+
+    //OneShot
+    m_model->addPerson(new Character(QStringLiteral("Obi (MJ)"),
+                                     QStringLiteral("Obi"),
+                                     QStringLiteral("qrc:/resources/OneShotGeneral/predateur.jpg"),
+                                     QStringLiteral("OneShot"),
+                                     QColor(Qt::red)));
+
+    m_model->addPerson(new Character(QStringLiteral("TlonUqbar"),
+                                     QStringLiteral("TlonUqbar"),
+                                     QStringLiteral("qrc:/resources/OneShotGeneral/tlon.jpg"),
+                                     QStringLiteral("OneShot"),
+                                     QColor("#7e4640")));
+
+    m_model->addPerson(new Character(QStringLiteral("SombreLune"),
+                                     QStringLiteral("SombreLune"),
+                                     QStringLiteral(""),
+                                     QStringLiteral("OneShot"),
+                                     QColor(Qt::lightGray)));
+
+    m_model->addPerson(new Character(QStringLiteral("Wedge"),
+                                     QStringLiteral("Wedge"),
+                                     QStringLiteral(""),
+                                     QStringLiteral("OneShot"),
+                                     QColor(Qt::red)));
+
+    m_model->addPerson(new Character(QStringLiteral("Capitaine Red"),
+                                     QStringLiteral("Capitaine Red"),
+                                     QStringLiteral("qrc:/resources/l5rTibo/Hida_Kyonyu.jpg"),
+                                     QStringLiteral("OneShot"),
+                                     QColor(Qt::darkBlue)));
+
+    m_model->addPerson(new Character(QStringLiteral("Alci"),
+                                     QStringLiteral("Alci"),
+                                     QStringLiteral("qrc:/resources/OneShotGeneral/alci.jpg"),
+                                     QStringLiteral("OneShot"),
+                                     QColor(Qt::darkCyan)));
+
+    m_model->addPerson(new Character(QStringLiteral("Chewba"),
+                                     QStringLiteral("Chewba"),
+                                     QStringLiteral("qrc:/resources/OneShotGeneral/chewb.jpg"),
+                                     QStringLiteral("OneShot"),
+                                     QColor(Qt::darkGreen)));
+
+    m_model->addPerson(new Character(QStringLiteral("kromisback"),
+                                     QStringLiteral("kromisback"),
+                                     QStringLiteral("qrc:/resources/OneShotGeneral/krom.jpg"),
+                                     QStringLiteral("OneShot"),
+                                     QColor(Qt::darkBlue)));
+
+    m_model->addPerson(new Character(QStringLiteral("Squirrel (MJ)"),
+                                     QStringLiteral("Squirrel"),
+                                     QStringLiteral(""),
+                                     QStringLiteral("OneShot"),
+                                     QColor("#CE5C00")));
+
+
+    // SOMBRE
+    m_model->addPerson(new Character(QStringLiteral("John Mc Cain"),
+                                     QStringLiteral("Akima"),
+                                     QStringLiteral("http://tomcatsite.pagesperso-orange.fr/images/agence%20risque/images/colonel_jpg.jpg"),
+                                     QStringLiteral("SOMBRE"),
+                                     QColor(Qt::darkBlue)));
+
+    m_model->addPerson(new Character(QStringLiteral("Keith Wagner"),
+                                     QStringLiteral("Akima"),
+                                     QStringLiteral("http://imgix.ranker.com/user_node_img/41/806932/original/damian-lewis-theater-actors-photo-u6?w=280&h=280&fit=crop&crop=faces&q=50&fmt=jpg"),
+                                     QStringLiteral("SOMBRE"),
+                                     QColor(Qt::darkCyan)));
+
+    m_model->addPerson(new Character(QStringLiteral("Steve Works"),
+                                     QStringLiteral("SombreLune"),
+                                     QStringLiteral("qrc:/resources/OneShotGeneral/chewb.jpg"),
+                                     QStringLiteral("SOMBRE"),
+                                     QColor(Qt::darkGreen)));
+
+    m_model->addPerson(new Character(QStringLiteral("kromisback"),
+                                     QStringLiteral("kromisback"),
+                                     QStringLiteral("qrc:/resources/OneShotGeneral/krom.jpg"),
+                                     QStringLiteral("SOMBRE"),
+                                     QColor(Qt::darkBlue)));
+
+    m_model->addPerson(new Character(QStringLiteral("Cyril Panouna"),
+                                     QStringLiteral("Amakiir"),
+                                     QStringLiteral("http://cdn.programme-television.org/var/premiere/storage/images/tele-7-jours/news-tv/said-taghmaoui-rejoint-la-serie-legion-inspiree-des-x-men-4510946/91476062-1-fre-FR/Said-Taghmaoui-rejoint-la-serie-Legion-inspiree-des-X-Men_news_full.jpg"),
+                                     QStringLiteral("SOMBRE"),
+                                     QColor("#CE5C00")));
+
+    m_model->addPerson(new Character(QStringLiteral("Micheal O'Malley"),
+                                     QStringLiteral("Xenorius"),
+                                     QStringLiteral("http://i.imgur.com/rCpydBL.png"),
+                                     QStringLiteral("SOMBRE"),
+                                     QColor("#7e4640")));
+    // end of sombre
+
+
+    QStringList camp;
+    camp << "Warhammer" << "COPS" << "13eme" << "OneShot" << "SOMBRE";
+    ui->comboBox->addItems(camp);
+
+
+
+    m_selectModel = new SelectPresentProxyModel(this);
+
+    connect(ui->actionSave_As,&QAction::triggered,this,[this](){
+        saveFile(true);
+    });
+    connect(ui->actionSave,&QAction::triggered,this,[this](){
+        saveFile(false);
+    });
+    connect(ui->actionOpen,&QAction::triggered,this,&MainWindow::loadFile);
+
+    m_proxyModel = new PresentProxyModel(this);
+    connect(ui->comboBox,&QComboBox::currentTextChanged,this,[=](QString str){
+        m_proxyModel->setCurrentCampaign(str);
+        m_selectModel->setCurrentCampaign(str);
+    });
+    connect(m_selectModel,&SelectPresentProxyModel::selectionChanged,this,[=](){
+        m_proxyModel->setHiddenPeople(m_selectModel->hiddenPeople());
+    });
+
+    m_proxyModel->setSourceModel(m_model);
+    m_selectModel->setSourceModel(m_model);
+    ui->m_presentList->setModel(m_selectModel);
+
+    ui->m_characterView->setModel(m_proxyModel);
+    auto today = QDate::currentDate();
+    QString currentCampaign="OneShot";
+    if(today.dayOfWeek() == 1)//monday
     {
-        QAction* act = new QAction(QStringLiteral("Label %1").arg(i),this);
-        m_actionList.append(act);
-        ui->m_hideMenu->addAction(act);
-        act->setData(i);
-        act->setCheckable(true);
-        act->setChecked(current->isVisible());
-        connect(act,SIGNAL(triggered(bool)),this,SLOT(showLabel(bool)));
-        ++i;
+        currentCampaign ="COPS";
     }
-    setImageInLabel();
-    foreach(QLabel* current,m_widgetList)
+    else if( today.dayOfWeek() == 2)
     {
-        if(NULL!=current)
-        {
-            current->setScaledContents(true);
-            current->setMaximumHeight(200);
-            current->setAlignment(Qt::AlignCenter);
-            layout->addWidget(current);
-            current->setVisible(true);
-        }
+        currentCampaign ="Warhammer";
     }
-   // ui->scrollArea->setWidget(wid);
+    else if( today.dayOfWeek() == 3)
+    {
+        currentCampaign ="13eme";
+    }
+    else if( today.dayOfWeek() == 5)
+    {
+        currentCampaign ="OneShot";
+    }
+    m_proxyModel->setCurrentCampaign(currentCampaign);
+    m_selectModel->setCurrentCampaign(currentCampaign);
+    ui->comboBox->setCurrentText(currentCampaign);
 
-}
-void MainWindow::recordedStart()
-{
-    qDebug() << "recordedStart()";
-    m_timeOfSilence.start();
+    m_engine = new QQmlApplicationEngine(this);
+    m_engine->rootContext()->setContextProperty("_model",m_proxyModel);
+
+    m_engine->load(QUrl("qrc:/qml/main.qml"));
+    setAttribute(Qt::WA_DeleteOnClose,true);
+
+
 }
 
 MainWindow::~MainWindow()
 {
-    for(auto keyItem : m_cumulTimeByUser.keys())
-    {
-        qDebug() << keyItem <<":"<<m_cumulTimeByUser.value(keyItem) ;
-    }
-    delete ui;
+
 }
-void  MainWindow::displayCorrectImage(QString user)
+
+
+void MainWindow::displayCorrectImage(QString user)
 {
-    bool found = false;
-    QMap<QString,QString>* map = NULL;
-        QList<QString> keys;
-    if(ui->actionCops->isChecked())
+    m_model->speakingStatusChanged(user,true);
+    if(!m_timeTotalByUser.contains(user))
     {
-        map = &m_copsMap;
-        keys = m_keyCopOrder;
-
-    }
-    else if(ui->actionYoung->isChecked())
-    {
-        map = &m_youngMap;
-        keys = m_keyYoungOrder;
-
-    }
-    else if(ui->actionCats->isChecked())
-    {
-        map = &m_catsMap;
-        keys = m_keyCatsOrder;
-    }
-    else if(ui->m_oneshotAct->isChecked())
-    {
-        map = &m_l5rOneshotMap;
-        keys = m_keyL5rOneshotOrder;
-    }
-    else if(ui->m_13legion->isChecked())
-    {
-        map = &m_map13Legion;
-        keys = m_key13LegionOrder;
-    }
-    else if(ui->m_warhammerAct->isChecked())
-    {
-        map = &m_warHammerMap;
-        keys = m_warHammerOrder;
-    }
-    else
-    {
-        map = &m_map;
-        keys = m_keyL5rOrder;
+        m_timeTotalByUser.insert(user,new QTime());
     }
 
-    int index = keys.indexOf(user);
-    if(index>-1)
-    {
-        if(m_timeTotalByUser.contains(user))
-        {
-            QTime* time = m_timeTotalByUser.value(user);
+    QTime* time = m_timeTotalByUser.value(user);
+    time->start();
 
-            time->start();
-            if(m_numberOfActiveTime==0)
-            {
-
-                m_endStr = m_timeOfSilence.elapsed();
-                if(m_endStr != 0)
-                {
-                   // m_fileStream << m_debutStr <<";" << m_endStr << "\n";
-                   // m_fileStream.flush();
-                }
-            }
-            ++m_numberOfActiveTime;
-
-            QLabel* current = m_widgetList[index];
-            QString img = map->value(user);
-            if(NULL!=current)
-            {
-                current->setPixmap(QPixmap(img));
-                found = true;
-            }
-        }
-    }
-
-    if(!found)
-    {
-        qDebug() << "not found "<< user;
-    }
 }
 void MainWindow::hideImage(QString user)
 {
-    QMap<QString,QString>* map = NULL;
-    QList<QString> keys;
-
-    if(ui->actionCops->isChecked())
-    {
-        map = &m_copsMap;
-        keys = m_keyCopOrder;
-
-    }
-    else if(ui->actionYoung->isChecked())
-    {
-        map = &m_youngMap;
-        keys = m_keyYoungOrder;
-
-    }
-    else if(ui->actionCats->isChecked())
-    {
-        map = &m_catsMap;
-        keys = m_keyCatsOrder;
-    }
-    else if(ui->m_oneshotAct->isChecked())
-    {
-        map = &m_l5rOneshotMap;
-        keys = m_keyL5rOneshotOrder;
-    }
-    else if(ui->m_13legion->isChecked())
-    {
-        map = &m_map13Legion;
-        keys = m_key13LegionOrder;
-    }
-    else if(ui->m_warhammerAct->isChecked())
-    {
-        map = &m_warHammerMap;
-        keys = m_warHammerOrder;
-    }
-    else
-    {
-        map = &m_map;
-        keys = m_keyL5rOrder;
-    }
+    m_model->speakingStatusChanged(user,false);
     if(m_timeTotalByUser.contains(user))
     {
         quint64 mili = m_timeTotalByUser.value(user)->elapsed();
-        --m_numberOfActiveTime;
+
         qreal time = (qreal)mili/1000.0;
         if(m_cumulTimeByUser.contains(user))
         {
@@ -338,163 +344,71 @@ void MainWindow::hideImage(QString user)
         {
             m_cumulTimeByUser.insert(user,time);
         }
-    }
-    if(m_numberOfActiveTime==0)
-    {
-        m_debutStr = m_timeOfSilence.elapsed();
-    }
 
-    int index = keys.indexOf(user);
-    if(index>-1)
-    {
-        QLabel* current = m_widgetList[index];
-        QString img = map->value(user);
-        if(NULL!=current)
+        if(m_model->maxSpeakingTime() < m_cumulTimeByUser[user])
         {
-            img.insert(img.lastIndexOf('.'),"-gray");
-            current->setPixmap(QPixmap(img));
+            m_model->setMaxSpeakingTime(m_cumulTimeByUser[user]);
         }
-    }
+        m_model->setSpeakingTimeForUser(user,ui->comboBox->currentText(),m_cumulTimeByUser[user]);
 
+    }
 }
-void MainWindow::setImageInLabel()
+
+void MainWindow::loadFile()
 {
+    QString filename = QFileDialog::getOpenFileName(this,tr("Load file"),QDir::homePath(),"Character Base (*.cdb *.json)");
+    if(filename.isEmpty())
+        return;
 
-    bool hasChanged=false;
-    QObject* wid = qobject_cast<QObject*>(sender());
-    if(wid!=NULL)
-    {
-        hasChanged=true;
-    }
-    QMap<QString,QString>* map = NULL;
-    QList<QString> keys;
-    if(ui->actionCops->isChecked())
-    {
-        map = &m_copsMap;
-        keys = m_keyCopOrder;
+    m_filename = filename;
 
-        setWindowTitle("Cops");
-    }
-    else if(ui->actionYoung->isChecked())
-    {
-        map = &m_youngMap;
-        keys = m_keyYoungOrder;
-        setWindowTitle("Les jeunes L5R");
-    }
-    else if(ui->actionCats->isChecked())
-    {
-        map = &m_catsMap;
-        keys = m_keyCatsOrder;
-        setWindowTitle("Découvertes JDR en Ligne: Cats La mascarade!");
+    QFile file(m_filename);
+    file.open(QIODevice::ReadOnly);
+    QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
+    auto array = doc.array();
+    m_model->readData(array);
+}
 
-    }
-    else if(ui->m_13legion->isChecked())
+void MainWindow::saveFile(bool saveAs)
+{
+    if(saveAs || m_filename.isEmpty())
     {
-        map = &m_map13Legion;
-        keys = m_key13LegionOrder;
-        setWindowTitle("L5R - La 13ème Légion");
-    }
-    else if(ui->m_oneshotAct->isChecked())
-    {
-        map = &m_l5rOneshotMap;
-        keys = m_keyL5rOneshotOrder;
-        setWindowTitle("Oneshot L5R");
-
-    }
-    else if(ui->m_warhammerAct->isChecked())
-    {
-        map = &m_warHammerMap;
-        keys = m_warHammerOrder;
-        setWindowTitle("Warhammer v2 - Campagne Impériale");
-
-    }
-    else
-    {
-        map = &m_map;
-        keys = m_keyL5rOrder;
-
-        setWindowTitle("Le livre des 5 anneaux");
+        QString filename = QFileDialog::getSaveFileName(this,tr("Save file"),QDir::homePath(),"Character Base (*.cdb *.json)");
+        if(filename.isEmpty())
+            return;
+        m_filename = filename;
     }
 
-    foreach(QLabel* current,m_widgetList)
-    {
-        int i = m_widgetList.indexOf(current);
-        QAction* act = m_actionList.at(i);
-        if(i>-1 && i<keys.size())
-        {
-
-            QString img = map->value(keys.at(i));
-            m_timeTotalByUser.insert(keys.at(i),new QTime());
-            if(NULL!=current)
-            {
-                current->setText("user");
-                setMaximumSizeOnLabel(img,current);
-                img.insert(img.lastIndexOf('.'),"-gray");
-                current->setPixmap(QPixmap(img));
-                if(hasChanged)
-                {
-                    act->setChecked(hasChanged);
-                }
-                if(act->isChecked())
-                {
-                    current->setVisible(true);
-                }
-            }
-        }
-        else
-        {
-            current->setVisible(false);
-            act->setChecked(false);
-        }
-    }
+    QJsonDocument doc;
+    QJsonArray array;
+    m_model->writeData(array);
+    doc.setArray(array);
+    QFile file(m_filename);
+    file.open(QIODevice::WriteOnly);
+    file.write(doc.toJson());
 }
 void MainWindow::resizeEvent(QResizeEvent * ev)
 {
     QMainWindow::resizeEvent(ev);
-    setImageInLabel();
 }
-
-void MainWindow::setMaximumSizeOnLabel(QString img, QLabel* lbl)
+bool MainWindow::maybeSave()
 {
-    QPixmap pix(img);
-
-    QRect rectImg = pix.rect();
-    qreal ratioImg = (qreal)rectImg.width()/rectImg.height();
-
-    qreal normal, adjusted;
-    QRect target2 = ui->centralWidget->geometry();//ui->scrollAreaWidgetContents->geometry();
-    //qDebug() << target2;
-    qreal ratioZone = (qreal)target2.width()/target2.height();
-
-    if(ratioZone>=1)
+    return true;
+}
+void MainWindow::closeEvent(QCloseEvent* event)
+{
+    if(maybeSave())
     {
-        adjusted = target2.height()*ratioImg;
-        normal = target2.height();
-        lbl->setMaximumSize(adjusted,normal-2);
+        qDebug() << "delete mainwindow" << m_cumulTimeByUser.size();
+        for(auto keyItem : m_cumulTimeByUser.keys())
+        {
+            qDebug() << keyItem <<":"<<m_cumulTimeByUser.value(keyItem) ;
+        }
+        //saveFile(false);
+        event->accept();
     }
     else
     {
-        adjusted = target2.width()/ratioImg;
-        normal = target2.width();
-        lbl->setMaximumSize(normal,adjusted-2);
-    }
-
-}
-void MainWindow::setFrameLess()
-{
-    //setWindowFlags(Qt::FramelessWindowHint);
-    ui->menuBar->setVisible(false);
-}
-
-void MainWindow::showLabel(bool b)
-{
-    QAction* action = qobject_cast<QAction*>(sender());
-    int i = action->data().toInt();
-
-    if(m_widgetList.size()>i)
-    {
-        QLabel* label = m_widgetList[i];
-        label->setVisible(action->isChecked());
+        event->ignore();
     }
 }
-
