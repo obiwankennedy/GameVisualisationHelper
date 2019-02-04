@@ -1,37 +1,39 @@
 /***************************************************************************
-    *   Copyright (C) 2015 by Renaud Guezennec                                *
-    *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
-    *                                                                         *
-    *   rolisteam is free software; you can redistribute it and/or modify     *
-    *   it under the terms of the GNU General Public License as published by  *
-    *   the Free Software Foundation; either version 2 of the License, or     *
-    *   (at your option) any later version.                                   *
-    *                                                                         *
-    *   This program is distributed in the hope that it will be useful,       *
-    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-    *   GNU General Public License for more details.                          *
-    *                                                                         *
-    *   You should have received a copy of the GNU General Public License     *
-    *   along with this program; if not, write to the                         *
-    *   Free Software Foundation, Inc.,                                       *
-    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
-    ***************************************************************************/
+ *   Copyright (C) 2015 by Renaud Guezennec                                *
+ *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+ *                                                                         *
+ *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QCloseEvent>
+#include <QFile>
+#include <QLabel>
 #include <QMainWindow>
 #include <QMap>
-#include <QLabel>
-#include <QFile>
-#include <QTime>
-#include <QTextStream>
 #include <QQmlApplicationEngine>
-#include <QCloseEvent>
+#include <QTextStream>
+#include <QTime>
+#include <memory>
 
-namespace Ui {
-class MainWindow;
+namespace Ui
+{
+    class MainWindow;
 }
 
 class PresentProxyModel;
@@ -45,33 +47,40 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget* parent= nullptr);
     ~MainWindow();
 
     bool maybeSave();
+    void refreshQMLEngine();
 public slots:
     void displayCorrectImage(QString user);
     void hideImage(QString user);
     void loadFile();
 
-    void saveFile(bool saveAs = false);
+    void saveFile(bool saveAs= false);
+
 protected:
-	void resizeEvent(QResizeEvent *);
+    void resizeEvent(QResizeEvent*);
     void closeEvent(QCloseEvent* event);
 
 signals:
     void changeCurrentAvatar(QString);
 
+private slots:
+    void on_actionRefresh_triggered();
+
+    void on_actionErase_Time_triggered();
+
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindow* ui;
 
     PresentProxyModel* m_proxyModel;
     SelectPresentProxyModel* m_selectModel;
     CharacterAvatarModel* m_model;
-    QQmlApplicationEngine* m_engine;
+    std::unique_ptr<QQmlApplicationEngine> m_engine;
 
-    QMap<QString,QTime*> m_timeTotalByUser;
-    QMap<QString,qreal> m_cumulTimeByUser;
+    QMap<QString, QTime*> m_timeTotalByUser;
+    QMap<QString, qreal> m_cumulTimeByUser;
     QFile* m_file;
     QTextStream m_fileStream;
     QString m_filename;
