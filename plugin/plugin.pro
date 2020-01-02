@@ -1,6 +1,6 @@
 T = teamspeakPlugin
 TEMPLATE = lib
-INCLUDEPATH = /home/renaud/application/other/pluginsdk/include/
+INCLUDEPATH = /home/renaud/application/mine/teamspeakPlugin/ts3client-pluginsdk/include/
 
 SOURCES += plugin.cpp
 HEADERS += plugin.h
