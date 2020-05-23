@@ -126,5 +126,16 @@
         <file>resources/OneShotGeneral/predateur.jpg</file>
         <file>resources/OneShotGeneral/tlon.jpg</file>
         <file>resources/Cops/Rob-Mills-head-shot.jpg</file>
+        <file>resources/ras/Bidouille_carre.jpg</file>
+        <file>resources/ras/EGO.png</file>
+        <file>resources/ras/Fantome.png</file>
+        <file>resources/ras/fond.jpg</file>
+        <file>resources/ras/Goupille.png</file>
+        <file>resources/ras/La_Bidouille.png</file>
+        <file>resources/ras/nocomment.jpg</file>
+        <file>resources/ras/No_comment.png</file>
+        <file>resources/ras/OS.png</file>
+        <file>resources/ras/captain.png</file>
+        <file>resources/ras/shade.jpg</file>
     </qresource>
 </RCC>

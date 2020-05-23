@@ -42,46 +42,30 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Init data
     m_model= new CharacterAvatarModel(this);
 
-    // 13eme légion
-    m_model->addPerson(new Character(QStringLiteral("Isawa Yasuhiro"), QStringLiteral("Chewba"),
-                                     QStringLiteral("qrc:/resources/l5rTibo/Shiba_Yasuhiro.jpg"),
-                                     QStringLiteral("13eme"), QColor(Qt::red)));
+    // RAS
+    m_model->addPerson(new Character(QStringLiteral("Bidouille"), QStringLiteral("Chewba"),
+                                     QStringLiteral("qrc:/resources/ras/Bidouille_carre.jpg"), QStringLiteral("jeudi"),
+                                     QColor(Qt::red)));
 
-    m_model->addPerson(new Character(QStringLiteral("Hantei Kyonyu"), QStringLiteral("Capitaine Red"),
-                                     QStringLiteral("qrc:/resources/l5rTibo/Hida_Kyonyu.jpg"), QStringLiteral("13eme"),
+    m_model->addPerson(new Character(QStringLiteral("Shade"), QStringLiteral("Xelal"),
+                                     QStringLiteral("qrc:/resources/ras/shade.jpg"), QStringLiteral("jeudi"),
+                                     QColor(Qt::green)));
+
+    m_model->addPerson(new Character(QStringLiteral("Capitaine Red (MJ)"), QStringLiteral("Capitaine Red"),
+                                     QStringLiteral("qrc:/resources/ras/captain.png"), QStringLiteral("jeudi"),
                                      QColor(Qt::darkBlue)));
 
-    m_model->addPerson(new Character(QStringLiteral("Ikoma Kae"), QStringLiteral("Obi"),
-                                     QStringLiteral("qrc:/resources/l5rTibo/Ikoma_Kae.jpg"), QStringLiteral("13eme"),
+    m_model->addPerson(new Character(QStringLiteral("No comment"), QStringLiteral("Obi"),
+                                     QStringLiteral("qrc:/resources/ras/nocomment.jpg"), QStringLiteral("jeudi"),
                                      QColor("#9C9C00")));
 
-    m_model->addPerson(new Character(QStringLiteral("Togashi Sento"), QStringLiteral("Beskargam"),
-                                     QStringLiteral("qrc:/resources/l5rTibo/Togashi_Sento.jpg"),
-                                     QStringLiteral("13eme"), QColor(Qt::darkGreen)));
-
-    m_model->addPerson(new Character(
-        QStringLiteral("Hiruma Tendjo"), QStringLiteral("Capitaine Red"),
-        QStringLiteral("file:///home/renaud/documents/Dropbox/chroniques_Hythlodee/L5r/l5Rcamou/hiruma_Tendjo.jpg"),
-        QStringLiteral("13eme"), QColor(Qt::darkBlue)));
-
-    m_model->addPerson(new Character(
-        QStringLiteral("Kakita Seijin"), QStringLiteral("Obi"),
-        QStringLiteral("file:///home/renaud/documents/Dropbox/chroniques_Hythlodee/L5r/l5Rcamou/kakita_seijin.jpg"),
-        QStringLiteral("13eme"), QColor(Qt::cyan)));
-
-    m_model->addPerson(new Character(
-        QStringLiteral("Toritaka Atada"), QStringLiteral("Obi"),
-        QStringLiteral("file:///home/renaud/documents/Dropbox/chroniques_Hythlodee/L5r/l5Rcamou/toritaka_Atada.jpg"),
-        QStringLiteral("13eme"), QColor(Qt::white)));
-
-/*    m_model->addPerson(new Character(
-        QStringLiteral("Ikoma Atada"), QStringLiteral("Chewba"),
-        QStringLiteral("file:///home/renaud/documents/Dropbox/chroniques_Hythlodee/L5r/l5Rcamou/ikoma_Atada.jpg"),
-        QStringLiteral("13eme"), QColor("#9C9C00")));*/
-
-    m_model->addPerson(new Character(QStringLiteral("Alci (MJ)"), QStringLiteral("Alci"),
-                                     QStringLiteral("qrc:/resources/l5rTibo/MJ.jpg"), QStringLiteral("13eme"),
+    m_model->addPerson(new Character(QStringLiteral("Goupille"), QStringLiteral("Alci"),
+                                     QStringLiteral("qrc:/resources/ras/Goupille.png"), QStringLiteral("jeudi"),
                                      QColor(Qt::darkMagenta)));
+    /*    m_model->addPerson(new Character(
+            QStringLiteral("Ikoma Atada"), QStringLiteral("Chewba"),
+            QStringLiteral("file:///home/renaud/documents/Dropbox/chroniques_Hythlodee/L5r/l5Rcamou/ikoma_Atada.jpg"),
+            QStringLiteral("13eme"), QColor("#9C9C00")));*/
 
     // COPS
     m_model->addPerson(new Character(QStringLiteral("Lynn Gray-Rike"), QStringLiteral("Obi"),
@@ -160,6 +144,15 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
                                      QStringLiteral("qrc:/resources/OneShotGeneral/chewb.jpg"),
                                      QStringLiteral("OneShot"), QColor(Qt::darkGreen)));
 
+    m_model->addPerson(new Character(QStringLiteral("Titonoff"), QStringLiteral("Titonoff"), QStringLiteral(""),
+                                     QStringLiteral("OneShot"), QColor(Qt::darkGreen)));
+
+    m_model->addPerson(new Character(QStringLiteral("Xelal"), QStringLiteral("Xelal"), QStringLiteral(""),
+                                     QStringLiteral("OneShot"), QColor(Qt::darkBlue)));
+
+    m_model->addPerson(new Character(QStringLiteral("Brin-d-if"), QStringLiteral("Brin-d-if"), QStringLiteral(""),
+                                     QStringLiteral("OneShot"), QColor("#CE5C00")));
+
     m_model->addPerson(new Character(QStringLiteral("kromisback"), QStringLiteral("kromisback"),
                                      QStringLiteral("qrc:/resources/OneShotGeneral/krom.jpg"),
                                      QStringLiteral("OneShot"), QColor(Qt::darkBlue)));
@@ -168,16 +161,16 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
                                      QStringLiteral("OneShot"), QColor("#CE5C00")));
 
     // SOMBRE
-    m_model->addPerson(new Character(
-        QStringLiteral("John Mc Cain"), QStringLiteral("Akima"),
-        QStringLiteral("http://tomcatsite.pagesperso-orange.fr/images/agence%20risque/images/colonel_jpg.jpg"),
-        QStringLiteral("SOMBRE"), QColor(Qt::darkBlue)));
+    m_model->addPerson(new Character(QStringLiteral("John Mc Cain"), QStringLiteral("Akima"),
+                                     QStringLiteral("http://tomcatsite.pagesperso-orange.fr/images/"
+                                                    "agence%20risque/images/colonel_jpg.jpg"),
+                                     QStringLiteral("SOMBRE"), QColor(Qt::darkBlue)));
 
-    m_model->addPerson(new Character(
-        QStringLiteral("Keith Wagner"), QStringLiteral("Akima"),
-        QStringLiteral("http://imgix.ranker.com/user_node_img/41/806932/original/"
-                       "damian-lewis-theater-actors-photo-u6?w=280&h=280&fit=crop&crop=faces&q=50&fmt=jpg"),
-        QStringLiteral("SOMBRE"), QColor(Qt::darkCyan)));
+    m_model->addPerson(new Character(QStringLiteral("Keith Wagner"), QStringLiteral("Akima"),
+                                     QStringLiteral("http://imgix.ranker.com/user_node_img/41/806932/original/"
+                                                    "damian-lewis-theater-actors-photo-u6?w=280&h=280&fit="
+                                                    "crop&crop=faces&q=50&fmt=jpg"),
+                                     QStringLiteral("SOMBRE"), QColor(Qt::darkCyan)));
 
     m_model->addPerson(new Character(QStringLiteral("Steve Works"), QStringLiteral("SombreLune"),
                                      QStringLiteral("qrc:/resources/OneShotGeneral/chewb.jpg"),
@@ -187,12 +180,14 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
                                      QStringLiteral("qrc:/resources/OneShotGeneral/krom.jpg"), QStringLiteral("SOMBRE"),
                                      QColor(Qt::darkBlue)));
 
-    m_model->addPerson(new Character(
-        QStringLiteral("Cyril Panouna"), QStringLiteral("Amakiir"),
-        QStringLiteral("http://cdn.programme-television.org/var/premiere/storage/images/tele-7-jours/news-tv/"
-                       "said-taghmaoui-rejoint-la-serie-legion-inspiree-des-x-men-4510946/91476062-1-fre-FR/"
-                       "Said-Taghmaoui-rejoint-la-serie-Legion-inspiree-des-X-Men_news_full.jpg"),
-        QStringLiteral("SOMBRE"), QColor("#CE5C00")));
+    m_model->addPerson(new Character(QStringLiteral("Cyril Panouna"), QStringLiteral("Amakiir"),
+                                     QStringLiteral("http://cdn.programme-television.org/var/premiere/"
+                                                    "storage/images/tele-7-jours/news-tv/"
+                                                    "said-taghmaoui-rejoint-la-serie-legion-inspiree-des-"
+                                                    "x-men-4510946/91476062-1-fre-FR/"
+                                                    "Said-Taghmaoui-rejoint-la-serie-Legion-inspiree-des-"
+                                                    "X-Men_news_full.jpg"),
+                                     QStringLiteral("SOMBRE"), QColor("#CE5C00")));
 
     m_model->addPerson(new Character(QStringLiteral("Micheal O'Malley"), QStringLiteral("Xenorius"),
                                      QStringLiteral("http://i.imgur.com/rCpydBL.png"), QStringLiteral("SOMBRE"),
@@ -202,7 +197,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     QStringList camp;
     camp << "Warhammer"
          << "COPS"
-         << "13eme"
+         << "jeudi"
          << "OneShot"
          << "SOMBRE";
     ui->comboBox->addItems(camp);
@@ -238,7 +233,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     }
     else if(today.dayOfWeek() == 4)
     {
-        currentCampaign= "13eme";
+        currentCampaign= "jeudi";
     }
     else if(today.dayOfWeek() == 5)
     {
@@ -264,6 +259,9 @@ void MainWindow::refreshQMLEngine()
 
 void MainWindow::displayCorrectImage(QString user)
 {
+    if(user.compare("obi1", Qt::CaseInsensitive))
+        return;
+
     m_model->speakingStatusChanged(user, true);
     if(!m_timeTotalByUser.contains(user))
     {
@@ -275,6 +273,9 @@ void MainWindow::displayCorrectImage(QString user)
 }
 void MainWindow::hideImage(QString user)
 {
+    if(user.compare("obi1", Qt::CaseInsensitive))
+        return;
+
     m_model->speakingStatusChanged(user, false);
     if(m_timeTotalByUser.contains(user))
     {
