@@ -8,8 +8,8 @@ ApplicationWindow {
     id: root
     x: 2560+1920-width
     y: 5
-    width: 1000
-    height: 200
+    width: 1920
+    height: 1080
     visible: true
     title: "GameVisualHelper"
     property bool deco: true
@@ -17,12 +17,45 @@ ApplicationWindow {
 
     flags: deco ? Qt.WindowStaysOnTopHint : Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
 
-    Rectangle {
+    Image {
         anchors.fill: parent
-        color: "black"
+        source: "qrc:/resources/lg/fond.png"
     }
 
     RowLayout {
+        anchors.fill: parent
+        anchors.leftMargin: 20
+        anchors.rightMargin: 20
+        CharacterItem {
+            Layout.topMargin: 20
+            character: _obi
+            Layout.alignment: Qt.AlignTop
+        }
+        Item {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
+
+        ColumnLayout {
+            Layout.fillHeight: true
+            CharacterItem {
+                character: _xelal
+            }
+            CharacterItem {
+                character: _chewba
+            }
+            CharacterItem {
+                character: _alci
+            }
+            CharacterItem {
+                character: _captain
+            }
+        }
+    }
+
+
+
+    /*  RowLayout {
         anchors.fill: parent
         Repeater {
             model: _model
@@ -91,11 +124,11 @@ ApplicationWindow {
             }
 
         }
-    }
+    }*/
     MouseArea {
         anchors.fill:parent
-//        property int previousX : 0
-//        property int previousY : 0
+        //        property int previousX : 0
+        //        property int previousY : 0
         //drag.target: root
         onClicked: root.deco = !root.deco
         /*onPressed: {

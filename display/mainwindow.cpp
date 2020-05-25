@@ -42,164 +42,29 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Init data
     m_model= new CharacterAvatarModel(this);
 
-    // RAS
+    // Loup garou
     m_model->addPerson(new Character(QStringLiteral("Bidouille"), QStringLiteral("Chewba"),
-                                     QStringLiteral("qrc:/resources/ras/Bidouille_carre.jpg"), QStringLiteral("jeudi"),
-                                     QColor(Qt::red)));
+                                     QStringLiteral("qrc:/resources/lg/chewb.png"), QStringLiteral("jeudi"),
+                                     QColor(Qt::red), "_chewba"));
 
     m_model->addPerson(new Character(QStringLiteral("Shade"), QStringLiteral("Xelal"),
-                                     QStringLiteral("qrc:/resources/ras/shade.jpg"), QStringLiteral("jeudi"),
-                                     QColor(Qt::green)));
-
-    m_model->addPerson(new Character(QStringLiteral("Capitaine Red (MJ)"), QStringLiteral("Capitaine Red"),
-                                     QStringLiteral("qrc:/resources/ras/captain.png"), QStringLiteral("jeudi"),
-                                     QColor(Qt::darkBlue)));
-
-    m_model->addPerson(new Character(QStringLiteral("No comment"), QStringLiteral("Obi"),
-                                     QStringLiteral("qrc:/resources/ras/nocomment.jpg"), QStringLiteral("jeudi"),
-                                     QColor("#9C9C00")));
-
-    m_model->addPerson(new Character(QStringLiteral("Goupille"), QStringLiteral("Alci"),
-                                     QStringLiteral("qrc:/resources/ras/Goupille.png"), QStringLiteral("jeudi"),
-                                     QColor(Qt::darkMagenta)));
-    /*    m_model->addPerson(new Character(
-            QStringLiteral("Ikoma Atada"), QStringLiteral("Chewba"),
-            QStringLiteral("file:///home/renaud/documents/Dropbox/chroniques_Hythlodee/L5r/l5Rcamou/ikoma_Atada.jpg"),
-            QStringLiteral("13eme"), QColor("#9C9C00")));*/
-
-    // COPS
-    m_model->addPerson(new Character(QStringLiteral("Lynn Gray-Rike"), QStringLiteral("Obi"),
-                                     QStringLiteral("qrc:/resources/Cops/Lynn_Gray-Rike.png"), QStringLiteral("COPS"),
-                                     QColor("#003B8C")));
-
-    m_model->addPerson(new Character(QStringLiteral("Juan Ramirez"), QStringLiteral("TlonUqbar"),
-                                     QStringLiteral("qrc:/resources/Cops/Guillermo_Gonzalvez.png"),
-                                     QStringLiteral("COPS"), QColor(Qt::darkGreen)));
-
-    m_model->addPerson(new Character(QStringLiteral("Max O'Hara"), QStringLiteral("Chewba"),
-                                     QStringLiteral("qrc:/resources/Cops/max_ohara_bis.jpg"), QStringLiteral("COPS"),
-                                     QColor(Qt::red)));
-
-    m_model->addPerson(new Character(QStringLiteral("Denis Aquillian"), QStringLiteral("Wedge"),
-                                     QStringLiteral("qrc:/resources/Cops/Denis_Aquillian.png"), QStringLiteral("COPS"),
-                                     QColor("#CE5C00")));
-
-    m_model->addPerson(new Character(QStringLiteral("Scott J. Spann"), QStringLiteral("Alci"),
-                                     QStringLiteral("qrc:/resources/Cops/Rob-Mills-head-shot.jpg"),
-                                     QStringLiteral("COPS"), QColor(Qt::darkCyan)));
-
-    m_model->addPerson(new Character(QStringLiteral("MJ"), QStringLiteral("kromisback"),
-                                     QStringLiteral("qrc:/resources/Cops/mj.png"), QStringLiteral("COPS"),
-                                     QColor(Qt::darkBlue)));
-
-    // Warhammer
-    m_model->addPerson(new Character(QStringLiteral("Dornthal"), QStringLiteral("Obi"),
-                                     QStringLiteral("qrc:/resources/warhammer/out/Dornthal.jpg"),
-                                     QStringLiteral("Warhammer"), QColor("#087D1D")));
-
-    m_model->addPerson(new Character(QStringLiteral("Beatrix"), QStringLiteral("TlonUqbar"),
-                                     QStringLiteral("qrc:/resources/warhammer/out/Beatrix_Buchwald.jpg"),
-                                     QStringLiteral("Warhammer"), QColor("#7e4640")));
-
-    m_model->addPerson(new Character(QStringLiteral("Hoeneïm"), QStringLiteral("SombreLune"),
-                                     QStringLiteral("qrc:/resources/warhammer/out/Hoeneïm_Raynster.png"),
-                                     QStringLiteral("Warhammer"), QColor(Qt::lightGray)));
-
-    m_model->addPerson(new Character(QStringLiteral("Kranich"), QStringLiteral("Wedge"),
-                                     QStringLiteral("qrc:/resources/warhammer/out/Kranich_Vogel.jpg"),
-                                     QStringLiteral("Warhammer"), QColor(Qt::red)));
-
-    m_model->addPerson(new Character(QStringLiteral("Sepp Breuer"), QStringLiteral("kromisback"),
-                                     QStringLiteral("qrc:/resources/warhammer/out/Sepp_Breuer.jpg"),
-                                     QStringLiteral("Warhammer"), QColor(Qt::darkBlue)));
-
-    m_model->addPerson(new Character(QStringLiteral("Squirrel (MJ)"), QStringLiteral("Squirrel"),
-                                     QStringLiteral("qrc:/resources/warhammer/out/KeA.jpg"),
-                                     QStringLiteral("Warhammer"), QColor("#CE5C00")));
-
-    // OneShot
-    m_model->addPerson(new Character(QStringLiteral("Obi (MJ)"), QStringLiteral("Obi"),
-                                     QStringLiteral("qrc:/resources/OneShotGeneral/predateur.jpg"),
-                                     QStringLiteral("OneShot"), QColor(Qt::red)));
-
-    m_model->addPerson(new Character(QStringLiteral("TlonUqbar"), QStringLiteral("TlonUqbar"),
-                                     QStringLiteral("qrc:/resources/OneShotGeneral/tlon.jpg"),
-                                     QStringLiteral("OneShot"), QColor("#7e4640")));
-
-    m_model->addPerson(new Character(QStringLiteral("SombreLune"), QStringLiteral("SombreLune"), QStringLiteral(""),
-                                     QStringLiteral("OneShot"), QColor(Qt::lightGray)));
-
-    m_model->addPerson(new Character(QStringLiteral("Wedge"), QStringLiteral("Wedge"), QStringLiteral(""),
-                                     QStringLiteral("OneShot"), QColor(Qt::red)));
+                                     QStringLiteral("qrc:/resources/lg/xelal.jpg"), QStringLiteral("jeudi"),
+                                     QColor(Qt::green), "_xelal"));
 
     m_model->addPerson(new Character(QStringLiteral("Capitaine Red"), QStringLiteral("Capitaine Red"),
-                                     QStringLiteral("qrc:/resources/l5rTibo/Hida_Kyonyu.jpg"),
-                                     QStringLiteral("OneShot"), QColor(Qt::darkBlue)));
+                                     QStringLiteral("qrc:/resources/lg/captain.jpg"), QStringLiteral("jeudi"),
+                                     QColor(Qt::darkBlue), "_captain"));
 
-    m_model->addPerson(new Character(QStringLiteral("Alci"), QStringLiteral("Alci"),
-                                     QStringLiteral("qrc:/resources/OneShotGeneral/alci.jpg"),
-                                     QStringLiteral("OneShot"), QColor(Qt::darkCyan)));
+    m_model->addPerson(new Character(QStringLiteral("Obi (MJ)"), QStringLiteral("Obi"),
+                                     QStringLiteral("qrc:/resources/OneShotGeneral/predateur.jpg"),
+                                     QStringLiteral("jeudi"), QColor("#9C9C00"), "_obi"));
 
-    m_model->addPerson(new Character(QStringLiteral("Chewba"), QStringLiteral("Chewba"),
-                                     QStringLiteral("qrc:/resources/OneShotGeneral/chewb.jpg"),
-                                     QStringLiteral("OneShot"), QColor(Qt::darkGreen)));
-
-    m_model->addPerson(new Character(QStringLiteral("Titonoff"), QStringLiteral("Titonoff"), QStringLiteral(""),
-                                     QStringLiteral("OneShot"), QColor(Qt::darkGreen)));
-
-    m_model->addPerson(new Character(QStringLiteral("Xelal"), QStringLiteral("Xelal"), QStringLiteral(""),
-                                     QStringLiteral("OneShot"), QColor(Qt::darkBlue)));
-
-    m_model->addPerson(new Character(QStringLiteral("Brin-d-if"), QStringLiteral("Brin-d-if"), QStringLiteral(""),
-                                     QStringLiteral("OneShot"), QColor("#CE5C00")));
-
-    m_model->addPerson(new Character(QStringLiteral("kromisback"), QStringLiteral("kromisback"),
-                                     QStringLiteral("qrc:/resources/OneShotGeneral/krom.jpg"),
-                                     QStringLiteral("OneShot"), QColor(Qt::darkBlue)));
-
-    m_model->addPerson(new Character(QStringLiteral("Squirrel (MJ)"), QStringLiteral("Squirrel"), QStringLiteral(""),
-                                     QStringLiteral("OneShot"), QColor("#CE5C00")));
-
-    // SOMBRE
-    m_model->addPerson(new Character(QStringLiteral("John Mc Cain"), QStringLiteral("Akima"),
-                                     QStringLiteral("http://tomcatsite.pagesperso-orange.fr/images/"
-                                                    "agence%20risque/images/colonel_jpg.jpg"),
-                                     QStringLiteral("SOMBRE"), QColor(Qt::darkBlue)));
-
-    m_model->addPerson(new Character(QStringLiteral("Keith Wagner"), QStringLiteral("Akima"),
-                                     QStringLiteral("http://imgix.ranker.com/user_node_img/41/806932/original/"
-                                                    "damian-lewis-theater-actors-photo-u6?w=280&h=280&fit="
-                                                    "crop&crop=faces&q=50&fmt=jpg"),
-                                     QStringLiteral("SOMBRE"), QColor(Qt::darkCyan)));
-
-    m_model->addPerson(new Character(QStringLiteral("Steve Works"), QStringLiteral("SombreLune"),
-                                     QStringLiteral("qrc:/resources/OneShotGeneral/chewb.jpg"),
-                                     QStringLiteral("SOMBRE"), QColor(Qt::darkGreen)));
-
-    m_model->addPerson(new Character(QStringLiteral("kromisback"), QStringLiteral("kromisback"),
-                                     QStringLiteral("qrc:/resources/OneShotGeneral/krom.jpg"), QStringLiteral("SOMBRE"),
-                                     QColor(Qt::darkBlue)));
-
-    m_model->addPerson(new Character(QStringLiteral("Cyril Panouna"), QStringLiteral("Amakiir"),
-                                     QStringLiteral("http://cdn.programme-television.org/var/premiere/"
-                                                    "storage/images/tele-7-jours/news-tv/"
-                                                    "said-taghmaoui-rejoint-la-serie-legion-inspiree-des-"
-                                                    "x-men-4510946/91476062-1-fre-FR/"
-                                                    "Said-Taghmaoui-rejoint-la-serie-Legion-inspiree-des-"
-                                                    "X-Men_news_full.jpg"),
-                                     QStringLiteral("SOMBRE"), QColor("#CE5C00")));
-
-    m_model->addPerson(new Character(QStringLiteral("Micheal O'Malley"), QStringLiteral("Xenorius"),
-                                     QStringLiteral("http://i.imgur.com/rCpydBL.png"), QStringLiteral("SOMBRE"),
-                                     QColor("#7e4640")));
-    // end of sombre
+    m_model->addPerson(new Character(QStringLiteral("Goupille"), QStringLiteral("Alci"),
+                                     QStringLiteral("qrc:/resources/lg/alci.jpg"), QStringLiteral("jeudi"),
+                                     QColor(Qt::darkMagenta), "_alci"));
 
     QStringList camp;
-    camp << "Warhammer"
-         << "COPS"
-         << "jeudi"
-         << "OneShot"
-         << "SOMBRE";
+    camp << "jeudi";
     ui->comboBox->addItems(camp);
 
     m_selectModel= new SelectPresentProxyModel(this);
@@ -221,24 +86,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->m_presentList->setModel(m_selectModel);
 
     ui->m_characterView->setModel(m_proxyModel);
-    auto today= QDate::currentDate();
-    QString currentCampaign= "OneShot";
-    if(today.dayOfWeek() == 1) // monday
-    {
-        currentCampaign= "COPS";
-    }
-    else if(today.dayOfWeek() == 2)
-    {
-        currentCampaign= "Warhammer";
-    }
-    else if(today.dayOfWeek() == 4)
-    {
-        currentCampaign= "jeudi";
-    }
-    else if(today.dayOfWeek() == 5)
-    {
-        currentCampaign= "OneShot";
-    }
+    auto currentCampaign= "jeudi";
+
     m_proxyModel->setCurrentCampaign(currentCampaign);
     m_selectModel->setCurrentCampaign(currentCampaign);
     ui->comboBox->setCurrentText(currentCampaign);
@@ -251,6 +100,13 @@ MainWindow::~MainWindow() {}
 void MainWindow::refreshQMLEngine()
 {
     m_engine.reset(new QQmlApplicationEngine());
+
+    auto chars= m_model->characters();
+    for(auto pers : chars)
+    {
+        m_engine->rootContext()->setContextProperty(pers->id(), pers);
+    }
+
     m_engine->rootContext()->setContextProperty("_model", m_proxyModel);
 
     m_engine->load(QUrl("qrc:/qml/main.qml"));

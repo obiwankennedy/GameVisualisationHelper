@@ -185,7 +185,7 @@ void CharacterAvatarModel::speakingStatusChanged(QString user, bool isSpeaking)
 void CharacterAvatarModel::setSpeakingTimeForUser(QString user, QString camp, qreal time)
 {
     auto it= std::find_if(m_persons.begin(), m_persons.end(),
-        [=](const Character* a) { return (a->playerName() == user && a->campaign() == camp); });
+                          [=](const Character* a) { return (a->playerName() == user && a->campaign() == camp); });
     if(it == m_persons.end())
         return;
     if(m_maxSpeakingTime < time)
@@ -215,6 +215,12 @@ QVariant CharacterAvatarModel::headerData(int section, Qt::Orientation orientati
         return QVariant();
     }
 }
+
+const std::vector<Character*>& CharacterAvatarModel::characters() const
+{
+    return m_persons;
+}
+
 qreal CharacterAvatarModel::maxSpeakingTime() const
 {
     return m_maxSpeakingTime;
@@ -222,7 +228,11 @@ qreal CharacterAvatarModel::maxSpeakingTime() const
 
 void CharacterAvatarModel::setMaxSpeakingTime(const qreal& maxSpeakingTime)
 {
+    if(qFuzzyCompare(m_maxSpeakingTime, maxSpeakingTime))
+        return;
+
     m_maxSpeakingTime= maxSpeakingTime;
+    emit totaltimeChanged();
 }
 void CharacterAvatarModel::writeData(QJsonArray& array)
 {
@@ -234,6 +244,7 @@ void CharacterAvatarModel::writeData(QJsonArray& array)
         object["imageId"]= character->imgId();
         object["color"]= character->color().name();
         object["campaign"]= character->campaign();
+        object["id"]= character->id();
         array.append(object);
     }
 }
@@ -247,7 +258,8 @@ void CharacterAvatarModel::readData(QJsonArray& array)
         auto imageId= obj["imageId"].toString();
         auto color= obj["color"].toString();
         auto campaign= obj["campaign"].toString();
-        auto character= new Character(name, playerName, imageId, campaign, QColor(color));
+        auto id= obj["id"].toString();
+        auto character= new Character(name, playerName, imageId, campaign, QColor(color), id);
         m_persons.push_back(character);
     }
 }

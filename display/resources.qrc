@@ -137,5 +137,11 @@
         <file>resources/ras/OS.png</file>
         <file>resources/ras/captain.png</file>
         <file>resources/ras/shade.jpg</file>
+        <file>resources/lg/fond.png</file>
+        <file>qml/CharacterItem.qml</file>
+        <file>resources/lg/alci.jpg</file>
+        <file>resources/lg/captain.jpg</file>
+        <file>resources/lg/chewb.png</file>
+        <file>resources/lg/xelal.jpg</file>
     </qresource>
 </RCC>
