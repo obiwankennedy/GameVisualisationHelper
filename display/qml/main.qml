@@ -2,147 +2,222 @@ import QtQuick 2.9
 import QtQuick.Window 2.3
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.4
 
 ApplicationWindow {
     id: root
-    x: 2560+1920-width
-    y: 5
+    x: 0
+    y: 0
     width: 1920
     height: 1080
+
+    maximumHeight: height
+    maximumWidth: width
+
+    minimumHeight: height
+    minimumWidth: width
     visible: true
     title: "GameVisualHelper"
     property bool deco: true
+    property var imgModel: ["qrc:/resources/lg/landscape/bostonpanneau.jpg","qrc:/resources/lg/landscape/building2.jpg","qrc:/resources/lg/landscape/bunker_hill_monument.jpg","qrc:/resources/lg/landscape/horizon.jpg","qrc:/resources/lg/landscape/latinSchool.jpg","qrc:/resources/lg/landscape/old_state_house.jpg","qrc:/resources/lg/landscape/port1.jpg","qrc:/resources/lg/landscape/harvard.webp"]
 
 
-    flags: deco ? Qt.WindowStaysOnTopHint : Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
+    flags: deco ? Qt.Window : Qt.FramelessWindowHint
 
-    Image {
+    Item {
+        id: main
         anchors.fill: parent
-        source: "qrc:/resources/lg/fond.png"
-    }
 
-    RowLayout {
-        anchors.fill: parent
-        anchors.leftMargin: 20
-        anchors.rightMargin: 20
-        CharacterItem {
-            Layout.topMargin: 20
-            character: _obi
-            Layout.alignment: Qt.AlignTop
+        states: [
+            State {
+                name: ""
+                PropertyChanges {
+                    target:waitingPanel
+                    visible: false
+                }
+                PropertyChanges {
+                    target: diapoPanel
+                    visible: false
+                }
+                PropertyChanges {
+                    target: greenScreen
+                    visible: false
+                }
+
+            },
+            State {
+                name: "onhold"
+                PropertyChanges {
+                    target:waitingPanel
+                    visible: true
+                }
+                PropertyChanges {
+                    target: diapoPanel
+                    visible: false
+                }
+                PropertyChanges {
+                    target: greenScreen
+                    visible: false
+                }
+            },
+            State {
+                name: "diaporama"
+                PropertyChanges {
+                    target:waitingPanel
+                    visible: false
+                }
+                PropertyChanges {
+                    target: diapoPanel
+                    visible: true
+                }
+                PropertyChanges {
+                    target: greenScreen
+                    visible: false
+                }
+            },
+            State {
+                name: "carousel"
+                PropertyChanges {
+                    target:waitingPanel
+                    visible: false
+                }
+                PropertyChanges {
+                    target: diapoPanel
+                    visible: true
+                }
+                PropertyChanges {
+                    target: greenScreen
+                    visible: false
+                }
+            },
+            State {
+                name: "Ouvert"
+                PropertyChanges {
+                    target:waitingPanel
+                    visible: false
+                }
+                PropertyChanges {
+                    target: diapoPanel
+                    visible: false
+                }
+                PropertyChanges {
+                    target: greenScreen
+                    visible: true
+                }
+            }
+        ]
+
+
+
+        Image {
+            anchors.fill: parent
+            source: "qrc:/resources/lg/fond.png"
         }
-        Item {
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-        }
 
-        ColumnLayout {
-            Layout.fillHeight: true
+        RowLayout {
+            anchors.fill: parent
+            anchors.leftMargin: 20
+            anchors.rightMargin: 20
             CharacterItem {
-                character: _xelal
+                Layout.topMargin: 20
+                character: _obi
+                Layout.alignment: Qt.AlignTop
             }
-            CharacterItem {
-                character: _chewba
-            }
-            CharacterItem {
-                character: _alci
-            }
-            CharacterItem {
-                character: _captain
-            }
-        }
-    }
-
-
-
-    /*  RowLayout {
-        anchors.fill: parent
-        Repeater {
-            model: _model
             Item {
                 Layout.fillHeight: true
-                Layout.preferredWidth: parent.height * children[0].sourceSize.width / children[0].sourceSize.height
-                Image {
-                    id: avatar
-                    anchors.fill: parent
-                    fillMode: Image.PreserveAspectFit
-                    source: img
-                    horizontalAlignment: Image.AlignLeft
-                    verticalAlignment: Image.AlignTop
-                }
-                Colorize {
-                    anchors.fill: parent.children[0]
-                    source: parent.children[0]
-                    hue: 0.0
-                    saturation: 0
-                    lightness: 0
-                    visible: !isSpeaking
-                }
-                Rectangle {
-                    id: border
-                    color: "transparent"//img.lenght() > 0 ? "transparent" : colorCh
-                    anchors.fill: avatar
-                    border.width: 4
-                    border.color: colorCh
-                    visible: isSpeaking
-                }
-
-                Rectangle {
-                    id: rect
-                    anchors {
-                        bottom: parent.children[0].bottom
-                        left: parent.left
-                        right: parent.right
-                    }
-                    height: parent.height*0.2
-                    color: isSpeaking ? colorCh : "black"
-                }
-                Text {
-                    anchors.centerIn:rect
-                    color: "white"
-                    font.bold: true
-                    text: name
-                }
-                Rectangle {
-                    id: line
-                    anchors {
-                        bottom: parent.children[0].bottom
-                        bottomMargin: 3
-                        left: parent.left
-                    }
-                    height: 1
-                    width: parent.width*percent
-                    color:"orange"
-                }
-                Glow {
-                    anchors.fill: line
-                    radius: 8
-                    samples: 17
-                    color: "orange"
-                    source: line
-                }
+                Layout.fillWidth: true
             }
 
+            ColumnLayout {
+                Layout.fillHeight: true
+                CharacterItem {
+                    character: _xelal
+                }
+                CharacterItem {
+                    character: _chewba
+                }
+                CharacterItem {
+                    character: _alci
+                }
+                CharacterItem {
+                    character: _captain
+                }
+            }
         }
-    }*/
-    MouseArea {
-        anchors.fill:parent
-        //        property int previousX : 0
-        //        property int previousY : 0
-        //drag.target: root
-        onClicked: root.deco = !root.deco
-        /*onPressed: {
-            previousX = mouse.x
-            previousY = mouse.y
-            parent.focus = true
+
+        Label {
+            id: waitingPanel
+            anchors.centerIn: parent
+            text: "Le liveplay va démarrer d'ici quelques instants.\nMerci de votre patience."
+            font.pixelSize: 70
+            visible:false
         }
-        onPositionChanged: {
-            console.log(previousX+" "+mouse.x+" "+(mouse.x-previousX))
-            root.x += mouse.x-previousX
-            root.y += mouse.y-previousY
-            previousX = mouse.x
-            previousY = mouse.y
-        } */
+
+        ImageView {
+            id: diapoPanel
+            anchors.centerIn: parent
+            model: imgModel
+            width: parent.width * 0.5
+            height: parent.height * 0.5
+            visible:false
+        }
+
+        ImagePathView {
+            id: imagePathPanel
+            anchors.centerIn: parent
+            width: parent.width * 0.5
+            height: parent.height * 0.5
+            visible: false
+        }
+
+
+        Rectangle {
+            id: greenScreen
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            color: "#00FF00"
+            width: parent.width * 0.7
+            height: parent.height * 0.7
+            visible: false
+        }
+
+
+
+
+        MouseArea {
+            anchors.fill:parent
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
+            onClicked: {
+                if (mouse.button == Qt.LeftButton)
+                    root.deco = !root.deco
+                else if(mouse.button == Qt.RightButton)
+                    menu.popup()
+            }
+
+            Menu {
+                id: menu
+                Action  {
+                    text: "En attentes"
+                    onTriggered: main.state = "onhold"
+                }
+                Action  {
+                    text: "Diaporama"
+                    onTriggered: main.state = "diaporama"
+                }
+                Action  {
+                    text: "Carousel"
+                    onTriggered: main.state = "carousel"
+                }
+                Action  {
+                    text: "Ouvert"
+                    onTriggered: main.state = "Ouvert"
+                }
+                Action  {
+                    text: "Normal"
+                    onTriggered: main.state = ""
+                }
+            }
+        }
     }
 
 }

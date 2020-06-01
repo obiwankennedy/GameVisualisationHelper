@@ -143,5 +143,15 @@
         <file>resources/lg/captain.jpg</file>
         <file>resources/lg/chewb.png</file>
         <file>resources/lg/xelal.jpg</file>
+        <file>resources/lg/landscape/bostonpanneau.jpg</file>
+        <file>resources/lg/landscape/building2.jpg</file>
+        <file>resources/lg/landscape/bunker_hill_monument.jpg</file>
+        <file>resources/lg/landscape/harvard.webp</file>
+        <file>resources/lg/landscape/horizon.jpg</file>
+        <file>resources/lg/landscape/latinSchool.jpg</file>
+        <file>resources/lg/landscape/old_state_house.jpg</file>
+        <file>resources/lg/landscape/port1.jpg</file>
+        <file>qml/ImagePathView.qml</file>
+        <file>qml/ImageView.qml</file>
     </qresource>
 </RCC>

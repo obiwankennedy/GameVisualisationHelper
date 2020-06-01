@@ -8,7 +8,7 @@ class Character;
 class CharacterAvatarModel : public QAbstractItemModel
 {
     Q_OBJECT
-    Q_PROPERTY(qreal maxSpeakingTime READ maxSpeakingTime WRITE setMaxSpeakingTime NOTIFY totalTimeChanged)
+    Q_PROPERTY(qreal maxSpeakingTime READ maxSpeakingTime WRITE setMaxSpeakingTime NOTIFY totaltimeChanged)
 public:
     enum Role
     {
