@@ -43,15 +43,15 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     m_model= new CharacterAvatarModel(this);
 
     // Loup garou
-    m_model->addPerson(new Character(QStringLiteral("Bidouille"), QStringLiteral("Chewba"),
+    m_model->addPerson(new Character(QStringLiteral("Ben Russo"), QStringLiteral("Chewba"),
                                      QStringLiteral("qrc:/resources/lg/chewb.png"), QStringLiteral("jeudi"),
                                      QColor(Qt::red), "_chewba"));
 
-    m_model->addPerson(new Character(QStringLiteral("Shade"), QStringLiteral("Xelal"),
+    m_model->addPerson(new Character(QStringLiteral("John Oliver"), QStringLiteral("Xelal"),
                                      QStringLiteral("qrc:/resources/lg/xelal.jpg"), QStringLiteral("jeudi"),
                                      QColor(Qt::green), "_xelal"));
 
-    m_model->addPerson(new Character(QStringLiteral("Capitaine Red"), QStringLiteral("Capitaine Red"),
+    m_model->addPerson(new Character(QStringLiteral("Arnold Sieker"), QStringLiteral("Capitaine Red"),
                                      QStringLiteral("qrc:/resources/lg/captain.jpg"), QStringLiteral("jeudi"),
                                      QColor(Qt::darkBlue), "_captain"));
 
@@ -59,7 +59,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
                                      QStringLiteral("qrc:/resources/OneShotGeneral/predateur.jpg"),
                                      QStringLiteral("jeudi"), QColor("#9C9C00"), "_obi"));
 
-    m_model->addPerson(new Character(QStringLiteral("Goupille"), QStringLiteral("Alci"),
+    m_model->addPerson(new Character(QStringLiteral("Collin Vortimer"), QStringLiteral("Alci"),
                                      QStringLiteral("qrc:/resources/lg/alci.jpg"), QStringLiteral("jeudi"),
                                      QColor(Qt::darkMagenta), "_alci"));
 
@@ -115,7 +115,7 @@ void MainWindow::refreshQMLEngine()
 
 void MainWindow::displayCorrectImage(QString user)
 {
-    if(user.compare("obi1", Qt::CaseInsensitive))
+    if(user.compare("obi1", Qt::CaseInsensitive) == 0)
         return;
 
     m_model->speakingStatusChanged(user, true);
@@ -129,7 +129,7 @@ void MainWindow::displayCorrectImage(QString user)
 }
 void MainWindow::hideImage(QString user)
 {
-    if(user.compare("obi1", Qt::CaseInsensitive))
+    if(user.compare("obi1", Qt::CaseInsensitive) == 0)
         return;
 
     m_model->speakingStatusChanged(user, false);

@@ -16,6 +16,12 @@ Frame {
       color: "#aa000000"
     }
 
+    background: Rectangle {
+        color: root.character.isSpeaking ? root.character.color : "black"
+        radius: 10
+        z: -10
+    }
+
     ColumnLayout{
         id: col
         anchors.fill: parent
@@ -26,12 +32,11 @@ Frame {
             Layout.fillHeight: true
             Layout.fillWidth: true
             sourceSize.height: 180
-            layer.enabled: true
+            layer.enabled: !root.character.isSpeaking
             layer.effect: Colorize {
                 hue: 0.0
                 saturation: 0
                 lightness: 0
-                visible: !root.character.isSpeaking
                 layer.enabled: true
                 layer.effect: OpacityMask {
                     maskSource:  Rectangle {
@@ -65,10 +70,5 @@ Frame {
             Layout.alignment: Qt.AlignCenter
             color: "white"
         }
-    }
-
-    background: Rectangle {
-        color: root.character.isSpeaking ? root.character.color : "black"
-        radius: 10
     }
 }
