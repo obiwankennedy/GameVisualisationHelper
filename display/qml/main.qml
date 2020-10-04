@@ -132,15 +132,19 @@ ApplicationWindow {
                 Layout.fillHeight: true
                 CharacterItem {
                     character: _xelal
+                    visible: !_xelal.hidden
                 }
                 CharacterItem {
                     character: _chewba
+                    visible: !_chewba.hidden
                 }
                 CharacterItem {
                     character: _alci
+                    visible: !_alci.hidden
                 }
                 CharacterItem {
                     character: _captain
+                    visible: !_captain.hidden
                 }
             }
         }

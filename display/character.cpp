@@ -91,6 +91,19 @@ void Character::setColor(const QColor& color)
     m_color= color;
 }
 
+bool Character::hidden() const
+{
+    return m_hidden;
+}
+
+void Character::setHidden(bool v)
+{
+    if(m_hidden == v)
+        return;
+    m_hidden= v;
+    emit hiddenChanged();
+}
+
 QString Character::id() const
 {
     return m_id;

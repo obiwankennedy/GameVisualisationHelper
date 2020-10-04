@@ -62,6 +62,9 @@ QVariant CharacterAvatarModel::data(const QModelIndex& index, int role) const
     case Percent:
         var= QVariant::fromValue(static_cast<qreal>(item->speakingTime() / m_maxSpeakingTime));
         break;
+    case Hidden:
+        var= QVariant::fromValue(item->hidden());
+        break;
     default:
         break;
     }
@@ -106,6 +109,16 @@ bool CharacterAvatarModel::setData(const QModelIndex& index, const QVariant& val
         }
         dataChanged(index, index, roles);
         return true;
+    }
+    if(role == Hidden)
+    {
+        auto item= m_persons[index.row()];
+        if(item)
+        {
+            item->setHidden(value.toBool());
+            dataChanged(index, index, QVector<int>() << role);
+            return true;
+        }
     }
     return false;
 }

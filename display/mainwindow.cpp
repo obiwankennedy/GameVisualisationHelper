@@ -78,8 +78,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
         m_proxyModel->setCurrentCampaign(str);
         m_selectModel->setCurrentCampaign(str);
     });
-    connect(m_selectModel, &SelectPresentProxyModel::selectionChanged, this,
-            [=]() { m_proxyModel->setHiddenPeople(m_selectModel->hiddenPeople()); });
+    /* connect(m_selectModel, &SelectPresentProxyModel::selectionChanged, this,
+             [=]() { m_proxyModel->setHiddenPeople(m_selectModel->hiddenPeople()); });*/
 
     m_proxyModel->setSourceModel(m_model);
     m_selectModel->setSourceModel(m_model);
@@ -108,6 +108,7 @@ void MainWindow::refreshQMLEngine()
     }
 
     m_engine->rootContext()->setContextProperty("_model", m_proxyModel);
+    m_engine->rootContext()->setContextProperty("_mainModel", m_model);
 
     m_engine->load(QUrl("qrc:/qml/main.qml"));
     setAttribute(Qt::WA_DeleteOnClose, true);

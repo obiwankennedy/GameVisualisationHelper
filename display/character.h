@@ -15,6 +15,7 @@ class Character : public QObject
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(QString campaign READ campaign CONSTANT)
     Q_PROPERTY(quint64 speakingTime READ speakingTime WRITE setSpeakingTime NOTIFY speakingTimeChanged)
+    Q_PROPERTY(bool hidden READ hidden WRITE setHidden NOTIFY hiddenChanged)
 public:
     Character(QString, QString, QString, QString, QColor, QString id);
 
@@ -39,6 +40,9 @@ public:
     QColor color() const;
     void setColor(const QColor& color);
 
+    bool hidden() const;
+    void setHidden(bool v);
+
     QString id() const;
 
 signals:
@@ -48,6 +52,7 @@ signals:
     void imgIdChanged();
     void colorChanged();
     void speakingTimeChanged();
+    void hiddenChanged();
 
 private:
     QString m_name;
@@ -57,7 +62,8 @@ private:
     QString m_campaign;
     QColor m_color;
     quint64 m_speakingTime= 0;
-    QString(m_id);
+    QString m_id;
+    bool m_hidden= false;
 };
 
 #endif // CHARACTER_H

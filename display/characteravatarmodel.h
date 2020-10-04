@@ -19,7 +19,8 @@ public:
         Campaign,
         SpeakingTime,
         Percent,
-        Color
+        Color,
+        Hidden
     };
 
     CharacterAvatarModel(QObject* parent= nullptr);

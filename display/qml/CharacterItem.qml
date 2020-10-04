@@ -55,7 +55,7 @@ Frame {
             Rectangle {
                 id: line
                 height: 1
-                width: parent.width*(root.character.speakingTime / _model.maxSpeakingTime)
+                width: parent.width*(root.character.speakingTime / _mainModel.maxSpeakingTime)
                 color:"orange"
                 layer.enabled: true
                 layer.effect:Glow {
