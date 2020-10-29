@@ -153,5 +153,7 @@
         <file>resources/lg/landscape/port1.jpg</file>
         <file>qml/ImagePathView.qml</file>
         <file>qml/ImageView.qml</file>
+        <file>resources/lg/annabeth.jpg</file>
+        <file>resources/lg/jack2.jpg</file>
     </qresource>
 </RCC>

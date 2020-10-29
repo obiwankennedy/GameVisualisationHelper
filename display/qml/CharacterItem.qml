@@ -31,7 +31,7 @@ Frame {
             fillMode: Image.PreserveAspectFit
             Layout.fillHeight: true
             Layout.fillWidth: true
-            sourceSize.height: 180
+            sourceSize.height: 150
             layer.enabled: !root.character.isSpeaking
             layer.effect: Colorize {
                 hue: 0.0

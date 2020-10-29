@@ -131,20 +131,24 @@ ApplicationWindow {
             ColumnLayout {
                 Layout.fillHeight: true
                 CharacterItem {
-                    character: _xelal
-                    visible: !_xelal.hidden
+                    character: _alci
+                    visible: !_alci.hidden
                 }
                 CharacterItem {
                     character: _chewba
                     visible: !_chewba.hidden
                 }
                 CharacterItem {
-                    character: _alci
-                    visible: !_alci.hidden
-                }
-                CharacterItem {
                     character: _captain
                     visible: !_captain.hidden
+                }
+                CharacterItem {
+                    character: _anna
+                    visible: !_anna.hidden
+                }
+                CharacterItem {
+                    character: _jack
+                    visible: !_jack.hidden
                 }
             }
         }
