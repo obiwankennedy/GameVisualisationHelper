@@ -43,17 +43,17 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     m_model= new CharacterAvatarModel(this);
 
     // Loup garou
-    m_model->addPerson(new Character(QStringLiteral("Ben Russo"), QStringLiteral("Chewba"),
+    /*m_model->addPerson(new Character(QStringLiteral("Ben Russo"), QStringLiteral("Chewba"),
                                      QStringLiteral("qrc:/resources/lg/chewb.png"), QStringLiteral("jeudi"),
-                                     QColor(Qt::red), "_chewba"));
+                                     QColor(Qt::red), "_chewba"));*/
 
-    m_model->addPerson(new Character(QStringLiteral("Annabeth O'Connell"), QStringLiteral("Erika"),
+    m_model->addPerson(new Character(QStringLiteral("Annabeth O'Connell"), QStringLiteral("Erika Allix"),
                                      QStringLiteral("qrc:/resources/lg/annabeth.jpg"), QStringLiteral("jeudi"),
                                      QColor(Qt::green), "_anna"));
 
-    m_model->addPerson(new Character(QStringLiteral("Jack O'Connell"), QStringLiteral("Neru"),
-        QStringLiteral("qrc:/resources/lg/jack2.jpg"), QStringLiteral("jeudi"),
-        QColor(Qt::green), "_jack"));
+    m_model->addPerson(new Character(QStringLiteral("Jack O'Connell"), QStringLiteral("Jack"),
+                                     QStringLiteral("qrc:/resources/lg/jack2.jpg"), QStringLiteral("jeudi"),
+                                     QColor(Qt::green), "_jack"));
 
     m_model->addPerson(new Character(QStringLiteral("Arnold Sieker"), QStringLiteral("Capitaine Red"),
                                      QStringLiteral("qrc:/resources/lg/captain.jpg"), QStringLiteral("jeudi"),
@@ -63,9 +63,9 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
                                      QStringLiteral("qrc:/resources/OneShotGeneral/predateur.jpg"),
                                      QStringLiteral("jeudi"), QColor("#9C9C00"), "_obi"));
 
-    m_model->addPerson(new Character(QStringLiteral("Collin Vortimer"), QStringLiteral("Alci"),
+    /*m_model->addPerson(new Character(QStringLiteral("Collin Vortimer"), QStringLiteral("Alci"),
                                      QStringLiteral("qrc:/resources/lg/alci.jpg"), QStringLiteral("jeudi"),
-                                     QColor(Qt::darkMagenta), "_alci"));
+                                     QColor(Qt::darkMagenta), "_alci"));*/
 
     QStringList camp;
     camp << "jeudi";
