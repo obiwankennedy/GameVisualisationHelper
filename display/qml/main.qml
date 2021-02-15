@@ -130,14 +130,14 @@ ApplicationWindow {
 
             ColumnLayout {
                 Layout.fillHeight: true
-                CharacterItem {
+                /*CharacterItem {
                     character: _alci
                     visible: !_alci.hidden
                 }
                 CharacterItem {
                     character: _chewba
                     visible: !_chewba.hidden
-                }
+                }*/
                 CharacterItem {
                     character: _captain
                     visible: !_captain.hidden
