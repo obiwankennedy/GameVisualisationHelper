@@ -49,11 +49,11 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     m_model->addPerson(new Character(QStringLiteral("Annabeth O'Connell"), QStringLiteral("Erika Allix"),
                                      QStringLiteral("qrc:/resources/lg/annabeth.jpg"), QStringLiteral("jeudi"),
-                                     QColor(Qt::green), "_anna"));
+                                     QColor("#888800"), "_anna"));
 
     m_model->addPerson(new Character(QStringLiteral("Jack O'Connell"), QStringLiteral("Jack"),
                                      QStringLiteral("qrc:/resources/lg/jack2.jpg"), QStringLiteral("jeudi"),
-                                     QColor(Qt::green), "_jack"));
+                                     QColor("#008888"), "_jack"));
 
     m_model->addPerson(new Character(QStringLiteral("Arnold Sieker"), QStringLiteral("Capitaine Red"),
                                      QStringLiteral("qrc:/resources/lg/captain.jpg"), QStringLiteral("jeudi"),
