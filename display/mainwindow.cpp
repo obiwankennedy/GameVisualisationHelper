@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
                                      QStringLiteral("qrc:/resources/lg/chewb.png"), QStringLiteral("jeudi"),
                                      QColor(Qt::red), "_chewba"));*/
 
-    m_model->addPerson(new Character(QStringLiteral("Annabeth O'Connell"), QStringLiteral("Erika Allix"),
+    m_model->addPerson(new Character(QStringLiteral("Annabeth O'Connell"), QStringLiteral("Erika"),
                                      QStringLiteral("qrc:/resources/lg/annabeth.jpg"), QStringLiteral("jeudi"),
                                      QColor("#888800"), "_anna"));
 
