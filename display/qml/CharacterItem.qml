@@ -1,74 +1,79 @@
-import QtQuick 2.0
-import QtQuick.Controls 2.12
-import QtQuick.Layouts 1.3
-import QtGraphicalEffects 1.0
-
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+//import QtGraphicalEffects 1.0
+import Controller
 
 Frame {
-    id: root
+    id: _root
+    property bool reverse: false
     property QtObject character
-    layer.enabled: true
-    layer.effect: DropShadow {
-      horizontalOffset: 3
-      verticalOffset: 3
-      radius: 8.0
-      samples: 17
-      color: "#aa000000"
-    }
 
-    background: Rectangle {
-        color: root.character.isSpeaking ? root.character.color : "black"
-        radius: 10
-        z: -10
-    }
+    padding: 0
+
+    background: Item {}
 
     ColumnLayout{
         id: col
         anchors.fill: parent
-        Image {
-            id: img
-            source: root.character.imgId
-            fillMode: Image.PreserveAspectFit
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            sourceSize.height: 150
-            layer.enabled: !root.character.isSpeaking
-            layer.effect: Colorize {
-                hue: 0.0
-                saturation: 0
-                lightness: 0
-                layer.enabled: true
-                layer.effect: OpacityMask {
-                    maskSource:  Rectangle {
-                        width: img.width
-                        height: img.height
-                        radius: 10
-                        //visible: false
+        Rectangle {
+            Layout.preferredHeight: 150
+            Layout.preferredWidth: 150
+            Layout.alignment: Qt.AlignHCenter
+            color: _root.character.isSpeaking ? _root.character.color : "black"
+            Image {
+                id: img
+                source: _root.character.imgId
+                fillMode: Image.PreserveAspectFit
+                anchors.fill: parent
+                anchors.margins: 5
+                sourceSize.height: 150
+               // layer.enabled: !_root.character.isSpeaking
+                /*layer.effect: Colorize {
+                    hue: 0.0
+                    saturation: 0
+                    lightness: 0
+                    layer.enabled: true
+                    layer.effect: OpacityMask {
+                        maskSource:  Rectangle {
+                            width: img.width
+                            height: img.height
+                            radius: 10
+                            //visible: false
+                        }
                     }
-                }
+                }*/
             }
-
-
         }
         Item {
             Layout.fillWidth: true
             Rectangle {
                 id: line
                 height: 1
-                width: parent.width*(root.character.speakingTime / _mainModel.maxSpeakingTime)
+                width: parent.width*(_root.character.speakingTime / MainController.maxSpeakingTime)
                 color:"orange"
-                layer.enabled: true
+                /*layer.enabled: true
                 layer.effect:Glow {
                     radius: 8
                     samples: 17
                     color: "orange"
-                }
+                }*/
             }
         }
-        Label {
-            text: root.character.name
+        Image {
             Layout.alignment: Qt.AlignCenter
-            color: "white"
+            Layout.topMargin: -20
+            source: "qrc:/resources/L5RRiz/header.png"
+            sourceSize.width: 300
+            //rotation: _root.reverse ? 180 : 0
+            mirror: _root.reverse
+            Label {
+                text: _root.character.name
+                color: "white"
+                font.family: "Present LT BlackCondensed"
+                font.pixelSize: 20
+                anchors.centerIn: parent
+            }
         }
     }
 }

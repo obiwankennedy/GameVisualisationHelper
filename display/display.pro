@@ -11,16 +11,20 @@ RESOURCES += resources.qrc
 OTHER_FILES += qml/*.qml
 
 SOURCES += main.cpp\
+  diaporamamodel.cpp \
         guiadaptor.cpp \
+  maincontroller.cpp \
         mainwindow.cpp \
     characteravatarmodel.cpp \
     character.cpp \
     presentproxymodel.cpp
 
 HEADERS  += mainwindow.h \
+  diaporamamodel.h \
         guiadaptor.h \
     characteravatarmodel.h \
     character.h \
+  maincontroller.h \
     presentproxymodel.h
 
 FORMS    += mainwindow.ui

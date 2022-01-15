@@ -1,8 +1,8 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Renaud Guezennec                                *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+ *	Copyright (C) 2022 by Renaud Guezennec                               *
+ *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   This software is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
@@ -17,29 +17,33 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef MAIN
-#define MAIN
-#include "guiadaptor.h"
-#include "mainwindow.h"
-#include <QApplication>
-#include <QFontDatabase>
+#ifndef DIAPORAMAMODEL_H
+#define DIAPORAMAMODEL_H
 
-int main(int argc, char* argv[])
+#include <QAbstractListModel>
+
+class DiaporamaModel : public QAbstractListModel
 {
-    QApplication a(argc, argv);
-    MainWindow* w= new MainWindow();
-    new GuiAdaptor(w);
-    w->show();
+    Q_OBJECT
 
-    /*  auto f= QFontDatabase::families();
-      for(const auto& p : f)
-          qDebug() << p;*/
+public:
+    enum CustomRole
+    {
+        PathRole= Qt::UserRole + 1,
+    };
+    Q_ENUM(CustomRole)
+    explicit DiaporamaModel(QObject* parent= nullptr);
 
-    QDBusConnection connection= QDBusConnection::sessionBus();
-    bool rel= connection.registerService("org.rolisteam.display");
-    rel= connection.registerObject("/", w);
+    // Basic functionality:
+    int rowCount(const QModelIndex& parent= QModelIndex()) const override;
 
-    return a.exec();
-}
+    QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
 
-#endif
+    QHash<int, QByteArray> roleNames() const override;
+
+private:
+    QString m_directory;
+    QStringList m_data;
+};
+
+#endif // DIAPORAMAMODEL_H

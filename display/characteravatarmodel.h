@@ -48,6 +48,7 @@ public:
     const std::vector<Character*>& characters() const;
     qreal maxSpeakingTime() const;
     void setMaxSpeakingTime(const qreal& maxSpeakingTime);
+    Character* characterAt(int i) const;
 signals:
     void totaltimeChanged();
 

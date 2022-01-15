@@ -155,5 +155,16 @@
         <file>qml/ImageView.qml</file>
         <file>resources/lg/annabeth.jpg</file>
         <file>resources/lg/jack2.jpg</file>
+        <file>resources/L5RRiz/wallpaper.png</file>
+        <file>resources/L5RRiz/cadre_0.png</file>
+        <file>resources/L5RRiz/cadre_1.png</file>
+        <file>resources/L5RRiz/cadre_2.png</file>
+        <file>resources/L5RRiz/cadre_3.png</file>
+        <file>resources/L5RRiz/cadre_4.png</file>
+        <file>resources/L5RRiz/cadre_5.png</file>
+        <file>resources/L5RRiz/cadre_6.png</file>
+        <file>resources/L5RRiz/cadre_7.png</file>
+        <file>resources/L5RRiz/header.png</file>
+        <file>qml/CustomFrame.qml</file>
     </qresource>
 </RCC>

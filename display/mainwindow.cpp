@@ -30,70 +30,34 @@
 
 #include "character.h"
 #include "characteravatarmodel.h"
+#include "maincontroller.h"
 #include "presentproxymodel.h"
 
 #include <QQmlContext>
 
-MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow), m_ctrl(new MainController)
 {
     ui->setupUi(this);
     setWindowFlags(Qt::WindowStaysOnTopHint);
-
-    // Init data
-    m_model= new CharacterAvatarModel(this);
-
-    // Loup garou
-    /*m_model->addPerson(new Character(QStringLiteral("Ben Russo"), QStringLiteral("Chewba"),
-                                     QStringLiteral("qrc:/resources/lg/chewb.png"), QStringLiteral("jeudi"),
-                                     QColor(Qt::red), "_chewba"));*/
-
-    m_model->addPerson(new Character(QStringLiteral("Annabeth O'Connell"), QStringLiteral("Erika"),
-                                     QStringLiteral("qrc:/resources/lg/annabeth.jpg"), QStringLiteral("jeudi"),
-                                     QColor("#888800"), "_anna"));
-
-    m_model->addPerson(new Character(QStringLiteral("Jack O'Connell"), QStringLiteral("Jack"),
-                                     QStringLiteral("qrc:/resources/lg/jack2.jpg"), QStringLiteral("jeudi"),
-                                     QColor("#008888"), "_jack"));
-
-    m_model->addPerson(new Character(QStringLiteral("Arnold Sieker"), QStringLiteral("Capitaine Red"),
-                                     QStringLiteral("qrc:/resources/lg/captain.jpg"), QStringLiteral("jeudi"),
-                                     QColor(Qt::darkBlue), "_captain"));
-
-    m_model->addPerson(new Character(QStringLiteral("Obi (MJ)"), QStringLiteral("Obi"),
-                                     QStringLiteral("qrc:/resources/OneShotGeneral/predateur.jpg"),
-                                     QStringLiteral("jeudi"), QColor("#9C9C00"), "_obi"));
-
-    /*m_model->addPerson(new Character(QStringLiteral("Collin Vortimer"), QStringLiteral("Alci"),
-                                     QStringLiteral("qrc:/resources/lg/alci.jpg"), QStringLiteral("jeudi"),
-                                     QColor(Qt::darkMagenta), "_alci"));*/
 
     QStringList camp;
     camp << "jeudi";
     ui->comboBox->addItems(camp);
 
-    m_selectModel= new SelectPresentProxyModel(this);
-
     connect(ui->actionSave_As, &QAction::triggered, this, [this]() { saveFile(true); });
     connect(ui->actionSave, &QAction::triggered, this, [this]() { saveFile(false); });
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::loadFile);
 
-    m_proxyModel= new PresentProxyModel(this);
-    connect(ui->comboBox, &QComboBox::currentTextChanged, this, [=](QString str) {
-        m_proxyModel->setCurrentCampaign(str);
-        m_selectModel->setCurrentCampaign(str);
-    });
+    connect(ui->comboBox, &QComboBox::currentTextChanged, this, [this](QString str) { m_ctrl->setCampaign(str); });
     /* connect(m_selectModel, &SelectPresentProxyModel::selectionChanged, this,
              [=]() { m_proxyModel->setHiddenPeople(m_selectModel->hiddenPeople()); });*/
 
-    m_proxyModel->setSourceModel(m_model);
-    m_selectModel->setSourceModel(m_model);
-    ui->m_presentList->setModel(m_selectModel);
+    ui->m_presentList->setModel(m_ctrl->selectModel());
 
-    ui->m_characterView->setModel(m_proxyModel);
+    ui->m_characterView->setModel(m_ctrl->proxyModel());
     auto currentCampaign= "jeudi";
 
-    m_proxyModel->setCurrentCampaign(currentCampaign);
-    m_selectModel->setCurrentCampaign(currentCampaign);
+    m_ctrl->setCampaign(currentCampaign);
     ui->comboBox->setCurrentText(currentCampaign);
 
     refreshQMLEngine();
@@ -105,14 +69,16 @@ void MainWindow::refreshQMLEngine()
 {
     m_engine.reset(new QQmlApplicationEngine());
 
-    auto chars= m_model->characters();
+    qmlRegisterSingletonInstance<MainController>("Controller", 1, 0, "MainController", m_ctrl.get());
+
+    /*auto chars= m_model->characters();
     for(auto pers : chars)
     {
         m_engine->rootContext()->setContextProperty(pers->id(), pers);
     }
 
     m_engine->rootContext()->setContextProperty("_model", m_proxyModel);
-    m_engine->rootContext()->setContextProperty("_mainModel", m_model);
+    m_engine->rootContext()->setContextProperty("_mainModel", m_model);*/
 
     m_engine->load(QUrl("qrc:/qml/main.qml"));
     setAttribute(Qt::WA_DeleteOnClose, true);
@@ -123,13 +89,13 @@ void MainWindow::displayCorrectImage(QString user)
     if(user.compare("obi1", Qt::CaseInsensitive) == 0)
         return;
 
-    m_model->speakingStatusChanged(user, true);
+    m_ctrl->avatarModel()->speakingStatusChanged(user, true);
     if(!m_timeTotalByUser.contains(user))
     {
-        m_timeTotalByUser.insert(user, new QTime());
+        m_timeTotalByUser.insert(user, new QElapsedTimer());
     }
 
-    QTime* time= m_timeTotalByUser.value(user);
+    QElapsedTimer* time= m_timeTotalByUser.value(user);
     time->start();
 }
 void MainWindow::hideImage(QString user)
@@ -137,7 +103,7 @@ void MainWindow::hideImage(QString user)
     if(user.compare("obi1", Qt::CaseInsensitive) == 0)
         return;
 
-    m_model->speakingStatusChanged(user, false);
+    m_ctrl->avatarModel()->speakingStatusChanged(user, false);
     if(m_timeTotalByUser.contains(user))
     {
         quint64 mili= m_timeTotalByUser.value(user)->elapsed();
@@ -152,11 +118,11 @@ void MainWindow::hideImage(QString user)
             m_cumulTimeByUser.insert(user, time);
         }
 
-        if(m_model->maxSpeakingTime() < m_cumulTimeByUser[user])
+        if(m_ctrl->avatarModel()->maxSpeakingTime() < m_cumulTimeByUser[user])
         {
-            m_model->setMaxSpeakingTime(m_cumulTimeByUser[user]);
+            m_ctrl->avatarModel()->setMaxSpeakingTime(m_cumulTimeByUser[user]);
         }
-        m_model->setSpeakingTimeForUser(user, ui->comboBox->currentText(), m_cumulTimeByUser[user]);
+        m_ctrl->avatarModel()->setSpeakingTimeForUser(user, ui->comboBox->currentText(), m_cumulTimeByUser[user]);
     }
 }
 
@@ -173,7 +139,7 @@ void MainWindow::loadFile()
     file.open(QIODevice::ReadOnly);
     QJsonDocument doc= QJsonDocument::fromJson(file.readAll());
     auto array= doc.array();
-    m_model->readData(array);
+    m_ctrl->avatarModel()->readData(array);
 }
 
 void MainWindow::saveFile(bool saveAs)
@@ -189,7 +155,7 @@ void MainWindow::saveFile(bool saveAs)
 
     QJsonDocument doc;
     QJsonArray array;
-    m_model->writeData(array);
+    m_ctrl->avatarModel()->writeData(array);
     doc.setArray(array);
     QFile file(m_filename);
     file.open(QIODevice::WriteOnly);

@@ -1,0 +1,79 @@
+/***************************************************************************
+ *	Copyright (C) 2022 by Renaud Guezennec                               *
+ *   http://www.rolisteam.org/contact                                      *
+ *                                                                         *
+ *   This software is free software; you can redistribute it and/or modify *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
+#ifndef MAINCONTROLLER_H
+#define MAINCONTROLLER_H
+
+#include "character.h"
+#include "characteravatarmodel.h"
+#include "diaporamamodel.h"
+#include "presentproxymodel.h"
+#include <QObject>
+
+class MainController : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(CharacterAvatarModel* avatarModel READ avatarModel CONSTANT)
+    Q_PROPERTY(PresentProxyModel* proxyModel READ proxyModel CONSTANT)
+    Q_PROPERTY(SelectPresentProxyModel* selectModel READ selectModel CONSTANT)
+    Q_PROPERTY(DiaporamaModel* diaporamaModel READ diaporamaModel CONSTANT)
+    Q_PROPERTY(Character* gameMaster READ gameMaster CONSTANT)
+    Q_PROPERTY(Character* characterOne READ characterOne CONSTANT)
+    Q_PROPERTY(Character* characterTwo READ characterTwo CONSTANT)
+    Q_PROPERTY(Character* characterThree READ characterThree CONSTANT)
+    Q_PROPERTY(Character* characterFour READ characterFour CONSTANT)
+    Q_PROPERTY(QString campaign READ campaign WRITE setCampaign NOTIFY campaignChanged)
+    Q_PROPERTY(qreal maxSpeakingTime READ maxSpeakingTime NOTIFY maxSpeakingTimeChanged)
+
+public:
+    explicit MainController(QObject* parent= nullptr);
+    ~MainController();
+
+    CharacterAvatarModel* avatarModel() const;
+
+    Character* gameMaster() const;
+    Character* characterOne() const;
+    Character* characterTwo() const;
+    Character* characterThree() const;
+    Character* characterFour() const;
+
+    const QString& campaign() const;
+    void setCampaign(const QString& newCampaign);
+
+    PresentProxyModel* proxyModel() const;
+
+    SelectPresentProxyModel* selectModel() const;
+
+    DiaporamaModel* diaporamaModel() const;
+
+    qreal maxSpeakingTime() const;
+
+signals:
+    void campaignChanged();
+    void maxSpeakingTimeChanged();
+
+private:
+    std::unique_ptr<CharacterAvatarModel> m_avatarModel;
+    std::unique_ptr<PresentProxyModel> m_proxyModel;
+    std::unique_ptr<SelectPresentProxyModel> m_selectModel;
+    std::unique_ptr<DiaporamaModel> m_diaporamaModel;
+    QString m_campaign;
+};
+
+#endif // MAINCONTROLLER_H

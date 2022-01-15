@@ -22,23 +22,24 @@
 #define MAINWINDOW_H
 
 #include <QCloseEvent>
+#include <QElapsedTimer>
 #include <QFile>
 #include <QLabel>
 #include <QMainWindow>
 #include <QMap>
 #include <QQmlApplicationEngine>
 #include <QTextStream>
-#include <QTime>
 #include <memory>
 
 namespace Ui
 {
-    class MainWindow;
+class MainWindow;
 }
 
 class PresentProxyModel;
 class CharacterAvatarModel;
 class SelectPresentProxyModel;
+class MainController;
 /**
  * @brief The MainWindow class
  */
@@ -73,13 +74,12 @@ private slots:
 
 private:
     Ui::MainWindow* ui;
+    std::unique_ptr<MainController> m_ctrl;
 
-    PresentProxyModel* m_proxyModel;
     SelectPresentProxyModel* m_selectModel;
-    CharacterAvatarModel* m_model;
     std::unique_ptr<QQmlApplicationEngine> m_engine;
 
-    QMap<QString, QTime*> m_timeTotalByUser;
+    QMap<QString, QElapsedTimer*> m_timeTotalByUser;
     QMap<QString, qreal> m_cumulTimeByUser;
     QFile* m_file;
     QTextStream m_fileStream;

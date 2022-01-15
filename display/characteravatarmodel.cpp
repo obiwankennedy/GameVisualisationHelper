@@ -247,6 +247,15 @@ void CharacterAvatarModel::setMaxSpeakingTime(const qreal& maxSpeakingTime)
     m_maxSpeakingTime= maxSpeakingTime;
     emit totaltimeChanged();
 }
+
+Character* CharacterAvatarModel::characterAt(int i) const
+{
+    if(m_persons.size() <= i || m_persons.empty())
+        return nullptr;
+
+    return m_persons.at(i);
+}
+
 void CharacterAvatarModel::writeData(QJsonArray& array)
 {
     for(auto character : m_persons)
