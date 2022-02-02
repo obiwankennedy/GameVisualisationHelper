@@ -20,6 +20,8 @@
 #include "maincontroller.h"
 #include "character.h"
 
+#include <QDate>
+
 MainController::MainController(QObject* parent)
     : QObject{parent}
     , m_avatarModel{new CharacterAvatarModel}
@@ -28,25 +30,48 @@ MainController::MainController(QObject* parent)
     , m_diaporamaModel{new DiaporamaModel}
 {
     m_avatarModel->addPerson(new Character(QStringLiteral("Obi (Mj)"), QStringLiteral("Obi"),
-                                           QStringLiteral("qrc:/resources/OneShotGeneral/predateur.jpg"),
+                                           QStringLiteral("qrc:/resources/L5RRiz/Perso/mj.jpg"),
                                            QStringLiteral("jeudi"), QColor("#9C9C00"), "_mj"));
 
-    m_avatarModel->addPerson(new Character(QStringLiteral("Annabeth O'Connell"), QStringLiteral("Erika"),
-                                           QStringLiteral("qrc:/resources/lg/annabeth.jpg"), QStringLiteral("jeudi"),
-                                           QColor("#888800"), "_first"));
+    auto today= QDate::currentDate();
+    auto w= today.weekNumber();
+    if(w % 2 == 1)
+    {
 
-    m_avatarModel->addPerson(new Character(QStringLiteral("Jack O'Connell"), QStringLiteral("Jack"),
-                                           QStringLiteral("qrc:/resources/lg/jack2.jpg"), QStringLiteral("jeudi"),
-                                           QColor("#008888"), "_second"));
+        m_avatarModel->addPerson(new Character(QStringLiteral("Yasuki Gosetsu"), QStringLiteral("Erika"),
+                                               QStringLiteral("qrc:/resources/L5RRiz/Perso/Gosetsu.png"),
+                                               QStringLiteral("jeudi"), QColor("#888800"), "_first"));
 
-    m_avatarModel->addPerson(new Character(QStringLiteral("Arnold Sieker"), QStringLiteral("Capitaine Red"),
-                                           QStringLiteral("qrc:/resources/lg/captain.jpg"), QStringLiteral("jeudi"),
-                                           QColor(Qt::darkBlue), "_third"));
+        m_avatarModel->addPerson(new Character(QStringLiteral("Kaiu Ryūjirō"), QStringLiteral("Jack"),
+                                               QStringLiteral("qrc:/resources/L5RRiz/Perso/kaiu_Ryujiro.png"),
+                                               QStringLiteral("jeudi"), QColor("#008888"), "_second"));
 
-    m_avatarModel->addPerson(new Character(QStringLiteral("Arnold Sieker"), QStringLiteral("Capitaine Red"),
-                                           QStringLiteral("qrc:/resources/lg/captain.jpg"), QStringLiteral("jeudi"),
-                                           QColor(Qt::darkBlue), "_fourth"));
+        m_avatarModel->addPerson(new Character(QStringLiteral("Kuni Aka"), QStringLiteral("Capitaine Red"),
+                                               QStringLiteral("qrc:/resources/L5RRiz/Perso/aka.png"),
+                                               QStringLiteral("jeudi"), QColor(Qt::darkBlue), "_third"));
 
+        /*m_avatarModel->addPerson(new Character(QStringLiteral("Arnold Sieker"), QStringLiteral("Capitaine Red"),
+                                               QStringLiteral("qrc:/resources/lg/captain.jpg"), QStringLiteral("jeudi"),
+                                               QColor(Qt::darkBlue), "_fourth"));*/
+    }
+    else
+    {
+        m_avatarModel->addPerson(new Character(QStringLiteral("Kakita Yoaka"), QStringLiteral("Shaka"),
+                                               QStringLiteral("qrc:/resources/L5RRiz/Perso/Kakita_Yoake.png"),
+                                               QStringLiteral("jeudi"), QColor("#888800"), "_first"));
+
+        m_avatarModel->addPerson(new Character(QStringLiteral("Komori Kokoe"), QStringLiteral("brind'if"),
+                                               QStringLiteral("qrc:/resources/L5RRiz/Perso/Kokoe.jpg"),
+                                               QStringLiteral("jeudi"), QColor("#008888"), "_second"));
+
+        m_avatarModel->addPerson(new Character(QStringLiteral("Tsuruchi Suda"), QStringLiteral(""),
+                                               QStringLiteral("qrc:/resources/L5RRiz/Perso/tsuruchi_suda.jpg"),
+                                               QStringLiteral("jeudi"), QColor(Qt::darkBlue), "_third"));
+
+        /*m_avatarModel->addPerson(new Character(QStringLiteral("Arnold Sieker"), QStringLiteral("Capitaine Red"),
+                                               QStringLiteral("qrc:/resources/lg/captain.jpg"), QStringLiteral("jeudi"),
+                                               QColor(Qt::darkBlue), "_fourth"));*/
+    }
     m_proxyModel->setSourceModel(m_avatarModel.get());
     m_selectModel->setSourceModel(m_avatarModel.get());
 

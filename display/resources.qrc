@@ -139,6 +139,7 @@
         <file>resources/ras/shade.jpg</file>
         <file>resources/lg/fond.png</file>
         <file>qml/CharacterItem.qml</file>
+        <file>qml/grayscale.frag.qsb</file>
         <file>resources/lg/alci.jpg</file>
         <file>resources/lg/captain.jpg</file>
         <file>resources/lg/chewb.png</file>
@@ -166,5 +167,12 @@
         <file>resources/L5RRiz/cadre_7.png</file>
         <file>resources/L5RRiz/header.png</file>
         <file>qml/CustomFrame.qml</file>
+        <file>resources/L5RRiz/Perso/aka.png</file>
+        <file>resources/L5RRiz/Perso/Gosetsu.png</file>
+        <file>resources/L5RRiz/Perso/kaiu_Ryujiro.png</file>
+        <file>resources/L5RRiz/Perso/Kakita_Yoake.png</file>
+        <file>resources/L5RRiz/Perso/Kokoe.jpg</file>
+        <file>resources/L5RRiz/Perso/tsuruchi_suda.jpg</file>
+        <file>resources/L5RRiz/Perso/mj.jpg</file>
     </qresource>
 </RCC>
