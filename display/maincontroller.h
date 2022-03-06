@@ -40,6 +40,7 @@ class MainController : public QObject
     Q_PROPERTY(Character* characterFour READ characterFour CONSTANT)
     Q_PROPERTY(QString campaign READ campaign WRITE setCampaign NOTIFY campaignChanged)
     Q_PROPERTY(qreal maxSpeakingTime READ maxSpeakingTime NOTIFY maxSpeakingTimeChanged)
+    Q_PROPERTY(bool table1 READ table1 CONSTANT)
 
 public:
     explicit MainController(QObject* parent= nullptr);
@@ -52,6 +53,7 @@ public:
     Character* characterTwo() const;
     Character* characterThree() const;
     Character* characterFour() const;
+    bool table1() const;
 
     const QString& campaign() const;
     void setCampaign(const QString& newCampaign);
@@ -74,6 +76,7 @@ private:
     std::unique_ptr<SelectPresentProxyModel> m_selectModel;
     std::unique_ptr<DiaporamaModel> m_diaporamaModel;
     QString m_campaign;
+    bool m_table1{false};
 };
 
 #endif // MAINCONTROLLER_H

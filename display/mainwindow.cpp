@@ -44,13 +44,14 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     camp << "jeudi";
     ui->comboBox->addItems(camp);
 
+    m_filename= m_ctrl->table1() ? "/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/15_riz/table1.cdb" :
+                                   "/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/15_riz/table2.cdb";
+
     connect(ui->actionSave_As, &QAction::triggered, this, [this]() { saveFile(true); });
     connect(ui->actionSave, &QAction::triggered, this, [this]() { saveFile(false); });
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::loadFile);
 
     connect(ui->comboBox, &QComboBox::currentTextChanged, this, [this](QString str) { m_ctrl->setCampaign(str); });
-    /* connect(m_selectModel, &SelectPresentProxyModel::selectionChanged, this,
-             [=]() { m_proxyModel->setHiddenPeople(m_selectModel->hiddenPeople()); });*/
 
     ui->m_presentList->setModel(m_ctrl->selectModel());
 
@@ -61,6 +62,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->comboBox->setCurrentText(currentCampaign);
 
     refreshQMLEngine();
+
+    loadFile();
 }
 
 MainWindow::~MainWindow() {}
@@ -128,12 +131,15 @@ void MainWindow::hideImage(QString user)
 
 void MainWindow::loadFile()
 {
-    QString filename
-        = QFileDialog::getOpenFileName(this, tr("Load file"), QDir::homePath(), "Character Base (*.cdb *.json)");
-    if(filename.isEmpty())
-        return;
+    if(m_filename.isEmpty())
+    {
+        QString filename
+            = QFileDialog::getOpenFileName(this, tr("Load file"), QDir::homePath(), "Character Base (*.cdb *.json)");
+        if(filename.isEmpty())
+            return;
 
-    m_filename= filename;
+        m_filename= filename;
+    }
 
     QFile file(m_filename);
     file.open(QIODevice::ReadOnly);
@@ -174,17 +180,18 @@ void MainWindow::closeEvent(QCloseEvent* event)
     if(maybeSave())
     {
         qDebug() << "delete mainwindow" << m_cumulTimeByUser.size();
-        for(auto keyItem : m_cumulTimeByUser.keys())
+        for(const auto& keyItem : m_cumulTimeByUser.keys())
         {
             qDebug() << keyItem << ":" << m_cumulTimeByUser.value(keyItem);
         }
-        // saveFile(false);
+        saveFile(false);
         event->accept();
     }
     else
     {
         event->ignore();
     }
+    qApp->quit();
 }
 
 void MainWindow::on_actionRefresh_triggered()

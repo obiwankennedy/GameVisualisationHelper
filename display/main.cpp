@@ -23,6 +23,7 @@
 #include "mainwindow.h"
 #include <QApplication>
 #include <QFontDatabase>
+#include <QImageReader>
 
 int main(int argc, char* argv[])
 {
@@ -30,6 +31,8 @@ int main(int argc, char* argv[])
     MainWindow* w= new MainWindow();
     new GuiAdaptor(w);
     w->show();
+
+    QImageReader::setAllocationLimit(0);
 
     /*  auto f= QFontDatabase::families();
       for(const auto& p : f)

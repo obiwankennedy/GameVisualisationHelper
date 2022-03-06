@@ -1,161 +1,11 @@
 <RCC>
     <qresource prefix="/">
-        <file>resources/Tsuruchi_Nayu.jpg</file>
-        <file>resources/Bayushi_Takayoshi.png</file>
-        <file>resources/Akodo_Eiichi.png</file>
-        <file>resources/Shinjo_Zhia.jpg</file>
-        <file>resources/kitsuki.jpg</file>
-        <file>resources/Asako.jpg</file>
-        <file>resources/Isawa.jpg</file>
-        <file>resources/kakita.jpg</file>
-        <file>resources/mj.jpg</file>
-        <file>resources/Akodo_Eiichi-gray.png</file>
-        <file>resources/Asako-gray.jpg</file>
-        <file>resources/Bayushi_Takayoshi-gray.png</file>
-        <file>resources/Isawa-gray.jpg</file>
-        <file>resources/kakita-gray.jpg</file>
-        <file>resources/kitsuki-gray.jpg</file>
         <file>resources/mj-gray.jpg</file>
-        <file>resources/Shinjo_Zhia-gray.jpg</file>
-        <file>resources/Tsuruchi_Nayu-gray.jpg</file>
-        <file>resources/Cops/Daniel_Mark.png</file>
-        <file>resources/Cops/Daniel_Mark-gray.png</file>
-        <file>resources/Cops/Guillermo_Gonzalvez.png</file>
-        <file>resources/Cops/Guillermo_Gonzalvez-gray.png</file>
-        <file>resources/Cops/Lynn_Gray-Rike.png</file>
-        <file>resources/Cops/Lynn_Gray-Rike-gray.png</file>
-        <file>resources/Cops/Rick_Darcy.png</file>
-        <file>resources/Cops/Rick_Darcy-gray.png</file>
-        <file>resources/Cops/mj.png</file>
-        <file>resources/Cops/mj-gray.png</file>
-        <file>resources/Cops/Denis_Aquillian.png</file>
-        <file>resources/Cops/Denis_Aquillian-gray.png</file>
-        <file>resources/Mirumoto Tomoe.png</file>
-        <file>resources/Mirumoto Tomoe-gray.png</file>
-        <file>resources/Asako_misako.png</file>
-        <file>resources/Asako_misako-gray.png</file>
-        <file>resources/Saito.jpg</file>
-        <file>resources/Saito-gray.jpg</file>
-        <file>resources/Cops/Christopher_Atkins.jpg</file>
-        <file>resources/Cops/Christopher_Atkins-gray.jpg</file>
-        <file>resources/Cops/Anpaytoo_Yepa-gray.jpg</file>
-        <file>resources/Cops/Anpaytoo_Yepa.jpg</file>
-        <file>resources/Cops/Khu_Ying_Kim.jpg</file>
-        <file>resources/Cops/Khu_Ying_Kim-gray.jpg</file>
-        <file>resources/cats/Matou_Jovial.jpg</file>
-        <file>resources/cats/Matou_Jovial-gray.jpg</file>
-        <file>resources/hidaMaki1.jpg</file>
-        <file>resources/hidaMaki1-gray.jpg</file>
-        <file>resources/cats/tatcher.jpg</file>
-        <file>resources/cats/tatcher-gray.jpg</file>
-        <file>resources/cats/Sherlock.jpg</file>
-        <file>resources/cats/Sherlock-gray.jpg</file>
-        <file>resources/cats/Hercule.jpg</file>
-        <file>resources/cats/Hercule-gray.jpg</file>
-        <file>resources/cats/Ghandi.jpg</file>
-        <file>resources/cats/Ghandi-gray.jpg</file>
-        <file>resources/cats/arsene2.jpg</file>
-        <file>resources/cats/arsene2-gray.jpg</file>
-        <file>resources/Cops/max_ohara_bis.jpg</file>
-        <file>resources/Cops/max_ohara_bis-gray.jpg</file>
-        <file>resources/oneshot/Tsuruchi_Tamoe-gray.jpg</file>
-        <file>resources/oneshot/Tsuruchi_Tamoe.jpg</file>
-        <file>resources/oneshot/Mirumoto_Kitsawa-gray.jpg</file>
-        <file>resources/oneshot/Mirumoto_Kitsawa.jpg</file>
-        <file>resources/oneshot/Isawa_Kenko-gray.jpg</file>
-        <file>resources/oneshot/Isawa_Kenko.jpg</file>
-        <file>resources/oneshot/Hida_Kokujin-gray.jpg</file>
-        <file>resources/oneshot/Hida_Kokujin.jpg</file>
-        <file>resources/oneshot/Daidoji_Hiru-gray.jpg</file>
-        <file>resources/oneshot/Daidoji_Hiru.jpg</file>
-        <file>resources/oneshot/Bayushi_Sahime-gray.jpg</file>
-        <file>resources/oneshot/Bayushi_Sahime.jpg</file>
-        <file>resources/oneshot/Akodo_Neru-gray.jpg</file>
-        <file>resources/oneshot/Akodo_Neru.jpg</file>
-        <file>resources/l5rTibo/Hida_Kyonyu.jpg</file>
-        <file>resources/l5rTibo/Hida_Kyonyu-gray.jpg</file>
-        <file>resources/l5rTibo/Ikoma_Kae.jpg</file>
-        <file>resources/l5rTibo/Ikoma_Kae-gray.jpg</file>
-        <file>resources/l5rTibo/MJ.jpg</file>
-        <file>resources/l5rTibo/MJ-gray.jpg</file>
-        <file>resources/l5rTibo/Shiba_Yasuhiro.jpg</file>
-        <file>resources/l5rTibo/Shiba_Yasuhiro-gray.jpg</file>
-        <file>resources/l5rTibo/Bayushi_Miro.jpg</file>
-        <file>resources/l5rTibo/Bayushi_Miro-gray.jpg</file>
-        <file>resources/warhammer/out/Beatrix_Buchwald.jpg</file>
-        <file>resources/warhammer/out/Beatrix_Buchwald-gray.jpg</file>
-        <file>resources/warhammer/out/Dornthal.jpg</file>
-        <file>resources/warhammer/out/Dornthal-gray.jpg</file>
-        <file>resources/warhammer/out/Kranich_Vogel.jpg</file>
-        <file>resources/warhammer/out/Kranich_Vogel-gray.jpg</file>
-        <file>resources/warhammer/out/Sepp_Breuer.jpg</file>
-        <file>resources/warhammer/out/Sepp_Breuer-gray.jpg</file>
-        <file>resources/warhammer/out/KeA.jpg</file>
-        <file>resources/warhammer/out/KeA-gray.jpg</file>
-        <file>resources/lgIrl/Claudia_Strauss-gray.jpg</file>
-        <file>resources/lgIrl/Claudia_Strauss.jpg</file>
-        <file>resources/lgIrl/Dermot_OConneil-gray.jpg</file>
-        <file>resources/lgIrl/Dermot_OConneil.jpg</file>
-        <file>resources/lgIrl/Ludovic_Clain-gray.jpg</file>
-        <file>resources/lgIrl/Ludovic_Clain.jpg</file>
-        <file>resources/lgIrl/Ruth_Sullivan-gray.jpg</file>
-        <file>resources/lgIrl/Ruth_Sullivan.jpg</file>
-        <file>resources/lgIrl/MJ.jpg</file>
-        <file>resources/lgIrl/MJ-gray.jpg</file>
-        <file>resources/l5rTibo/Togashi_Sento.jpg</file>
-        <file>resources/l5rTibo/Togashi_Sento-gray.jpg</file>
-        <file>resources/sc2saison/out/Daisuke_-gray.jpg</file>
-        <file>resources/sc2saison/out/Daisuke_.jpg</file>
-        <file>resources/sc2saison/out/groupe.png</file>
-        <file>resources/sc2saison/out/Shusuro_Shiemi-gray.jpg</file>
-        <file>resources/sc2saison/out/Shusuro_Shiemi.jpg</file>
-        <file>resources/sc2saison/out/Soshi_Akimitsu-gray.jpg</file>
-        <file>resources/sc2saison/out/Soshi_Akimitsu.jpg</file>
-        <file>resources/oneshotFreaks/out/Hikaru_Ichijo.jpg</file>
-        <file>resources/oneshotFreaks/out/Hikaru_Ichijo-gray.jpg</file>
-        <file>resources/oneshotFreaks/out/Lilly_Claudel.jpg</file>
-        <file>resources/oneshotFreaks/out/Lilly_Claudel-gray.jpg</file>
-        <file>resources/oneshotFreaks/out/MJ_.jpg</file>
-        <file>resources/oneshotFreaks/out/MJ_-gray.jpg</file>
-        <file>resources/oneshotFreaks/out/Renan_Charbonnier.jpg</file>
-        <file>resources/oneshotFreaks/out/Renan_Charbonnier-gray.jpg</file>
         <file>qml/main.qml</file>
-        <file>resources/OneShotGeneral/alci.jpg</file>
-        <file>resources/OneShotGeneral/chewb.jpg</file>
-        <file>resources/OneShotGeneral/krom.jpg</file>
-        <file>resources/OneShotGeneral/predateur.jpg</file>
-        <file>resources/OneShotGeneral/tlon.jpg</file>
-        <file>resources/Cops/Rob-Mills-head-shot.jpg</file>
-        <file>resources/ras/Bidouille_carre.jpg</file>
-        <file>resources/ras/EGO.png</file>
-        <file>resources/ras/Fantome.png</file>
-        <file>resources/ras/fond.jpg</file>
-        <file>resources/ras/Goupille.png</file>
-        <file>resources/ras/La_Bidouille.png</file>
-        <file>resources/ras/nocomment.jpg</file>
-        <file>resources/ras/No_comment.png</file>
-        <file>resources/ras/OS.png</file>
-        <file>resources/ras/captain.png</file>
-        <file>resources/ras/shade.jpg</file>
-        <file>resources/lg/fond.png</file>
         <file>qml/CharacterItem.qml</file>
         <file>qml/grayscale.frag.qsb</file>
-        <file>resources/lg/alci.jpg</file>
-        <file>resources/lg/captain.jpg</file>
-        <file>resources/lg/chewb.png</file>
-        <file>resources/lg/xelal.jpg</file>
-        <file>resources/lg/landscape/bostonpanneau.jpg</file>
-        <file>resources/lg/landscape/building2.jpg</file>
-        <file>resources/lg/landscape/bunker_hill_monument.jpg</file>
-        <file>resources/lg/landscape/harvard.webp</file>
-        <file>resources/lg/landscape/horizon.jpg</file>
-        <file>resources/lg/landscape/latinSchool.jpg</file>
-        <file>resources/lg/landscape/old_state_house.jpg</file>
-        <file>resources/lg/landscape/port1.jpg</file>
         <file>qml/ImagePathView.qml</file>
         <file>qml/ImageView.qml</file>
-        <file>resources/lg/annabeth.jpg</file>
-        <file>resources/lg/jack2.jpg</file>
         <file>resources/L5RRiz/wallpaper.png</file>
         <file>resources/L5RRiz/cadre_0.png</file>
         <file>resources/L5RRiz/cadre_1.png</file>
@@ -175,5 +25,9 @@
         <file>resources/L5RRiz/Perso/tsuruchi_suda.jpg</file>
         <file>resources/L5RRiz/Perso/mj.jpg</file>
         <file>resources/L5RRiz/Perso/yasuki_dazai.png</file>
+        <file>qml/CenterContent.qml</file>
+        <file>qml/MapViewer.qml</file>
+        <file>qml/Token.qml</file>
+        <file>resources/L5RRiz/Perso/Ichiro_Kunika.png</file>
     </qresource>
 </RCC>

@@ -65,6 +65,9 @@ QVariant CharacterAvatarModel::data(const QModelIndex& index, int role) const
     case Hidden:
         var= QVariant::fromValue(item->hidden());
         break;
+    case Position:
+        var= QVariant::fromValue(item->position());
+        break;
     default:
         break;
     }
@@ -75,11 +78,11 @@ bool CharacterAvatarModel::setData(const QModelIndex& index, const QVariant& val
 {
     if(!index.isValid())
         return false;
-    if(value.toString().isEmpty())
-        return false;
 
     if(role == Qt::DisplayRole || role == Qt::EditRole)
     {
+        if(value.toString().isEmpty())
+            return false;
         QVector<int> roles;
         auto item= m_persons[index.row()];
         roles << role;
@@ -107,7 +110,7 @@ bool CharacterAvatarModel::setData(const QModelIndex& index, const QVariant& val
             roles << Color;
             break;
         }
-        dataChanged(index, index, roles);
+        emit dataChanged(index, index, roles);
         return true;
     }
     if(role == Hidden)
@@ -116,10 +119,21 @@ bool CharacterAvatarModel::setData(const QModelIndex& index, const QVariant& val
         if(item)
         {
             item->setHidden(value.toBool());
-            dataChanged(index, index, QVector<int>() << role);
+            emit dataChanged(index, index, QVector<int>() << role);
             return true;
         }
     }
+    if(role == Position)
+    {
+        auto item= m_persons[index.row()];
+        if(item)
+        {
+            item->setPosition(value.toPointF());
+            emit dataChanged(index, index, QVector<int>() << role);
+            return true;
+        }
+    }
+
     return false;
 }
 
@@ -149,6 +163,8 @@ QHash<int, QByteArray> CharacterAvatarModel::roleNames() const
     roles.insert(SpeakingTime, "speakingTime");
     roles.insert(Percent, "percent");
     roles.insert(Color, "colorCh");
+    roles.insert(Position, "position");
+    roles.insert(GameMaster, "gameMaster");
     return roles;
 }
 
@@ -267,11 +283,16 @@ void CharacterAvatarModel::writeData(QJsonArray& array)
         object["color"]= character->color().name();
         object["campaign"]= character->campaign();
         object["id"]= character->id();
+        object["x"]= character->position().x();
+        object["y"]= character->position().y();
+        object["gm"]= character->gamemaster();
         array.append(object);
     }
 }
 void CharacterAvatarModel::readData(QJsonArray& array)
 {
+    beginResetModel();
+    m_persons.clear();
     for(auto item : array)
     {
         auto obj= item.toObject();
@@ -281,7 +302,12 @@ void CharacterAvatarModel::readData(QJsonArray& array)
         auto color= obj["color"].toString();
         auto campaign= obj["campaign"].toString();
         auto id= obj["id"].toString();
-        auto character= new Character(name, playerName, imageId, campaign, QColor(color), id);
+        auto x= obj["x"].toDouble();
+        auto y= obj["y"].toDouble();
+        auto gm= obj["gm"].toBool();
+        auto character= new Character(name, playerName, imageId, campaign, QColor(color), id, gm);
+        character->setPosition({x, y});
         m_persons.push_back(character);
     }
+    endResetModel();
 }

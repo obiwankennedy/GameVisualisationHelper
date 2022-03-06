@@ -23,6 +23,7 @@ ApplicationWindow {
     //property var imgModel: ["qrc:/resources/lg/landscape/bostonpanneau.jpg","qrc:/resources/lg/landscape/building2.jpg","qrc:/resources/lg/landscape/bunker_hill_monument.jpg","qrc:/resources/lg/landscape/horizon.jpg","qrc:/resources/lg/landscape/latinSchool.jpg","qrc:/resources/lg/landscape/old_state_house.jpg","qrc:/resources/lg/landscape/port1.jpg","qrc:/resources/lg/landscape/harvard.webp"]
 
 
+    onClosing: Qt.quit()
     flags: deco ? Qt.Window : Qt.FramelessWindowHint
 
     Item {
@@ -31,82 +32,68 @@ ApplicationWindow {
 
         states: [
             State {
-                name: ""
+                name: "Normal"
                 PropertyChanges {
-                    target:waitingPanel
-                    visible: false
+                    target: _content
+                    panel: 1
                 }
                 PropertyChanges {
-                    target: diapoPanel
-                    visible: false
-                }
-                PropertyChanges {
-                    target: greenScreen
-                    visible: false
-                }
-
-            },
-            State {
-                name: "onhold"
-                PropertyChanges {
-                    target:waitingPanel
+                    target: _avatarPanel
                     visible: true
                 }
+            },
+            State {
+                name: ""
                 PropertyChanges {
                     target: _avatarPanel
                     visible: false
                 }
                 PropertyChanges {
-                    target: diapoPanel
-                    visible: false
-                }
-                PropertyChanges {
-                    target: greenScreen
-                    visible: false
+                    target: _content
+                    panel: 0
                 }
             },
             State {
                 name: "diaporama"
                 PropertyChanges {
-                    target:waitingPanel
-                    visible: false
+                    target: _content
+                    panel: 2
                 }
                 PropertyChanges {
-                    target: diapoPanel
+                    target: _avatarPanel
                     visible: true
-                }
-                PropertyChanges {
-                    target: greenScreen
-                    visible: false
                 }
             },
             State {
                 name: "carousel"
                 PropertyChanges {
-                    target:waitingPanel
-                    visible: false
+                    target: _content
+                    panel: 4
                 }
                 PropertyChanges {
-                    target: diapoPanel
+                    target: _avatarPanel
                     visible: true
-                }
-                PropertyChanges {
-                    target: greenScreen
-                    visible: false
                 }
             },
             State {
                 name: "Ouvert"
                 PropertyChanges {
-                    target:waitingPanel
-                    visible: false
+                    target: _content
+                    panel: 3
                 }
                 PropertyChanges {
-                    target: diapoPanel
-                    visible: false
+                    target: _avatarPanel
+                    visible: true
+                }
+            },
+            State {
+                name: "Carte"
+                PropertyChanges {
+                    target: _content
+                    panel: 5
                 }
                 PropertyChanges {
-                    target: greenScreen
+                    target: _avatarPanel
                     visible: true
                 }
             }
@@ -121,6 +108,7 @@ ApplicationWindow {
 
         RowLayout {
             id: _avatarPanel
+            visible: false
             anchors.fill: parent
             anchors.leftMargin: 0
             anchors.rightMargin: 0
@@ -152,46 +140,14 @@ ApplicationWindow {
                     visible: !MainController.characterThree.hidden
                     reverse: true
                 }
+                CharacterItem {
+                    character: MainController.characterFour
+                    visible: !MainController.characterFour.hidden
+                    reverse: true
+                }
             }
         }
 
-        CustomFrame {
-            id: waitingPanel
-            anchors.centerIn: parent
-
-                text: "Le liveplay va démarrer d'ici quelques instants.\nMerci de votre patience."
-
-                visible:false
-
-        }
-
-        ImageView {
-            id: diapoPanel
-            anchors.centerIn: parent
-            model: MainController.diaporamaModel
-            width: parent.width * 0.5
-            height: parent.height * 0.5
-            visible:false
-        }
-
-        ImagePathView {
-            id: imagePathPanel
-            anchors.centerIn: parent
-            width: parent.width * 0.5
-            height: parent.height * 0.5
-            visible: false
-        }
-
-
-        Rectangle {
-            id: greenScreen
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: parent.bottom
-            color: "#00FF00"
-            width: parent.width * 0.7
-            height: parent.height * 0.7
-            visible: false
-        }
 
 
 
@@ -209,26 +165,52 @@ ApplicationWindow {
             Menu {
                 id: menu
                 Action  {
-                    text: "En attentes"
-                    onTriggered: main.state = "onhold"
+                    text: "1. En attentes"
+                    checkable: true
+                    checked: main.state === ""
+                    onTriggered: main.state = ""
                 }
                 Action  {
-                    text: "Diaporama"
-                    onTriggered: main.state = "diaporama"
+                    text: "2. Normal"
+                    checkable: true
+                    checked: main.state === "Normal"
+                    onTriggered: main.state = "Normal"
                 }
                 Action  {
-                    text: "Carousel"
-                    onTriggered: main.state = "carousel"
+                    text: "3. Carte"
+                    checkable: true
+                    checked: main.state === "Carte"
+                    onTriggered: main.state = "Carte"
                 }
                 Action  {
-                    text: "Ouvert"
+                    text: "4. Ouvert"
+                    checkable: true
+                    checked: main.state === "Ouvert"
                     onTriggered: main.state = "Ouvert"
                 }
                 Action  {
-                    text: "Normal"
-                    onTriggered: main.state = ""
+                    text: "5. Diaporama"
+                    checkable: true
+                    checked: main.state === "diaporama"
+                    onTriggered: main.state = "diaporama"
                 }
+                Action  {
+                    text: "6. Carousel"
+                    checkable: true
+                    checked: main.state === "carousel"
+                    onTriggered: main.state = "carousel"
+                }
+
+
             }
+        }
+
+        CenterContent {
+            id: _content
+            visible: true
+            anchors.centerIn: parent
+            width: parent.width*0.7
+            height: parent.height
         }
     }
 

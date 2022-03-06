@@ -31,13 +31,13 @@ MainController::MainController(QObject* parent)
 {
     m_avatarModel->addPerson(new Character(QStringLiteral("Obi (Mj)"), QStringLiteral("Obi"),
                                            QStringLiteral("qrc:/resources/L5RRiz/Perso/mj.jpg"),
-                                           QStringLiteral("jeudi"), QColor("#9C9C00"), "_mj"));
+                                           QStringLiteral("jeudi"), QColor("#9C9C00"), "_mj", true));
 
     auto today= QDate::currentDate();
     auto w= today.weekNumber();
     if(w % 2 == 1)
     {
-
+        m_table1= true;
         m_avatarModel->addPerson(new Character(QStringLiteral("Yasuki Gosetsu"), QStringLiteral("Caladbolg"),
                                                QStringLiteral("qrc:/resources/L5RRiz/Perso/Gosetsu.png"),
                                                QStringLiteral("jeudi"), QColor("#888800"), "_first"));
@@ -56,6 +56,7 @@ MainController::MainController(QObject* parent)
     }
     else
     {
+        m_table1= false;
         m_avatarModel->addPerson(new Character(QStringLiteral("Kakita Yoaka"), QStringLiteral("Shaka"),
                                                QStringLiteral("qrc:/resources/L5RRiz/Perso/Kakita_Yoake.png"),
                                                QStringLiteral("jeudi"), QColor("#888800"), "_first"));
@@ -69,8 +70,8 @@ MainController::MainController(QObject* parent)
                                                QStringLiteral("jeudi"), QColor(Qt::darkBlue), "_third"));
 
         m_avatarModel->addPerson(new Character(QStringLiteral("Ichiro Kunika"), QStringLiteral("Kyuha"),
-                                               QStringLiteral("qrc:/resources/lg/captain.jpg"), QStringLiteral("jeudi"),
-                                               QColor(Qt::darkBlue), "_fourth"));
+                                               QStringLiteral("qrc:/resources/L5RRiz/Perso/Ichiro_Kunika.png"),
+                                               QStringLiteral("jeudi"), QColor(Qt::darkBlue), "_fourth"));
     }
     m_proxyModel->setSourceModel(m_avatarModel.get());
     m_selectModel->setSourceModel(m_avatarModel.get());
@@ -109,6 +110,11 @@ Character* MainController::characterThree() const
 Character* MainController::characterFour() const
 {
     return m_avatarModel->characterAt(4);
+}
+
+bool MainController::table1() const
+{
+    return m_table1;
 }
 
 const QString& MainController::campaign() const

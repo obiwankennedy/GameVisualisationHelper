@@ -20,7 +20,9 @@ public:
         SpeakingTime,
         Percent,
         Color,
-        Hidden
+        Hidden,
+        Position,
+        GameMaster
     };
 
     CharacterAvatarModel(QObject* parent= nullptr);

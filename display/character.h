@@ -3,6 +3,7 @@
 
 #include <QColor>
 #include <QObject>
+#include <QPointF>
 #include <QString>
 
 class Character : public QObject
@@ -16,8 +17,10 @@ class Character : public QObject
     Q_PROPERTY(QString campaign READ campaign CONSTANT)
     Q_PROPERTY(quint64 speakingTime READ speakingTime WRITE setSpeakingTime NOTIFY speakingTimeChanged)
     Q_PROPERTY(bool hidden READ hidden WRITE setHidden NOTIFY hiddenChanged)
+    Q_PROPERTY(QPointF position READ position WRITE setPosition NOTIFY positionChanged)
+    Q_PROPERTY(bool gamemaster READ gamemaster CONSTANT)
 public:
-    Character(QString, QString, QString, QString, QColor, QString id);
+    Character(QString, QString, QString, QString, QColor, QString id, bool gamemaster= false);
 
     QString name() const;
     void setName(const QString& name);
@@ -45,6 +48,11 @@ public:
 
     QString id() const;
 
+    QPointF position() const;
+    void setPosition(QPointF newPosition);
+
+    bool gamemaster() const;
+
 signals:
     void nameChanged();
     void playerNameChanged();
@@ -53,6 +61,7 @@ signals:
     void colorChanged();
     void speakingTimeChanged();
     void hiddenChanged();
+    void positionChanged();
 
 private:
     QString m_name;
@@ -64,6 +73,8 @@ private:
     quint64 m_speakingTime= 0;
     QString m_id;
     bool m_hidden= false;
+    QPointF m_position;
+    bool m_gamemaster{false};
 };
 
 #endif // CHARACTER_H

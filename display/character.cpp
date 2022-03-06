@@ -1,7 +1,13 @@
 #include "character.h"
 
-Character::Character(QString name, QString player, QString img, QString cmp, QColor color, QString id)
-    : m_name(name), m_playerName(player), m_imgId(img), m_campaign(cmp), m_color(color), m_id(id)
+Character::Character(QString name, QString player, QString img, QString cmp, QColor color, QString id, bool gamemaster)
+    : m_name(name)
+    , m_playerName(player)
+    , m_imgId(img)
+    , m_campaign(cmp)
+    , m_color(color)
+    , m_id(id)
+    , m_gamemaster(gamemaster)
 {
 }
 
@@ -107,4 +113,22 @@ void Character::setHidden(bool v)
 QString Character::id() const
 {
     return m_id;
+}
+
+QPointF Character::position() const
+{
+    return m_position;
+}
+
+void Character::setPosition(QPointF newPosition)
+{
+    if(m_position == newPosition)
+        return;
+    m_position= newPosition;
+    emit positionChanged();
+}
+
+bool Character::gamemaster() const
+{
+    return m_gamemaster;
 }
