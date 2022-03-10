@@ -30,9 +30,10 @@ public:
     enum CustomRole
     {
         PathRole= Qt::UserRole + 1,
+        NameRole,
     };
     Q_ENUM(CustomRole)
-    explicit DiaporamaModel(QObject* parent= nullptr);
+    explicit DiaporamaModel(const QString& directory, QObject* parent= nullptr);
 
     // Basic functionality:
     int rowCount(const QModelIndex& parent= QModelIndex()) const override;

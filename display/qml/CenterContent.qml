@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import Controller
 
 Item {
     id: _root
@@ -26,6 +27,9 @@ Item {
             break;
         case 5:
             _stack.push(carte)
+            break;
+        case 6:
+            _stack.push(grid)
             break;
         }
     }
@@ -55,7 +59,12 @@ Item {
             color: "#00FF00"
         }
     }
-
+    Component {
+        id: grid
+        GridGallery {
+            id: gridScreen
+        }
+    }
 
     Component {
         id: carte
@@ -82,10 +91,6 @@ Item {
         id: carousel
         ImagePathView {
             id: imagePathPanel
-            anchors.centerIn: parent
-            width: parent.width * 0.5
-            height: parent.height * 0.5
-            visible: false
         }
     }
 

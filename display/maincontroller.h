@@ -41,6 +41,7 @@ class MainController : public QObject
     Q_PROPERTY(QString campaign READ campaign WRITE setCampaign NOTIFY campaignChanged)
     Q_PROPERTY(qreal maxSpeakingTime READ maxSpeakingTime NOTIFY maxSpeakingTimeChanged)
     Q_PROPERTY(bool table1 READ table1 CONSTANT)
+    Q_PROPERTY(DiaporamaModel* carouselModel READ carouselModel CONSTANT)
 
 public:
     explicit MainController(QObject* parent= nullptr);
@@ -66,6 +67,8 @@ public:
 
     qreal maxSpeakingTime() const;
 
+    DiaporamaModel* carouselModel() const;
+
 signals:
     void campaignChanged();
     void maxSpeakingTimeChanged();
@@ -75,6 +78,7 @@ private:
     std::unique_ptr<PresentProxyModel> m_proxyModel;
     std::unique_ptr<SelectPresentProxyModel> m_selectModel;
     std::unique_ptr<DiaporamaModel> m_diaporamaModel;
+    std::unique_ptr<DiaporamaModel> m_carouselModel;
     QString m_campaign;
     bool m_table1{false};
 };

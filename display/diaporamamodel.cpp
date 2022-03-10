@@ -24,7 +24,7 @@ QStringList imageToList(const QString& path)
 {
     QDir dir(path);
 
-    auto imgs= dir.entryList({"*.jpg", "*.png", "*.gif"}, QDir::Files | QDir::NoDotAndDotDot);
+    auto imgs= dir.entryList({"*.jpg", "*.png", "*.gif", "*.ppm", "*.jpeg"}, QDir::Files | QDir::NoDotAndDotDot);
 
     QStringList result;
 
@@ -34,13 +34,9 @@ QStringList imageToList(const QString& path)
     return result;
 }
 
-DiaporamaModel::DiaporamaModel(QObject* parent) : QAbstractListModel(parent)
+DiaporamaModel::DiaporamaModel(const QString& directory, QObject* parent) : QAbstractListModel(parent)
 {
-    // fetch data
-    m_data << imageToList("/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/01_resources/images/blog");
-    qDebug() << m_data;
-    // m_data << imageToList();
-    // m_data << imageToList();
+    m_data << imageToList(directory);
 }
 
 int DiaporamaModel::rowCount(const QModelIndex& parent) const
@@ -62,11 +58,16 @@ QVariant DiaporamaModel::data(const QModelIndex& index, int role) const
 
     if(role == Qt::DisplayRole || role == PathRole)
         var= m_data.at(index.row());
+    else if(role == NameRole)
+    {
+        QFileInfo info(m_data.at(index.row()));
+        var= info.baseName().replace("_", " ");
+    }
 
     return var;
 }
 
 QHash<int, QByteArray> DiaporamaModel::roleNames() const
 {
-    return {{PathRole, "path"}};
+    return {{PathRole, "path"}, {NameRole, "name"}};
 }

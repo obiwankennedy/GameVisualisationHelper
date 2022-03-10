@@ -42,12 +42,12 @@ bool Character::isSpeaking() const
 {
     return m_isSpeaking;
 }
-
 void Character::setIsSpeaking(bool isSpeaking)
 {
     if(isSpeaking == m_isSpeaking)
         return;
     m_isSpeaking= isSpeaking;
+
     emit isSpeakingChanged();
 }
 

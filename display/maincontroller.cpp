@@ -27,7 +27,9 @@ MainController::MainController(QObject* parent)
     , m_avatarModel{new CharacterAvatarModel}
     , m_proxyModel{new PresentProxyModel}
     , m_selectModel{new SelectPresentProxyModel}
-    , m_diaporamaModel{new DiaporamaModel}
+    , m_diaporamaModel{new DiaporamaModel{
+          "/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/01_resources/images/blog"}}
+    , m_carouselModel{new DiaporamaModel{"/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/15_riz/img/PNJ"}}
 {
     m_avatarModel->addPerson(new Character(QStringLiteral("Obi (Mj)"), QStringLiteral("Obi"),
                                            QStringLiteral("qrc:/resources/L5RRiz/Perso/mj.jpg"),
@@ -151,4 +153,9 @@ DiaporamaModel* MainController::diaporamaModel() const
 qreal MainController::maxSpeakingTime() const
 {
     return m_avatarModel->maxSpeakingTime();
+}
+
+DiaporamaModel* MainController::carouselModel() const
+{
+    return m_carouselModel.get();
 }

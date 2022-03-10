@@ -61,9 +61,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     m_ctrl->setCampaign(currentCampaign);
     ui->comboBox->setCurrentText(currentCampaign);
 
-    refreshQMLEngine();
-
     loadFile();
+    refreshQMLEngine();
 }
 
 MainWindow::~MainWindow() {}

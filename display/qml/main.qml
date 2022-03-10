@@ -96,6 +96,17 @@ ApplicationWindow {
                     target: _avatarPanel
                     visible: true
                 }
+            },
+            State {
+                name: "Gridview"
+                PropertyChanges {
+                    target: _content
+                    panel: 6
+                }
+                PropertyChanges {
+                    target: _avatarPanel
+                    visible: true
+                }
             }
         ]
 
@@ -200,7 +211,12 @@ ApplicationWindow {
                     checked: main.state === "carousel"
                     onTriggered: main.state = "carousel"
                 }
-
+                Action  {
+                    text: "6. Gridview"
+                    checkable: true
+                    checked: main.state === "Gridview"
+                    onTriggered: main.state = "Gridview"
+                }
 
             }
         }
@@ -212,6 +228,18 @@ ApplicationWindow {
             width: parent.width*0.7
             height: parent.height
         }
+
+        Label {
+            id: timetracker
+            property date currentDate: new Date()
+            font.pixelSize: 20
+            font.weight: Font.Bold
+            text: "%1 - %2".arg(currentDate.toLocaleDateString(Qt.locale("fr_FR"), "dd.MM.yyyy"))
+                           .arg(currentDate.toLocaleTimeString(Qt.locale("fr_fr"),"hh:mm"))
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+        }
+
     }
 
 }

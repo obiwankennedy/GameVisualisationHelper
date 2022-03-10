@@ -29,5 +29,6 @@
         <file>qml/MapViewer.qml</file>
         <file>qml/Token.qml</file>
         <file>resources/L5RRiz/Perso/Ichiro_Kunika.png</file>
+        <file>qml/GridGallery.qml</file>
     </qresource>
 </RCC>

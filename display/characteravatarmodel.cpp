@@ -203,6 +203,7 @@ void CharacterAvatarModel::speakingStatusChanged(QString user, bool isSpeaking)
     {
         if(character->playerName() == user)
         {
+            qDebug() << "find Player";
             character->setIsSpeaking(isSpeaking);
             auto idx= createIndex(i, 0);
             dataChanged(idx, idx, QVector<int>() << IsSpeaking);
@@ -292,6 +293,7 @@ void CharacterAvatarModel::writeData(QJsonArray& array)
 void CharacterAvatarModel::readData(QJsonArray& array)
 {
     beginResetModel();
+    qDeleteAll(std::begin(m_persons), std::end(m_persons));
     m_persons.clear();
     for(auto item : array)
     {
