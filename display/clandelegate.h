@@ -17,57 +17,20 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "charactercontroller.h"
-#include "utils/iohelper.h"
+#ifndef CLANDELEGATE_H
+#define CLANDELEGATE_H
 
-constexpr char const* none{"none"};
+#include <QStyledItemDelegate>
 
-CharacterController::CharacterController(QObject* parent)
-    : QObject{parent}, m_model{new CharacterModel}, m_filteredModel{new SortFilterModel}
+class ClanDelegate : public QStyledItemDelegate
 {
+public:
+    ClanDelegate();
 
-    IOHelper::fetchModel("/home/renaud/www/scripts/28_pnj_database/database.json",
-                         "/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/15_riz/additinal_data_npc.json",
-                         m_model.get());
-    m_filteredModel->setSourceModel(m_model.get());
-}
+    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
 
-void CharacterController::saveModel() const
-{
-    IOHelper::writeModel("/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/15_riz/additinal_data_npc.json",
-                         m_model.get());
-}
+private:
+    QHash<QString, QPixmap> m_images;
+};
 
-const QStringList CharacterController::ownerModel() const
-{
-    QStringList list;
-    list << none;
-    list << m_model->ownerList();
-    return list;
-}
-
-CharacterModel* CharacterController::model() const
-{
-    return m_model.get();
-}
-
-const QStringList CharacterController::clanModel() const
-{
-    QStringList list;
-    list << none;
-    list << m_model->clanList();
-    return list;
-}
-
-const QStringList CharacterController::factionModel() const
-{
-    QStringList list;
-    list << none;
-    list << m_model->factionList();
-    return list;
-}
-
-SortFilterModel* CharacterController::filteredModel() const
-{
-    return m_filteredModel.get();
-}
+#endif // CLANDELEGATE_H

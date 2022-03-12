@@ -162,8 +162,8 @@ Item {
         anchors.centerIn: parent
         width: 1200
         height: parent.height
-        model: MainController.carouselModel
-
+        //model: MainController.carouselModel
+        model: MainController.sortedModel
 
         Component {
             id: delegateImg
@@ -174,7 +174,7 @@ Item {
                 Image {
                     id: _img
                     anchors.fill: parent
-                    source: model.path
+                    source: model.avatarpath
                     fillMode: Image.PreserveAspectFit
                     Label {
                         anchors.bottom: parent.bottom
@@ -196,7 +196,7 @@ Item {
                     _bigPic.height = _mouseArea.height
                     _bigPic.x = _mouseArea.x + _grid.x
                     _bigPic.y = _mouseArea.y - _grid.contentY
-                    _bigPic.source = model.path
+                    _bigPic.source = model.avatarpath
                     _bigPic.name = model.name
                     _bigPic.open()
                 }

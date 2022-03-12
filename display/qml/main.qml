@@ -223,13 +223,13 @@ ApplicationWindow {
                     onTriggered: main.state = "carousel"
                 }
                 Action  {
-                    text: "6. Gridview"
+                    text: "7. Gridview"
                     checkable: true
                     checked: main.state === "Gridview"
                     onTriggered: main.state = "Gridview"
                 }
                 Action  {
-                    text: "6. Sheet"
+                    text: "8. Sheet"
                     checkable: true
                     checked: main.state === "Sheet"
                     onTriggered: main.state = "Sheet"

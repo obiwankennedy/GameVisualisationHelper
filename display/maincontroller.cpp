@@ -30,50 +30,52 @@ MainController::MainController(QObject* parent)
     , m_diaporamaModel{new DiaporamaModel{
           "/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/01_resources/images/blog"}}
     , m_carouselModel{new DiaporamaModel{"/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/15_riz/img/PNJ"}}
+    , m_npcSortedModel(new SortedModel)
 {
     m_avatarModel->addPerson(new Player(QStringLiteral("Obi (Mj)"), QStringLiteral("Obi"),
-                                           QStringLiteral("qrc:/resources/L5RRiz/Perso/mj.jpg"),
-                                           QStringLiteral("jeudi"), QColor("#9C9C00"), "_mj", true));
+                                        QStringLiteral("qrc:/resources/L5RRiz/Perso/mj.jpg"), QStringLiteral("jeudi"),
+                                        QColor("#9C9C00"), "_mj", true));
 
     auto today= QDate::currentDate();
     auto w= today.weekNumber();
     if(w % 2 == 1)
+    // if(true)
     {
         m_table1= true;
         m_avatarModel->addPerson(new Player(QStringLiteral("Yasuki Gosetsu"), QStringLiteral("Caladbolg"),
-                                               QStringLiteral("qrc:/resources/L5RRiz/Perso/Gosetsu.png"),
-                                               QStringLiteral("jeudi"), QColor("#888800"), "_first"));
+                                            QStringLiteral("qrc:/resources/L5RRiz/Perso/Gosetsu.png"),
+                                            QStringLiteral("jeudi"), QColor("#888800"), "_first"));
 
         m_avatarModel->addPerson(new Player(QStringLiteral("Kaiu Ryūjirō"), QStringLiteral("Elaryon"),
-                                               QStringLiteral("qrc:/resources/L5RRiz/Perso/kaiu_Ryujiro.png"),
-                                               QStringLiteral("jeudi"), QColor("#008888"), "_second"));
+                                            QStringLiteral("qrc:/resources/L5RRiz/Perso/kaiu_Ryujiro.png"),
+                                            QStringLiteral("jeudi"), QColor("#008888"), "_second"));
 
         m_avatarModel->addPerson(new Player(QStringLiteral("Kuni Aka"), QStringLiteral("Capitaine Red"),
-                                               QStringLiteral("qrc:/resources/L5RRiz/Perso/aka.png"),
-                                               QStringLiteral("jeudi"), QColor(Qt::darkBlue), "_third"));
+                                            QStringLiteral("qrc:/resources/L5RRiz/Perso/aka.png"),
+                                            QStringLiteral("jeudi"), QColor(Qt::darkBlue), "_third"));
 
         m_avatarModel->addPerson(new Player(QStringLiteral("Yasuki Dazai"), QStringLiteral("Houss"),
-                                               QStringLiteral("qrc:/resources/L5RRiz/Perso/yasuki_dazai.png"),
-                                               QStringLiteral("jeudi"), QColor(Qt::darkBlue), "_fourth"));
+                                            QStringLiteral("qrc:/resources/L5RRiz/Perso/yasuki_dazai.png"),
+                                            QStringLiteral("jeudi"), QColor(Qt::darkBlue), "_fourth"));
     }
     else
     {
         m_table1= false;
         m_avatarModel->addPerson(new Player(QStringLiteral("Kakita Yoaka"), QStringLiteral("Shaka"),
-                                               QStringLiteral("qrc:/resources/L5RRiz/Perso/Kakita_Yoake.png"),
-                                               QStringLiteral("jeudi"), QColor("#888800"), "_first"));
+                                            QStringLiteral("qrc:/resources/L5RRiz/Perso/Kakita_Yoake.png"),
+                                            QStringLiteral("jeudi"), QColor("#888800"), "_first"));
 
         m_avatarModel->addPerson(new Player(QStringLiteral("Komori Kokoe"), QStringLiteral("brind'if"),
-                                               QStringLiteral("qrc:/resources/L5RRiz/Perso/Kokoe.jpg"),
-                                               QStringLiteral("jeudi"), QColor("#008888"), "_second"));
+                                            QStringLiteral("qrc:/resources/L5RRiz/Perso/Kokoe.jpg"),
+                                            QStringLiteral("jeudi"), QColor("#008888"), "_second"));
 
         m_avatarModel->addPerson(new Player(QStringLiteral("Tsuruchi Suda"), QStringLiteral("Ritton-T"),
-                                               QStringLiteral("qrc:/resources/L5RRiz/Perso/tsuruchi_suda.jpg"),
-                                               QStringLiteral("jeudi"), QColor(Qt::darkBlue), "_third"));
+                                            QStringLiteral("qrc:/resources/L5RRiz/Perso/tsuruchi_suda.jpg"),
+                                            QStringLiteral("jeudi"), QColor(Qt::darkBlue), "_third"));
 
         m_avatarModel->addPerson(new Player(QStringLiteral("Ichiro Kunika"), QStringLiteral("Kyuha"),
-                                               QStringLiteral("qrc:/resources/L5RRiz/Perso/Ichiro_Kunika.png"),
-                                               QStringLiteral("jeudi"), QColor(Qt::darkBlue), "_fourth"));
+                                            QStringLiteral("qrc:/resources/L5RRiz/Perso/Ichiro_Kunika.png"),
+                                            QStringLiteral("jeudi"), QColor(Qt::darkBlue), "_fourth"));
     }
     m_proxyModel->setSourceModel(m_avatarModel.get());
     m_selectModel->setSourceModel(m_avatarModel.get());
@@ -122,6 +124,11 @@ bool MainController::table1() const
 const QString& MainController::campaign() const
 {
     return m_campaign;
+}
+
+SortedModel* MainController::sortedModel() const
+{
+    return m_npcSortedModel.get();
 }
 
 void MainController::setCampaign(const QString& newCampaign)

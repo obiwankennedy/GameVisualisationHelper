@@ -11,6 +11,7 @@ RESOURCES += resources.qrc
 OTHER_FILES += qml/*.qml
 
 SOURCES += main.cpp\
+  clandelegate.cpp \
   controller/charactercontroller.cpp \
   diaporamamodel.cpp \
         guiadaptor.cpp \
@@ -18,11 +19,14 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     characteravatarmodel.cpp \
   model/charactermodel.cpp \
+  model/sortedmodel.cpp \
+  model/sortfiltermodel.cpp \
   player.cpp \
     presentproxymodel.cpp \
   utils/iohelper.cpp
 
 HEADERS  += mainwindow.h \
+  clandelegate.h \
   controller/charactercontroller.h \
   coretype.h \
   diaporamamodel.h \
@@ -30,6 +34,8 @@ HEADERS  += mainwindow.h \
     characteravatarmodel.h \
   maincontroller.h \
   model/charactermodel.h \
+  model/sortedmodel.h \
+  model/sortfiltermodel.h \
   player.h \
     presentproxymodel.h \
   utils/iohelper.h

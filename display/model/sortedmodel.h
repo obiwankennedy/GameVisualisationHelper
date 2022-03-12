@@ -17,57 +17,18 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "charactercontroller.h"
-#include "utils/iohelper.h"
+#ifndef SORTEDMODEL_H
+#define SORTEDMODEL_H
 
-constexpr char const* none{"none"};
+#include <QSortFilterProxyModel>
 
-CharacterController::CharacterController(QObject* parent)
-    : QObject{parent}, m_model{new CharacterModel}, m_filteredModel{new SortFilterModel}
+class SortedModel : public QSortFilterProxyModel
 {
+public:
+    SortedModel(QObject* parent= nullptr);
 
-    IOHelper::fetchModel("/home/renaud/www/scripts/28_pnj_database/database.json",
-                         "/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/15_riz/additinal_data_npc.json",
-                         m_model.get());
-    m_filteredModel->setSourceModel(m_model.get());
-}
+protected:
+    bool lessThan(const QModelIndex& source_left, const QModelIndex& source_right) const;
+};
 
-void CharacterController::saveModel() const
-{
-    IOHelper::writeModel("/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/15_riz/additinal_data_npc.json",
-                         m_model.get());
-}
-
-const QStringList CharacterController::ownerModel() const
-{
-    QStringList list;
-    list << none;
-    list << m_model->ownerList();
-    return list;
-}
-
-CharacterModel* CharacterController::model() const
-{
-    return m_model.get();
-}
-
-const QStringList CharacterController::clanModel() const
-{
-    QStringList list;
-    list << none;
-    list << m_model->clanList();
-    return list;
-}
-
-const QStringList CharacterController::factionModel() const
-{
-    QStringList list;
-    list << none;
-    list << m_model->factionList();
-    return list;
-}
-
-SortFilterModel* CharacterController::filteredModel() const
-{
-    return m_filteredModel.get();
-}
+#endif // SORTEDMODEL_H

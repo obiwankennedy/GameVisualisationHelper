@@ -31,5 +31,30 @@
         <file>resources/L5RRiz/Perso/Ichiro_Kunika.png</file>
         <file>qml/GridGallery.qml</file>
         <file>qml/SheetViewer.qml</file>
+        <file>resources/L5RRiz/symbols/185px-Badger.png</file>
+        <file>resources/L5RRiz/symbols/185px-Bat.png</file>
+        <file>resources/L5RRiz/symbols/185px-Boar.png</file>
+        <file>resources/L5RRiz/symbols/185px-Centipede.png</file>
+        <file>resources/L5RRiz/symbols/185px-Dragonfly.png</file>
+        <file>resources/L5RRiz/symbols/185px-Falcon.png</file>
+        <file>resources/L5RRiz/symbols/185px-Sparrow.png</file>
+        <file>resources/L5RRiz/symbols/185px-Tortoise.png</file>
+        <file>resources/L5RRiz/symbols/185px-Wasp.png</file>
+        <file>resources/L5RRiz/symbols/crab.png</file>
+        <file>resources/L5RRiz/symbols/crane.png</file>
+        <file>resources/L5RRiz/symbols/dragon.png</file>
+        <file>resources/L5RRiz/symbols/empire.png</file>
+        <file>resources/L5RRiz/symbols/lievre.png</file>
+        <file>resources/L5RRiz/symbols/lion.png</file>
+        <file>resources/L5RRiz/symbols/mante.png</file>
+        <file>resources/L5RRiz/symbols/monkey.png</file>
+        <file>resources/L5RRiz/symbols/ox.png</file>
+        <file>resources/L5RRiz/symbols/pdf.png</file>
+        <file>resources/L5RRiz/symbols/phenix.png</file>
+        <file>resources/L5RRiz/symbols/ronin.png</file>
+        <file>resources/L5RRiz/symbols/scorpion.png</file>
+        <file>resources/L5RRiz/symbols/spider.png</file>
+        <file>resources/L5RRiz/symbols/unicorn.png</file>
+        <file>resources/L5RRiz/symbols/fox.png</file>
     </qresource>
 </RCC>

@@ -20,9 +20,10 @@
 #ifndef MAINCONTROLLER_H
 #define MAINCONTROLLER_H
 
-#include "player.h"
 #include "characteravatarmodel.h"
 #include "diaporamamodel.h"
+#include "model/sortedmodel.h"
+#include "player.h"
 #include "presentproxymodel.h"
 #include <QObject>
 
@@ -42,7 +43,7 @@ class MainController : public QObject
     Q_PROPERTY(qreal maxSpeakingTime READ maxSpeakingTime NOTIFY maxSpeakingTimeChanged)
     Q_PROPERTY(bool table1 READ table1 CONSTANT)
     Q_PROPERTY(DiaporamaModel* carouselModel READ carouselModel CONSTANT)
-
+    Q_PROPERTY(SortedModel* sortedModel READ sortedModel CONSTANT)
 public:
     explicit MainController(QObject* parent= nullptr);
     ~MainController();
@@ -54,6 +55,7 @@ public:
     Player* characterTwo() const;
     Player* characterThree() const;
     Player* characterFour() const;
+    SortedModel* sortedModel() const;
     bool table1() const;
 
     const QString& campaign() const;
@@ -79,6 +81,7 @@ private:
     std::unique_ptr<SelectPresentProxyModel> m_selectModel;
     std::unique_ptr<DiaporamaModel> m_diaporamaModel;
     std::unique_ptr<DiaporamaModel> m_carouselModel;
+    std::unique_ptr<SortedModel> m_npcSortedModel;
     QString m_campaign;
     bool m_table1{false};
 };

@@ -17,57 +17,42 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "charactercontroller.h"
-#include "utils/iohelper.h"
+#include "sortedmodel.h"
 
-constexpr char const* none{"none"};
-
-CharacterController::CharacterController(QObject* parent)
-    : QObject{parent}, m_model{new CharacterModel}, m_filteredModel{new SortFilterModel}
+SortedModel::SortedModel(QObject* parent) : QSortFilterProxyModel{parent}
 {
-
-    IOHelper::fetchModel("/home/renaud/www/scripts/28_pnj_database/database.json",
-                         "/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/15_riz/additinal_data_npc.json",
-                         m_model.get());
-    m_filteredModel->setSourceModel(m_model.get());
+    setDynamicSortFilter(true);
 }
 
-void CharacterController::saveModel() const
+bool SortedModel::lessThan(const QModelIndex& source_left, const QModelIndex& source_right) const
 {
-    IOHelper::writeModel("/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/15_riz/additinal_data_npc.json",
-                         m_model.get());
-}
+    // return left > right
 
-const QStringList CharacterController::ownerModel() const
-{
-    QStringList list;
-    list << none;
-    list << m_model->ownerList();
-    return list;
-}
+    auto avatarpathLeft= source_left.siblingAtColumn(0).data(Qt::DisplayRole).toString();
+    auto nameLeft= source_left.siblingAtColumn(1).data(Qt::DisplayRole).toString();
+    auto clanLeft= source_left.siblingAtColumn(5).data(Qt::DisplayRole).toString();
 
-CharacterModel* CharacterController::model() const
-{
-    return m_model.get();
-}
+    auto avatarpathRight= source_right.siblingAtColumn(0).data(Qt::DisplayRole).toString();
+    auto nameRight= source_right.siblingAtColumn(1).data(Qt::DisplayRole).toString();
+    auto clanRight= source_right.siblingAtColumn(5).data(Qt::DisplayRole).toString();
 
-const QStringList CharacterController::clanModel() const
-{
-    QStringList list;
-    list << none;
-    list << m_model->clanList();
-    return list;
-}
-
-const QStringList CharacterController::factionModel() const
-{
-    QStringList list;
-    list << none;
-    list << m_model->factionList();
-    return list;
-}
-
-SortFilterModel* CharacterController::filteredModel() const
-{
-    return m_filteredModel.get();
+    if(avatarpathLeft.isEmpty() && !avatarpathRight.isEmpty())
+    {
+        return false;
+    }
+    else if(!avatarpathLeft.isEmpty() && avatarpathRight.isEmpty())
+    {
+        return false;
+    }
+    else
+    {
+        if(clanRight == clanLeft)
+        {
+            return nameLeft < nameRight;
+        }
+        else
+        {
+            return clanLeft < clanRight;
+        }
+    }
 }

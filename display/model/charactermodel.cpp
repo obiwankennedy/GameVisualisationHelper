@@ -244,6 +244,45 @@ QVariant CharacterModel::data(const QModelIndex& index, int role) const
 
     auto const& npc= m_characters[index.row()];
 
+    if(role > Qt::UserRole)
+    {
+        QVariant res;
+        switch(role)
+        {
+        case NameRole:
+            res= npc->name();
+            break;
+        case DescRole:
+            res= npc->description();
+            break;
+        case AgeRole:
+            res= npc->age();
+            break;
+        case AvatarUrlRole:
+            res= QUrl::fromUserInput(npc->urlAvatar());
+            break;
+        case GenderRole:
+            res= QVariant::fromValue(npc->gender());
+            break;
+        case ClanRole:
+            res= npc->clan();
+            break;
+        case FactionRole:
+            res= npc->faction();
+            break;
+        case TableRole:
+            res= QVariant::fromValue(npc->table());
+            break;
+        case OwnerRole:
+            res= npc->owners();
+            break;
+        case TagsRole:
+            res= npc->tags();
+            break;
+        }
+        return res;
+    }
+
     if(role == Qt::DecorationRole && index.column() == 0)
     {
         QVariant res;
@@ -316,7 +355,7 @@ QVariant CharacterModel::data(const QModelIndex& index, int role) const
         res= npc->age();
         break;
     case 5:
-        res= npc->clan();
+        res= npc->clan().toLower();
         break;
     case 6:
         res= npc->faction();
@@ -485,4 +524,11 @@ void CharacterModel::setImage(const QPixmap& map, const QString& name)
 {
     if(!map.isNull())
         m_avatars.insert(name, map);
+}
+
+QHash<int, QByteArray> CharacterModel::roleNames() const
+{
+    return {{NameRole, "name"},     {DescRole, "desc"}, {AgeRole, "age"},         {AvatarUrlRole, "avatarpath"},
+            {GenderRole, "gender"}, {ClanRole, "clan"}, {FactionRole, "faction"}, {TableRole, "table"},
+            {OwnerRole, "owner"},   {TagsRole, "tags"}};
 }

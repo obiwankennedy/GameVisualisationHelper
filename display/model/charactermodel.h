@@ -109,6 +109,19 @@ class CharacterModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
+    enum Role
+    {
+        NameRole= Qt::UserRole + 1,
+        DescRole,
+        AgeRole,
+        AvatarUrlRole,
+        GenderRole,
+        ClanRole,
+        FactionRole,
+        TableRole,
+        OwnerRole,
+        TagsRole
+    };
     explicit CharacterModel(QObject* parent= nullptr);
 
     // Header:
@@ -133,6 +146,8 @@ public:
 
     const std::vector<std::unique_ptr<NonPlayableCharacter>>& characters() const;
     void setImage(const QPixmap& map, const QString& name);
+
+    QHash<int, QByteArray> roleNames() const override;
 
 private:
     std::vector<std::unique_ptr<NonPlayableCharacter>> m_characters;

@@ -34,6 +34,8 @@
 #include "player.h"
 #include "presentproxymodel.h"
 
+#include "clandelegate.h"
+
 #include <QQmlContext>
 
 MainWindow::MainWindow(QWidget* parent)
@@ -60,10 +62,14 @@ MainWindow::MainWindow(QWidget* parent)
     ui->m_characterView->setModel(m_ctrl->proxyModel());
     auto currentCampaign= "jeudi";
 
+    auto sorted= m_ctrl->sortedModel();
+    sorted->setSourceModel(m_characterCtrl->filteredModel());
+
     m_ctrl->setCampaign(currentCampaign);
     ui->comboBox->setCurrentText(currentCampaign);
 
     ui->m_tableview->setModel(m_characterCtrl->filteredModel());
+    ui->m_tableview->setItemDelegateForColumn(5, new ClanDelegate());
     auto header= ui->m_tableview->horizontalHeader();
     header->setSectionResizeMode(2, QHeaderView::Stretch);
     header->setSectionResizeMode(3, QHeaderView::ResizeToContents);
