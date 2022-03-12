@@ -1,4 +1,4 @@
-QT       += core gui dbus quick qml svg
+QT       += core gui dbus quick qml svg webenginequick
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -11,25 +11,33 @@ RESOURCES += resources.qrc
 OTHER_FILES += qml/*.qml
 
 SOURCES += main.cpp\
+  controller/charactercontroller.cpp \
   diaporamamodel.cpp \
         guiadaptor.cpp \
   maincontroller.cpp \
         mainwindow.cpp \
     characteravatarmodel.cpp \
-    character.cpp \
-    presentproxymodel.cpp
+  model/charactermodel.cpp \
+  player.cpp \
+    presentproxymodel.cpp \
+  utils/iohelper.cpp
 
 HEADERS  += mainwindow.h \
+  controller/charactercontroller.h \
+  coretype.h \
   diaporamamodel.h \
         guiadaptor.h \
     characteravatarmodel.h \
-    character.h \
   maincontroller.h \
-    presentproxymodel.h
+  model/charactermodel.h \
+  player.h \
+    presentproxymodel.h \
+  utils/iohelper.h
 
 FORMS    += mainwindow.ui
 
 DISTFILES += \
+    qml/SheetViewer.qml \
     resources/oneshotFreaks/out/Hikaru_Ichijo.jpg \
     resources/oneshotFreaks/out/Hikaru_Ichijo-gray.jpg \
     resources/oneshotFreaks/out/Lilly_Claudel.jpg \

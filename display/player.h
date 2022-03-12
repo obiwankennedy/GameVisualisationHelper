@@ -1,12 +1,12 @@
-#ifndef CHARACTER_H
-#define CHARACTER_H
+#ifndef PLAYER_H
+#define PLAYER_H
 
 #include <QColor>
 #include <QObject>
 #include <QPointF>
 #include <QString>
 
-class Character : public QObject
+class Player : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
@@ -19,8 +19,9 @@ class Character : public QObject
     Q_PROPERTY(bool hidden READ hidden WRITE setHidden NOTIFY hiddenChanged)
     Q_PROPERTY(QPointF position READ position WRITE setPosition NOTIFY positionChanged)
     Q_PROPERTY(bool gamemaster READ gamemaster CONSTANT)
+    Q_PROPERTY(QString sheet READ sheet WRITE setSheet NOTIFY sheetChanged)
 public:
-    Character(QString, QString, QString, QString, QColor, QString id, bool gamemaster= false);
+    Player(QString, QString, QString, QString, QColor, QString id, bool gamemaster= false);
 
     QString name() const;
     void setName(const QString& name);
@@ -53,6 +54,9 @@ public:
 
     bool gamemaster() const;
 
+    const QString& sheet() const;
+    void setSheet(const QString& newSheet);
+
 signals:
     void nameChanged();
     void playerNameChanged();
@@ -62,6 +66,8 @@ signals:
     void speakingTimeChanged();
     void hiddenChanged();
     void positionChanged();
+
+    void sheetChanged();
 
 private:
     QString m_name;
@@ -75,6 +81,7 @@ private:
     bool m_hidden= false;
     QPointF m_position;
     bool m_gamemaster{false};
+    QString m_sheet;
 };
 
-#endif // CHARACTER_H
+#endif // PLAYER_H

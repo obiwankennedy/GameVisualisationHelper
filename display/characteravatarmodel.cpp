@@ -1,6 +1,6 @@
 #include "characteravatarmodel.h"
 
-#include "character.h"
+#include "player.h"
 #include <QDebug>
 #include <QJsonArray>
 #include <QJsonObject>
@@ -164,6 +164,7 @@ QHash<int, QByteArray> CharacterAvatarModel::roleNames() const
     roles.insert(Percent, "percent");
     roles.insert(Color, "colorCh");
     roles.insert(Position, "position");
+    roles.insert(Sheet, "sheet");
     roles.insert(GameMaster, "gameMaster");
     return roles;
 }
@@ -176,7 +177,7 @@ QModelIndex CharacterAvatarModel::index(int row, int column, const QModelIndex& 
     return createIndex(row, column);
 }
 
-void CharacterAvatarModel::resetData(std::vector<Character*> person)
+void CharacterAvatarModel::resetData(std::vector<Player*> person)
 {
     beginResetModel();
     m_persons.clear();
@@ -184,7 +185,7 @@ void CharacterAvatarModel::resetData(std::vector<Character*> person)
     endResetModel();
 }
 
-void CharacterAvatarModel::addPerson(Character* person)
+void CharacterAvatarModel::addPerson(Player* person)
 {
     beginInsertRows(QModelIndex(), m_persons.size(), m_persons.size());
     m_persons.push_back(person);
@@ -203,7 +204,6 @@ void CharacterAvatarModel::speakingStatusChanged(QString user, bool isSpeaking)
     {
         if(character->playerName() == user)
         {
-            qDebug() << "find Player";
             character->setIsSpeaking(isSpeaking);
             auto idx= createIndex(i, 0);
             dataChanged(idx, idx, QVector<int>() << IsSpeaking);
@@ -215,7 +215,7 @@ void CharacterAvatarModel::speakingStatusChanged(QString user, bool isSpeaking)
 void CharacterAvatarModel::setSpeakingTimeForUser(QString user, QString camp, qreal time)
 {
     auto it= std::find_if(m_persons.begin(), m_persons.end(),
-                          [=](const Character* a) { return (a->playerName() == user && a->campaign() == camp); });
+                          [=](const Player* a) { return (a->playerName() == user && a->campaign() == camp); });
     if(it == m_persons.end())
         return;
     if(m_maxSpeakingTime < time)
@@ -246,7 +246,7 @@ QVariant CharacterAvatarModel::headerData(int section, Qt::Orientation orientati
     }
 }
 
-const std::vector<Character*>& CharacterAvatarModel::characters() const
+const std::vector<Player*>& CharacterAvatarModel::characters() const
 {
     return m_persons;
 }
@@ -265,7 +265,7 @@ void CharacterAvatarModel::setMaxSpeakingTime(const qreal& maxSpeakingTime)
     emit totaltimeChanged();
 }
 
-Character* CharacterAvatarModel::characterAt(int i) const
+Player* CharacterAvatarModel::characterAt(int i) const
 {
     if(m_persons.size() <= i || m_persons.empty())
         return nullptr;
@@ -287,6 +287,7 @@ void CharacterAvatarModel::writeData(QJsonArray& array)
         object["x"]= character->position().x();
         object["y"]= character->position().y();
         object["gm"]= character->gamemaster();
+        object["sheet"]= character->sheet();
         array.append(object);
     }
 }
@@ -307,8 +308,10 @@ void CharacterAvatarModel::readData(QJsonArray& array)
         auto x= obj["x"].toDouble();
         auto y= obj["y"].toDouble();
         auto gm= obj["gm"].toBool();
-        auto character= new Character(name, playerName, imageId, campaign, QColor(color), id, gm);
+        auto sheet= obj["sheet"].toString();
+        auto character= new Player(name, playerName, imageId, campaign, QColor(color), id, gm);
         character->setPosition({x, y});
+        character->setSheet(sheet);
         m_persons.push_back(character);
     }
     endResetModel();

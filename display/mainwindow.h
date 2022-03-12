@@ -40,6 +40,7 @@ class PresentProxyModel;
 class CharacterAvatarModel;
 class SelectPresentProxyModel;
 class MainController;
+class CharacterController;
 /**
  * @brief The MainWindow class
  */
@@ -75,6 +76,7 @@ private slots:
 private:
     Ui::MainWindow* ui;
     std::unique_ptr<MainController> m_ctrl;
+    std::unique_ptr<CharacterController> m_characterCtrl;
 
     SelectPresentProxyModel* m_selectModel;
     std::unique_ptr<QQmlApplicationEngine> m_engine;

@@ -20,7 +20,7 @@
 #ifndef MAINCONTROLLER_H
 #define MAINCONTROLLER_H
 
-#include "character.h"
+#include "player.h"
 #include "characteravatarmodel.h"
 #include "diaporamamodel.h"
 #include "presentproxymodel.h"
@@ -33,11 +33,11 @@ class MainController : public QObject
     Q_PROPERTY(PresentProxyModel* proxyModel READ proxyModel CONSTANT)
     Q_PROPERTY(SelectPresentProxyModel* selectModel READ selectModel CONSTANT)
     Q_PROPERTY(DiaporamaModel* diaporamaModel READ diaporamaModel CONSTANT)
-    Q_PROPERTY(Character* gameMaster READ gameMaster CONSTANT)
-    Q_PROPERTY(Character* characterOne READ characterOne CONSTANT)
-    Q_PROPERTY(Character* characterTwo READ characterTwo CONSTANT)
-    Q_PROPERTY(Character* characterThree READ characterThree CONSTANT)
-    Q_PROPERTY(Character* characterFour READ characterFour CONSTANT)
+    Q_PROPERTY(Player* gameMaster READ gameMaster CONSTANT)
+    Q_PROPERTY(Player* characterOne READ characterOne CONSTANT)
+    Q_PROPERTY(Player* characterTwo READ characterTwo CONSTANT)
+    Q_PROPERTY(Player* characterThree READ characterThree CONSTANT)
+    Q_PROPERTY(Player* characterFour READ characterFour CONSTANT)
     Q_PROPERTY(QString campaign READ campaign WRITE setCampaign NOTIFY campaignChanged)
     Q_PROPERTY(qreal maxSpeakingTime READ maxSpeakingTime NOTIFY maxSpeakingTimeChanged)
     Q_PROPERTY(bool table1 READ table1 CONSTANT)
@@ -49,11 +49,11 @@ public:
 
     CharacterAvatarModel* avatarModel() const;
 
-    Character* gameMaster() const;
-    Character* characterOne() const;
-    Character* characterTwo() const;
-    Character* characterThree() const;
-    Character* characterFour() const;
+    Player* gameMaster() const;
+    Player* characterOne() const;
+    Player* characterTwo() const;
+    Player* characterThree() const;
+    Player* characterFour() const;
     bool table1() const;
 
     const QString& campaign() const;

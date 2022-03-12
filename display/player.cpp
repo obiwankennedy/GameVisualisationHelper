@@ -1,6 +1,6 @@
-#include "character.h"
+#include "player.h"
 
-Character::Character(QString name, QString player, QString img, QString cmp, QColor color, QString id, bool gamemaster)
+Player::Player(QString name, QString player, QString img, QString cmp, QColor color, QString id, bool gamemaster)
     : m_name(name)
     , m_playerName(player)
     , m_imgId(img)
@@ -11,12 +11,12 @@ Character::Character(QString name, QString player, QString img, QString cmp, QCo
 {
 }
 
-QString Character::name() const
+QString Player::name() const
 {
     return m_name;
 }
 
-void Character::setName(const QString& name)
+void Player::setName(const QString& name)
 {
     if(name == m_name)
         return;
@@ -24,12 +24,12 @@ void Character::setName(const QString& name)
     emit nameChanged();
 }
 
-QString Character::playerName() const
+QString Player::playerName() const
 {
     return m_playerName;
 }
 
-void Character::setPlayerName(const QString& playerName)
+void Player::setPlayerName(const QString& playerName)
 {
     if(playerName == m_playerName)
         return;
@@ -38,11 +38,11 @@ void Character::setPlayerName(const QString& playerName)
     emit playerNameChanged();
 }
 
-bool Character::isSpeaking() const
+bool Player::isSpeaking() const
 {
     return m_isSpeaking;
 }
-void Character::setIsSpeaking(bool isSpeaking)
+void Player::setIsSpeaking(bool isSpeaking)
 {
     if(isSpeaking == m_isSpeaking)
         return;
@@ -51,12 +51,12 @@ void Character::setIsSpeaking(bool isSpeaking)
     emit isSpeakingChanged();
 }
 
-QString Character::imgId() const
+QString Player::imgId() const
 {
     return m_imgId;
 }
 
-void Character::setImgId(const QString& imgId)
+void Player::setImgId(const QString& imgId)
 {
     if(imgId == m_imgId)
         return;
@@ -64,22 +64,22 @@ void Character::setImgId(const QString& imgId)
     emit imgIdChanged();
 }
 
-QString Character::campaign() const
+QString Player::campaign() const
 {
     return m_campaign;
 }
 
-void Character::setCampaign(const QString& campaign)
+void Player::setCampaign(const QString& campaign)
 {
     m_campaign= campaign;
 }
 
-quint64 Character::speakingTime() const
+quint64 Player::speakingTime() const
 {
     return m_speakingTime;
 }
 
-void Character::setSpeakingTime(const quint64& speakingTime)
+void Player::setSpeakingTime(const quint64& speakingTime)
 {
     if(speakingTime == m_speakingTime)
         return;
@@ -87,22 +87,22 @@ void Character::setSpeakingTime(const quint64& speakingTime)
     emit speakingTimeChanged();
 }
 
-QColor Character::color() const
+QColor Player::color() const
 {
     return m_color;
 }
 
-void Character::setColor(const QColor& color)
+void Player::setColor(const QColor& color)
 {
     m_color= color;
 }
 
-bool Character::hidden() const
+bool Player::hidden() const
 {
     return m_hidden;
 }
 
-void Character::setHidden(bool v)
+void Player::setHidden(bool v)
 {
     if(m_hidden == v)
         return;
@@ -110,17 +110,17 @@ void Character::setHidden(bool v)
     emit hiddenChanged();
 }
 
-QString Character::id() const
+QString Player::id() const
 {
     return m_id;
 }
 
-QPointF Character::position() const
+QPointF Player::position() const
 {
     return m_position;
 }
 
-void Character::setPosition(QPointF newPosition)
+void Player::setPosition(QPointF newPosition)
 {
     if(m_position == newPosition)
         return;
@@ -128,7 +128,20 @@ void Character::setPosition(QPointF newPosition)
     emit positionChanged();
 }
 
-bool Character::gamemaster() const
+bool Player::gamemaster() const
 {
     return m_gamemaster;
+}
+
+const QString &Player::sheet() const
+{
+    return m_sheet;
+}
+
+void Player::setSheet(const QString &newSheet)
+{
+    if (m_sheet == newSheet)
+        return;
+    m_sheet = newSheet;
+    emit sheetChanged();
 }

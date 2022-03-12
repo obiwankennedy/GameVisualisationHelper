@@ -1,8 +1,8 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Renaud Guezennec                                *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+ *	Copyright (C) 2022 by Renaud Guezennec                               *
+ *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   This software is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
@@ -17,34 +17,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef MAIN
-#define MAIN
-#include "guiadaptor.h"
-#include "mainwindow.h"
-#include <QApplication>
-#include <QFontDatabase>
-#include <QImageReader>
-#include <QtWebEngineQuick/qtwebenginequickglobal.h>
+#ifndef IOHELPER_H
+#define IOHELPER_H
 
-int main(int argc, char* argv[])
+#include <QString>
+
+class CharacterModel;
+namespace IOHelper
 {
-    QtWebEngineQuick::initialize();
-    QApplication a(argc, argv);
-    MainWindow* w= new MainWindow();
-    new GuiAdaptor(w);
-    w->show();
+void fetchModel(const QString& database, const QString& internalData, CharacterModel* model);
+void writeModel(const QString& internalData, CharacterModel* model);
+}; // namespace IOHelper
 
-    QImageReader::setAllocationLimit(0);
-
-    /*  auto f= QFontDatabase::families();
-      for(const auto& p : f)
-          qDebug() << p;*/
-
-    QDBusConnection connection= QDBusConnection::sessionBus();
-    bool rel= connection.registerService("org.rolisteam.display");
-    rel= connection.registerObject("/", w);
-
-    return a.exec();
-}
-
-#endif
+#endif // IOHELPER_H

@@ -107,6 +107,17 @@ ApplicationWindow {
                     target: _avatarPanel
                     visible: true
                 }
+            },
+            State {
+                name: "Sheet"
+                PropertyChanges {
+                    target: _content
+                    panel: 7
+                }
+                PropertyChanges {
+                    target: _avatarPanel
+                    visible: true
+                }
             }
         ]
 
@@ -217,6 +228,12 @@ ApplicationWindow {
                     checked: main.state === "Gridview"
                     onTriggered: main.state = "Gridview"
                 }
+                Action  {
+                    text: "6. Sheet"
+                    checkable: true
+                    checked: main.state === "Sheet"
+                    onTriggered: main.state = "Sheet"
+                }
 
             }
         }
@@ -238,6 +255,14 @@ ApplicationWindow {
                            .arg(currentDate.toLocaleTimeString(Qt.locale("fr_fr"),"hh:mm"))
             anchors.bottom: parent.bottom
             anchors.left: parent.left
+            Timer {
+                running: true
+                repeat: true
+                interval: 1000*15
+                onTriggered: {
+                    timetracker.currentDate = new Date()
+                }
+            }
         }
 
     }

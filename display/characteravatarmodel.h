@@ -3,7 +3,7 @@
 
 #include <QAbstractListModel>
 #include <QMap>
-class Character;
+class Player;
 
 class CharacterAvatarModel : public QAbstractItemModel
 {
@@ -22,7 +22,8 @@ public:
         Color,
         Hidden,
         Position,
-        GameMaster
+        GameMaster,
+        Sheet
     };
 
     CharacterAvatarModel(QObject* parent= nullptr);
@@ -38,24 +39,24 @@ public:
 
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
-    void resetData(std::vector<Character*> person);
+    void resetData(std::vector<Player*> person);
 
-    void addPerson(Character* person);
+    void addPerson(Player* person);
 
     void writeData(QJsonArray& object);
     void readData(QJsonArray& object);
 
     void speakingStatusChanged(QString user, bool isSpeaking);
     void setSpeakingTimeForUser(QString user, QString camp, qreal time);
-    const std::vector<Character*>& characters() const;
+    const std::vector<Player*>& characters() const;
     qreal maxSpeakingTime() const;
     void setMaxSpeakingTime(const qreal& maxSpeakingTime);
-    Character* characterAt(int i) const;
+    Player* characterAt(int i) const;
 signals:
     void totaltimeChanged();
 
 private:
-    std::vector<Character*> m_persons;
+    std::vector<Player*> m_persons;
     qreal m_maxSpeakingTime= 1;
 };
 

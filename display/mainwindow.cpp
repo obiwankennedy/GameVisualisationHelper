@@ -28,17 +28,19 @@
 #include <QJsonDocument>
 #include <QTimer>
 
-#include "character.h"
 #include "characteravatarmodel.h"
+#include "controller/charactercontroller.h"
 #include "maincontroller.h"
+#include "player.h"
 #include "presentproxymodel.h"
 
 #include <QQmlContext>
 
-MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow), m_ctrl(new MainController)
+MainWindow::MainWindow(QWidget* parent)
+    : QMainWindow(parent), ui(new Ui::MainWindow), m_ctrl(new MainController), m_characterCtrl(new CharacterController)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::WindowStaysOnTopHint);
+    // setWindowFlags(Qt::WindowStaysOnTopHint);
 
     QStringList camp;
     camp << "jeudi";
@@ -60,6 +62,62 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     m_ctrl->setCampaign(currentCampaign);
     ui->comboBox->setCurrentText(currentCampaign);
+
+    ui->m_tableview->setModel(m_characterCtrl->filteredModel());
+    auto header= ui->m_tableview->horizontalHeader();
+    header->setSectionResizeMode(2, QHeaderView::Stretch);
+    header->setSectionResizeMode(3, QHeaderView::ResizeToContents);
+    header->setSectionResizeMode(4, QHeaderView::ResizeToContents);
+
+    auto vHeader= ui->m_tableview->verticalHeader();
+    vHeader->setDefaultSectionSize(60);
+
+    auto filter= m_characterCtrl->filteredModel();
+
+    connect(ui->m_patternLine, &QLineEdit::editingFinished, filter,
+            [filter, this]() { filter->setPattern(ui->m_patternLine->text()); });
+    connect(ui->m_genderCb, &QComboBox::currentTextChanged, filter, [filter, this]() {
+        auto idx= ui->m_genderCb->currentIndex();
+        filter->setGender(idx == 0 ? core::Gender::All : idx == 1 ? core::Gender::Masculin : core::Gender::Feminin);
+    });
+    connect(ui->m_tableCb, &QComboBox::currentTextChanged, filter, [filter, this]() {
+        auto idx= ui->m_tableCb->currentIndex();
+        filter->setTable(idx == 0 ? core::Table::All : idx == 1 ? core::Table::Table1 : core::Table::Table2);
+    });
+
+    connect(ui->m_clanCb, &QComboBox::currentTextChanged, filter, [filter, this]() {
+        auto idx= ui->m_clanCb->currentIndex();
+        filter->setClan(idx == 0 ? QString() : ui->m_clanCb->currentText());
+    });
+    connect(ui->m_factionCb, &QComboBox::currentTextChanged, filter, [filter, this]() {
+        auto idx= ui->m_factionCb->currentIndex();
+        filter->setFaction(idx == 0 ? QString() : ui->m_factionCb->currentText());
+    });
+    connect(ui->m_ownerCb, &QComboBox::currentTextChanged, filter, [filter, this]() {
+        auto idx= ui->m_ownerCb->currentIndex();
+        filter->setOwner(idx == 0 ? QString() : ui->m_ownerCb->currentText());
+    });
+
+    connect(ui->m_resetBtn, &QPushButton::clicked, this, [filter, this]() {
+        ui->m_patternLine->setText(QString());
+        ui->m_genderCb->setCurrentIndex(0);
+        ui->m_tableCb->setCurrentIndex(0);
+        ui->m_clanCb->setCurrentIndex(0);
+        ui->m_factionCb->setCurrentIndex(0);
+        ui->m_ownerCb->setCurrentIndex(0);
+
+        filter->setClan(QString());
+        filter->setPattern(QString());
+        filter->setFaction(QString());
+        filter->setOwner(QString());
+        filter->setTable(core::Table::All);
+        filter->setGender(core::Gender::All);
+        // filter->setClan(QString());
+    });
+
+    ui->m_clanCb->addItems(m_characterCtrl->clanModel());
+    ui->m_factionCb->addItems(m_characterCtrl->factionModel());
+    ui->m_ownerCb->addItems(m_characterCtrl->ownerModel());
 
     loadFile();
     refreshQMLEngine();
@@ -184,6 +242,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
             qDebug() << keyItem << ":" << m_cumulTimeByUser.value(keyItem);
         }
         saveFile(false);
+        m_characterCtrl->saveModel();
         event->accept();
     }
     else
