@@ -20,12 +20,14 @@
 #ifndef MAINCONTROLLER_H
 #define MAINCONTROLLER_H
 
+#include <QObject>
+
 #include "characteravatarmodel.h"
+#include "controller/previewcontroller.h"
 #include "diaporamamodel.h"
 #include "model/sortedmodel.h"
 #include "player.h"
 #include "presentproxymodel.h"
-#include <QObject>
 
 class MainController : public QObject
 {
@@ -44,6 +46,7 @@ class MainController : public QObject
     Q_PROPERTY(bool table1 READ table1 CONSTANT)
     Q_PROPERTY(DiaporamaModel* carouselModel READ carouselModel CONSTANT)
     Q_PROPERTY(SortedModel* sortedModel READ sortedModel CONSTANT)
+    Q_PROPERTY(PreviewController* previewCtrl READ previewCtrl CONSTANT)
 public:
     explicit MainController(QObject* parent= nullptr);
     ~MainController();
@@ -56,20 +59,16 @@ public:
     Player* characterThree() const;
     Player* characterFour() const;
     SortedModel* sortedModel() const;
-    bool table1() const;
-
-    const QString& campaign() const;
-    void setCampaign(const QString& newCampaign);
-
+    PreviewController* previewCtrl() const;
     PresentProxyModel* proxyModel() const;
-
     SelectPresentProxyModel* selectModel() const;
-
     DiaporamaModel* diaporamaModel() const;
-
+    bool table1() const;
+    const QString& campaign() const;
     qreal maxSpeakingTime() const;
-
     DiaporamaModel* carouselModel() const;
+
+    void setCampaign(const QString& newCampaign);
 
 signals:
     void campaignChanged();
@@ -84,6 +83,7 @@ private:
     std::unique_ptr<SortedModel> m_npcSortedModel;
     QString m_campaign;
     bool m_table1{false};
+    std::unique_ptr<PreviewController> m_previewCtrl;
 };
 
 #endif // MAINCONTROLLER_H

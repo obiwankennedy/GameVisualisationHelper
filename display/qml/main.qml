@@ -12,6 +12,8 @@ ApplicationWindow {
     width: 1920
     height: 1080
 
+
+
     maximumHeight: height
     maximumWidth: width
 
@@ -20,8 +22,6 @@ ApplicationWindow {
     visible: true
     title: "GameVisualHelper"
     property bool deco: true
-    //property var imgModel: ["qrc:/resources/lg/landscape/bostonpanneau.jpg","qrc:/resources/lg/landscape/building2.jpg","qrc:/resources/lg/landscape/bunker_hill_monument.jpg","qrc:/resources/lg/landscape/horizon.jpg","qrc:/resources/lg/landscape/latinSchool.jpg","qrc:/resources/lg/landscape/old_state_house.jpg","qrc:/resources/lg/landscape/port1.jpg","qrc:/resources/lg/landscape/harvard.webp"]
-
 
     onClosing: Qt.quit()
     flags: deco ? Qt.Window : Qt.FramelessWindowHint
@@ -33,6 +33,7 @@ ApplicationWindow {
         states: [
             State {
                 name: "Normal"
+                when: MainController.previewCtrl.currentMode === 1
                 PropertyChanges {
                     target: _content
                     panel: 1
@@ -44,6 +45,7 @@ ApplicationWindow {
             },
             State {
                 name: ""
+                when: MainController.previewCtrl.currentMode === 0
                 PropertyChanges {
                     target: _avatarPanel
                     visible: false
@@ -55,6 +57,7 @@ ApplicationWindow {
             },
             State {
                 name: "diaporama"
+                when: MainController.previewCtrl.currentMode === 4
                 PropertyChanges {
                     target: _content
                     panel: 2
@@ -66,6 +69,7 @@ ApplicationWindow {
             },
             State {
                 name: "carousel"
+                when: MainController.previewCtrl.currentMode === 5
                 PropertyChanges {
                     target: _content
                     panel: 4
@@ -77,6 +81,7 @@ ApplicationWindow {
             },
             State {
                 name: "Ouvert"
+                when: MainController.previewCtrl.currentMode === 3
                 PropertyChanges {
                     target: _content
                     panel: 3
@@ -88,6 +93,7 @@ ApplicationWindow {
             },
             State {
                 name: "Carte"
+                when: MainController.previewCtrl.currentMode === 2
                 PropertyChanges {
                     target: _content
                     panel: 5
@@ -99,6 +105,7 @@ ApplicationWindow {
             },
             State {
                 name: "Gridview"
+                when: MainController.previewCtrl.currentMode === 6
                 PropertyChanges {
                     target: _content
                     panel: 6
@@ -110,6 +117,7 @@ ApplicationWindow {
             },
             State {
                 name: "Sheet"
+                when: MainController.previewCtrl.currentMode === 7
                 PropertyChanges {
                     target: _content
                     panel: 7
@@ -190,49 +198,49 @@ ApplicationWindow {
                     text: "1. En attentes"
                     checkable: true
                     checked: main.state === ""
-                    onTriggered: main.state = ""
+                    onTriggered: MainController.previewCtrl.currentMode = 0//main.state = ""
                 }
                 Action  {
                     text: "2. Normal"
                     checkable: true
                     checked: main.state === "Normal"
-                    onTriggered: main.state = "Normal"
+                    onTriggered: MainController.previewCtrl.currentMode = 1
                 }
                 Action  {
                     text: "3. Carte"
                     checkable: true
                     checked: main.state === "Carte"
-                    onTriggered: main.state = "Carte"
+                    onTriggered: MainController.previewCtrl.currentMode = 2
                 }
                 Action  {
                     text: "4. Ouvert"
                     checkable: true
                     checked: main.state === "Ouvert"
-                    onTriggered: main.state = "Ouvert"
+                    onTriggered: MainController.previewCtrl.currentMode = 3
                 }
                 Action  {
                     text: "5. Diaporama"
                     checkable: true
                     checked: main.state === "diaporama"
-                    onTriggered: main.state = "diaporama"
+                    onTriggered: MainController.previewCtrl.currentMode = 4
                 }
                 Action  {
                     text: "6. Carousel"
                     checkable: true
                     checked: main.state === "carousel"
-                    onTriggered: main.state = "carousel"
+                    onTriggered: MainController.previewCtrl.currentMode = 5
                 }
                 Action  {
                     text: "7. Gridview"
                     checkable: true
                     checked: main.state === "Gridview"
-                    onTriggered: main.state = "Gridview"
+                    onTriggered: MainController.previewCtrl.currentMode = 6
                 }
                 Action  {
                     text: "8. Sheet"
                     checkable: true
                     checked: main.state === "Sheet"
-                    onTriggered: main.state = "Sheet"
+                    onTriggered: MainController.previewCtrl.currentMode = 7
                 }
 
             }
@@ -244,6 +252,7 @@ ApplicationWindow {
             anchors.centerIn: parent
             width: parent.width*0.7
             height: parent.height
+
         }
 
         Label {

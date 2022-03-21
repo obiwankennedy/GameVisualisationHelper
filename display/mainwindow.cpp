@@ -26,6 +26,8 @@
 #include <QFileDialog>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QQmlContext>
+#include <QSaveFile>
 #include <QTimer>
 
 #include "characteravatarmodel.h"
@@ -35,8 +37,6 @@
 #include "presentproxymodel.h"
 
 #include "clandelegate.h"
-
-#include <QQmlContext>
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), m_ctrl(new MainController), m_characterCtrl(new CharacterController)
@@ -75,6 +75,28 @@ MainWindow::MainWindow(QWidget* parent)
     header->setSectionResizeMode(3, QHeaderView::ResizeToContents);
     header->setSectionResizeMode(4, QHeaderView::ResizeToContents);
 
+    // Preview
+    auto label= new QLabel();
+    label->setLineWidth(0);
+    label->setFrameStyle(QFrame::NoFrame);
+    ui->m_scrollAreaVisual->setWidget(label);
+    ui->m_scrollAreaVisual->setAlignment(Qt::AlignCenter);
+    ui->m_scrollAreaVisual->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->m_scrollAreaVisual->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    label->setScaledContents(true);
+    label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+
+    m_ctrl->previewCtrl()->setLabel(label);
+    label->installEventFilter(m_ctrl->previewCtrl());
+
+    connect(m_ctrl->previewCtrl(), &PreviewController::imageChanged, this,
+            [this, label]() { label->setPixmap(QPixmap::fromImage(m_ctrl->previewCtrl()->image())); });
+
+    connect(ui->m_visualModeCb, &QComboBox::currentIndexChanged, m_ctrl->previewCtrl(),
+            &PreviewController::setCurrentMode);
+
+    // Table view
     auto vHeader= ui->m_tableview->verticalHeader();
     vHeader->setDefaultSectionSize(60);
 
@@ -127,6 +149,28 @@ MainWindow::MainWindow(QWidget* parent)
 
     loadFile();
     refreshQMLEngine();
+
+    QObject* root= m_engine->rootObjects().first();
+    if(nullptr != root)
+    {
+        auto window= qobject_cast<QQuickWindow*>(root);
+        connect(window, &QQuickWindow::frameSwapped, this,
+                [this, window]() { m_ctrl->previewCtrl()->setImage(window->grabWindow()); });
+
+        connect(m_ctrl->previewCtrl(), &PreviewController::sendEvent, this,
+                [window](QMouseEvent* event) { QCoreApplication::sendEvent(window, event); });
+    }
+
+    QFile file("/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/15_riz/01_Notes.md");
+    if(file.open(QIODevice::ReadOnly))
+    {
+        auto data= file.readAll();
+        ui->m_editor->setPlainText(data);
+        ui->m_viewer->setMarkdown(data);
+    }
+
+    connect(ui->m_editor, &QPlainTextEdit::textChanged, ui->m_viewer,
+            [this]() { ui->m_viewer->setMarkdown(ui->m_editor->toPlainText()); });
 }
 
 MainWindow::~MainWindow() {}
@@ -229,6 +273,13 @@ void MainWindow::saveFile(bool saveAs)
     QFile file(m_filename);
     file.open(QIODevice::WriteOnly);
     file.write(doc.toJson());
+
+    QSaveFile savefile("/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/15_riz/01_Notes.md");
+    if(savefile.open(QIODevice::WriteOnly))
+    {
+        savefile.write(ui->m_editor->toPlainText().toUtf8());
+        savefile.commit();
+    }
 }
 void MainWindow::resizeEvent(QResizeEvent* ev)
 {

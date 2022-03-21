@@ -108,18 +108,12 @@ void SortFilterModel::setTable(core::Table newTable)
     emit tableChanged();
 }
 
-bool isCorrectTable(core::Table wish, const QString& text)
+bool isCorrectTable(core::Table wish, const core::Table& table)
 {
-    if(wish == core::Table::All)
-        return true;
-    else if(text == toutes)
-        return true;
-    else if(text == "Table1" && wish == core::Table::Table1)
-        return true;
-    else if(text == "Table2" && wish == core::Table::Table2)
+    if(wish == core::Table::All || table == core::Table::All)
         return true;
     else
-        return false;
+        return wish == table;
 }
 
 bool isCorrectGender(core::Gender wish, const QChar& gender)
@@ -145,12 +139,14 @@ bool SortFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceP
     auto genderIndex= sourceModel()->index(sourceRow, 3, sourceParent).data().toChar();
     auto clanIndex= sourceModel()->index(sourceRow, 5, sourceParent).data().toString().toLower();
     auto factionIndex= sourceModel()->index(sourceRow, 6, sourceParent).data().toString().toLower();
-    auto tableIndex= sourceModel()->index(sourceRow, 7, sourceParent).data().toString().toLower();
+    auto tableIndex= sourceModel()->index(sourceRow, 7, sourceParent).data().value<core::Table>();
     auto ownerIndex= sourceModel()->index(sourceRow, 8, sourceParent).data().toString().toLower();
     auto tagsIndex= sourceModel()->index(sourceRow, 9, sourceParent).data().toString().toLower();
 
     auto correctGender= isCorrectGender(m_gender, genderIndex);
+
     auto correctTable= isCorrectTable(m_table, tableIndex);
+    qDebug() << "correct Table:" << m_table << "index: " << tableIndex;
 
     return (nameIndex.contains(m_pattern.toLower()) | descIndex.contains(m_pattern.toLower())
             | tagsIndex.contains(m_pattern.toLower()))

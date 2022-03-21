@@ -171,6 +171,12 @@ Item {
                 id: _mouseArea
                 width: 200
                 height: 200
+                Drag.active: dragHandler.active
+                Drag.dragType: Drag.Automatic
+                Drag.supportedActions: Qt.CopyAction
+                Drag.mimeData: {
+                     "text/uri-list": model.avatarpath
+                }
                 Image {
                     id: _img
                     anchors.fill: parent
@@ -199,6 +205,17 @@ Item {
                     _bigPic.source = model.avatarpath
                     _bigPic.name = model.name
                     _bigPic.open()
+                }
+
+                DragHandler {
+                    id: dragHandler
+                    onActiveChanged:{
+                        if (active) {
+                            _img.grabToImage(function(result) {
+                                _img.Drag.imageSource = result.url;
+                            })
+                        }
+                    }
                 }
             }
         }

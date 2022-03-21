@@ -84,7 +84,7 @@
              <property name="currentIndex">
               <number>1</number>
              </property>
-             <widget class="QWidget" name="tab">
+             <widget class="QWidget" name="players">
               <attribute name="title">
                <string>Players</string>
               </attribute>
@@ -130,7 +130,7 @@
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="tab_2">
+             <widget class="QWidget" name="pnj">
               <attribute name="title">
                <string>PNJ</string>
               </attribute>
@@ -309,13 +309,139 @@
                 </widget>
                </item>
                <item>
-                <widget class="QTableView" name="m_tableview">
+                <widget class="DragableTableView" name="m_tableview">
+                 <property name="dragEnabled">
+                  <bool>true</bool>
+                 </property>
+                 <property name="dragDropMode">
+                  <enum>QAbstractItemView::DragOnly</enum>
+                 </property>
+                 <property name="defaultDropAction">
+                  <enum>Qt::CopyAction</enum>
+                 </property>
+                 <property name="alternatingRowColors">
+                  <bool>true</bool>
+                 </property>
+                 <property name="selectionMode">
+                  <enum>QAbstractItemView::ExtendedSelection</enum>
+                 </property>
+                 <property name="selectionBehavior">
+                  <enum>QAbstractItemView::SelectRows</enum>
+                 </property>
                  <property name="sortingEnabled">
                   <bool>true</bool>
                  </property>
                  <attribute name="horizontalHeaderStretchLastSection">
                   <bool>true</bool>
                  </attribute>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="preview">
+              <attribute name="title">
+               <string>Preview</string>
+              </attribute>
+              <layout class="QVBoxLayout" name="verticalLayout_6" stretch="0,0">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_3">
+                 <item>
+                  <widget class="QLabel" name="label_9">
+                   <property name="text">
+                    <string>Mode:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="m_visualModeCb">
+                   <item>
+                    <property name="text">
+                     <string>Attentes</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Normal</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Carte</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Écran vert</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Diaporama</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Carousel</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Grille</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Fiches</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QScrollArea" name="m_scrollAreaVisual">
+                 <property name="widgetResizable">
+                  <bool>true</bool>
+                 </property>
+                 <widget class="QWidget" name="scrollAreaWidgetContents">
+                  <property name="geometry">
+                   <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>1038</width>
+                    <height>535</height>
+                   </rect>
+                  </property>
+                 </widget>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="tab">
+              <attribute name="title">
+               <string>Scenario</string>
+              </attribute>
+              <layout class="QVBoxLayout" name="verticalLayout_7">
+               <item>
+                <widget class="QSplitter" name="splitter_2">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <widget class="QMarkdownTextEdit" name="m_editor"/>
+                 <widget class="QTextEdit" name="m_viewer"/>
                 </widget>
                </item>
               </layout>
@@ -483,6 +609,18 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QMarkdownTextEdit</class>
+   <extends>QPlainTextEdit</extends>
+   <header>third/qmarkdowntextedit/qmarkdowntextedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>DragableTableView</class>
+   <extends>QTableView</extends>
+   <header>widgets/dragabletableview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

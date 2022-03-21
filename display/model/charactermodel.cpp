@@ -20,6 +20,7 @@
 #include "charactermodel.h"
 
 #include <QColor>
+#include <QMimeData>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
@@ -444,7 +445,9 @@ Qt::ItemFlags CharacterModel::flags(const QModelIndex& index) const
 
     QList<int> readOnlyColumn{1, 3, 5, 7, 8};
 
-    if(readOnlyColumn.contains(index.column()))
+    if(index.column() == 0)
+        return Qt::ItemIsDropEnabled | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+    else if(readOnlyColumn.contains(index.column()))
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
     else
         return Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
@@ -462,6 +465,37 @@ QStringList CharacterModel::clanList() const
     QStringList list{std::begin(set), std::end(set)};
     std::sort(std::begin(list), std::end(list));
     return list;
+}
+
+QStringList CharacterModel::mimeTypes() const
+{
+    qDebug() << "mimetypes";
+    QStringList types;
+    types << "text/uri-list";
+    return types;
+}
+
+QMimeData* CharacterModel::mimeData(const QModelIndexList& indexes) const
+{
+    qDebug() << "mimeData";
+    QMimeData* mimeData= new QMimeData();
+    QByteArray encodedData;
+
+    QDataStream stream(&encodedData, QDataStream::WriteOnly);
+
+    QList<QUrl> list;
+    for(const QModelIndex& index : indexes)
+    {
+        if(index.isValid())
+        {
+            auto path= QUrl::fromUserInput(data(index, AvatarUrlRole).toString());
+            if(!list.contains(path))
+                list.append(path);
+        }
+    }
+
+    mimeData->setUrls(list);
+    return mimeData;
 }
 
 QStringList CharacterModel::ownerList() const

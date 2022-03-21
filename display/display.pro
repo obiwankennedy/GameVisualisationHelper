@@ -2,6 +2,9 @@ QT       += core gui dbus quick qml svg webenginequick
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+
+include(third/qmarkdowntextedit/qmarkdowntextedit.pri)
+
 CONFIG += c++11
 
 TEMPLATE = app
@@ -13,32 +16,36 @@ OTHER_FILES += qml/*.qml
 SOURCES += main.cpp\
   clandelegate.cpp \
   controller/charactercontroller.cpp \
+  controller/previewcontroller.cpp \
   diaporamamodel.cpp \
-        guiadaptor.cpp \
+  guiadaptor.cpp \
   maincontroller.cpp \
-        mainwindow.cpp \
-    characteravatarmodel.cpp \
+  mainwindow.cpp \
+  characteravatarmodel.cpp \
   model/charactermodel.cpp \
   model/sortedmodel.cpp \
   model/sortfiltermodel.cpp \
   player.cpp \
-    presentproxymodel.cpp \
-  utils/iohelper.cpp
+  presentproxymodel.cpp \
+  utils/iohelper.cpp \
+  widgets/dragabletableview.cpp
 
 HEADERS  += mainwindow.h \
   clandelegate.h \
   controller/charactercontroller.h \
+  controller/previewcontroller.h \
   coretype.h \
   diaporamamodel.h \
-        guiadaptor.h \
-    characteravatarmodel.h \
+  guiadaptor.h \
+  characteravatarmodel.h \
   maincontroller.h \
   model/charactermodel.h \
   model/sortedmodel.h \
   model/sortfiltermodel.h \
   player.h \
-    presentproxymodel.h \
-  utils/iohelper.h
+  presentproxymodel.h \
+  utils/iohelper.h \
+  widgets/dragabletableview.h
 
 FORMS    += mainwindow.ui
 

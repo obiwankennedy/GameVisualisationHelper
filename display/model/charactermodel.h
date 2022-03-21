@@ -149,6 +149,9 @@ public:
 
     QHash<int, QByteArray> roleNames() const override;
 
+    QStringList mimeTypes() const override;
+
+    QMimeData *mimeData(const QModelIndexList &indexes) const;
 private:
     std::vector<std::unique_ptr<NonPlayableCharacter>> m_characters;
     QHash<QString, QPixmap> m_avatars;
