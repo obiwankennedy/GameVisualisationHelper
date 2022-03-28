@@ -1,4 +1,4 @@
-QT       += core gui dbus quick qml svg webenginequick
+QT       += core gui dbus quick qml svg webenginequick xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -23,6 +23,7 @@ SOURCES += main.cpp\
   mainwindow.cpp \
   characteravatarmodel.cpp \
   model/charactermodel.cpp \
+  model/haikumodel.cpp \
   model/sortedmodel.cpp \
   model/sortfiltermodel.cpp \
   player.cpp \
@@ -40,6 +41,7 @@ HEADERS  += mainwindow.h \
   characteravatarmodel.h \
   maincontroller.h \
   model/charactermodel.h \
+  model/haikumodel.h \
   model/sortedmodel.h \
   model/sortfiltermodel.h \
   player.h \

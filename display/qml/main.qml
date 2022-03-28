@@ -24,7 +24,7 @@ ApplicationWindow {
     property bool deco: true
 
     onClosing: Qt.quit()
-    flags: deco ? Qt.Window : Qt.FramelessWindowHint
+    flags: Qt.Window //deco ? Qt.Window : Qt.FramelessWindowHint
 
     Item {
         id: main

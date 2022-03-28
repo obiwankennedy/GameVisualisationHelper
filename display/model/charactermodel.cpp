@@ -446,7 +446,7 @@ Qt::ItemFlags CharacterModel::flags(const QModelIndex& index) const
     QList<int> readOnlyColumn{1, 3, 5, 7, 8};
 
     if(index.column() == 0)
-        return Qt::ItemIsDropEnabled | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+        return Qt::ItemIsEditable | Qt::ItemIsDropEnabled | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
     else if(readOnlyColumn.contains(index.column()))
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
     else

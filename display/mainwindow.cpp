@@ -24,6 +24,7 @@
 #include <QDate>
 #include <QDebug>
 #include <QFileDialog>
+#include <QInputDialog>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QQmlContext>
@@ -39,7 +40,11 @@
 #include "clandelegate.h"
 
 MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow), m_ctrl(new MainController), m_characterCtrl(new CharacterController)
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+    , m_ctrl(new MainController)
+    , m_characterCtrl(new CharacterController)
+    , m_haikuFiltered(new QSortFilterProxyModel)
 {
     ui->setupUi(this);
     // setWindowFlags(Qt::WindowStaysOnTopHint);
@@ -146,6 +151,28 @@ MainWindow::MainWindow(QWidget* parent)
     ui->m_clanCb->addItems(m_characterCtrl->clanModel());
     ui->m_factionCb->addItems(m_characterCtrl->factionModel());
     ui->m_ownerCb->addItems(m_characterCtrl->ownerModel());
+
+    m_addHaiku= new QAction{tr("Add Haiku"), this};
+
+    connect(m_addHaiku, &QAction::triggered, this, [this]() {
+        auto text= QInputDialog::getMultiLineText(this, tr("Your haiku"), tr("Your haiku"));
+        m_ctrl->haikus()->addHaiku(text);
+    });
+
+    m_haikuFiltered->setSourceModel(m_ctrl->haikus());
+    m_haikuFiltered->setDynamicSortFilter(true);
+    m_haikuFiltered->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    connect(ui->m_haikuTextEdit, &QLineEdit::textChanged, m_haikuFiltered.get(),
+            &QSortFilterProxyModel::setFilterFixedString);
+
+    connect(ui->m_haikuList, &QListView::customContextMenuRequested, this, [this](const QPoint& point) {
+        QMenu menu;
+
+        menu.addAction(m_addHaiku);
+        menu.exec(point);
+    });
+
+    ui->m_haikuList->setModel(m_haikuFiltered.get());
 
     loadFile();
     refreshQMLEngine();
@@ -269,6 +296,7 @@ void MainWindow::saveFile(bool saveAs)
     QJsonDocument doc;
     QJsonArray array;
     m_ctrl->avatarModel()->writeData(array);
+
     doc.setArray(array);
     QFile file(m_filename);
     file.open(QIODevice::WriteOnly);
@@ -300,6 +328,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
         }
         saveFile(false);
         m_characterCtrl->saveModel();
+        m_ctrl->haikus()->writeModel();
         event->accept();
     }
     else

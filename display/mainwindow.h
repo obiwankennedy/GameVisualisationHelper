@@ -28,6 +28,7 @@
 #include <QMainWindow>
 #include <QMap>
 #include <QQmlApplicationEngine>
+#include <QSortFilterProxyModel>
 #include <QTextStream>
 #include <memory>
 
@@ -83,9 +84,13 @@ private:
 
     QMap<QString, QElapsedTimer*> m_timeTotalByUser;
     QMap<QString, qreal> m_cumulTimeByUser;
-    QFile* m_file;
+    std::unique_ptr<QSortFilterProxyModel> m_haikuFiltered;
+    // QFile* m_file;
     QTextStream m_fileStream;
     QString m_filename;
+
+    // QACTION
+    QAction* m_addHaiku{nullptr};
 };
 
 #endif // MAINWINDOW_H

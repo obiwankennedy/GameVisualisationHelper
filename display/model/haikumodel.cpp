@@ -17,19 +17,53 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef IOHELPER_H
-#define IOHELPER_H
+#include "haikumodel.h"
 
-#include <QString>
+#include "utils/iohelper.h"
 
-class CharacterModel;
-namespace IOHelper
+constexpr char const* PATH_DATA{"/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/15_riz/haiku.json"};
+
+HaikuModel::HaikuModel(QObject* parent) : QAbstractListModel(parent)
 {
-void fetchModel(const QString& database, const QString& internalData, CharacterModel* model);
-void writeModel(const QString& internalData, CharacterModel* model);
+    m_haiku= IOHelper::readJsonArrayToStringList(PATH_DATA);
 
-void writeStringListAsJsonArray(const QString& file, QStringList data);
-QStringList readJsonArrayToStringList(const QString& file);
-}; // namespace IOHelper
+    qDebug() << m_haiku.size();
+}
 
-#endif // IOHELPER_H
+QVariant HaikuModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    // FIXME: Implement me!
+    return {};
+}
+
+int HaikuModel::rowCount(const QModelIndex& parent) const
+{
+    // For list models only the root node (an invalid parent) should return the list's size. For all
+    // other (valid) parents, rowCount() should return 0 so that it does not become a tree model.
+    if(parent.isValid())
+        return 0;
+
+    return m_haiku.size();
+}
+
+QVariant HaikuModel::data(const QModelIndex& index, int role) const
+{
+    if(!index.isValid())
+        return QVariant();
+
+    if(role != Qt::DisplayRole)
+        return {};
+
+    return m_haiku[index.row()];
+}
+void HaikuModel::writeModel()
+{
+    IOHelper::writeStringListAsJsonArray(PATH_DATA, m_haiku);
+}
+
+void HaikuModel::addHaiku(const QString& haiku)
+{
+    beginInsertRows({}, m_haiku.size(), m_haiku.size());
+    m_haiku.append(haiku);
+    endInsertRows();
+}

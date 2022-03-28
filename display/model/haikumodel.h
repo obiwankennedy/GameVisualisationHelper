@@ -17,19 +17,32 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef IOHELPER_H
-#define IOHELPER_H
+#ifndef HAIKUMODEL_H
+#define HAIKUMODEL_H
 
-#include <QString>
+#include <QAbstractListModel>
 
-class CharacterModel;
-namespace IOHelper
+class HaikuModel : public QAbstractListModel
 {
-void fetchModel(const QString& database, const QString& internalData, CharacterModel* model);
-void writeModel(const QString& internalData, CharacterModel* model);
+    Q_OBJECT
 
-void writeStringListAsJsonArray(const QString& file, QStringList data);
-QStringList readJsonArrayToStringList(const QString& file);
-}; // namespace IOHelper
+public:
+    explicit HaikuModel(QObject* parent= nullptr);
 
-#endif // IOHELPER_H
+    // Header:
+    QVariant headerData(int section, Qt::Orientation orientation, int role= Qt::DisplayRole) const override;
+
+    // Basic functionality:
+    int rowCount(const QModelIndex& parent= QModelIndex()) const override;
+
+    QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
+
+    void writeModel();
+
+    void addHaiku(const QString& haiku);
+
+private:
+    QStringList m_haiku;
+};
+
+#endif // HAIKUMODEL_H

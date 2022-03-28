@@ -155,4 +155,37 @@ void writeModel(const QString& internalData, CharacterModel* model)
         file.commit();
     }
 }
+
+void writeStringListAsJsonArray(const QString& file, QStringList data)
+{
+    QSaveFile dataFile(file);
+    if(!dataFile.open(QIODevice::WriteOnly))
+        return;
+
+    QJsonDocument doc;
+    QJsonArray array= QJsonArray::fromStringList(data);
+    doc.setArray(array);
+
+    dataFile.write(doc.toJson());
+    dataFile.commit();
+}
+
+QStringList readJsonArrayToStringList(const QString& filepath)
+{
+    QFile file(filepath);
+    if(!file.open(QIODevice::ReadOnly))
+    {
+        return {};
+    }
+
+    auto data= file.readAll();
+    QJsonDocument doc= QJsonDocument::fromJson(data);
+    auto array= doc.array();
+
+    QStringList list;
+    std::transform(std::begin(array), std::end(array), std::back_inserter(list),
+                   [](const QJsonValue& val) { return val.toString(); });
+
+    return list;
+}
 } // namespace IOHelper

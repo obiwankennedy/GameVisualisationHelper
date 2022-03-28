@@ -32,6 +32,7 @@ MainController::MainController(QObject* parent)
     , m_carouselModel{new DiaporamaModel{"/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/15_riz/img/PNJ"}}
     , m_npcSortedModel(new SortedModel)
     , m_previewCtrl{new PreviewController}
+    , m_haikus{new HaikuModel}
 {
     m_avatarModel->addPerson(new Player(QStringLiteral("Obi (Mj)"), QStringLiteral("Obi"),
                                         QStringLiteral("qrc:/resources/L5RRiz/Perso/mj.jpg"), QStringLiteral("jeudi"),
@@ -166,6 +167,11 @@ qreal MainController::maxSpeakingTime() const
 DiaporamaModel* MainController::carouselModel() const
 {
     return m_carouselModel.get();
+}
+
+HaikuModel* MainController::haikus() const
+{
+    return m_haikus.get();
 }
 
 PreviewController* MainController::previewCtrl() const
