@@ -36,6 +36,7 @@
 #include "maincontroller.h"
 #include "player.h"
 #include "presentproxymodel.h"
+#include "utils/iohelper.h"
 
 #include "clandelegate.h"
 
@@ -206,19 +207,18 @@ void MainWindow::refreshQMLEngine()
 {
     m_engine.reset(new QQmlApplicationEngine());
 
-    qmlRegisterSingletonInstance<MainController>("Controller", 1, 0, "MainController", m_ctrl.get());
-
-    /*auto chars= m_model->characters();
-    for(auto pers : chars)
-    {
-        m_engine->rootContext()->setContextProperty(pers->id(), pers);
-    }
-
-    m_engine->rootContext()->setContextProperty("_model", m_proxyModel);
-    m_engine->rootContext()->setContextProperty("_mainModel", m_model);*/
+    qmlRegisterSingletonType<MainController>("Controller", 1, 0, "MainController",
+                                             [this](QQmlEngine* engine, QJSEngine*) {
+                                                 engine->setObjectOwnership(m_ctrl.get(), QQmlEngine::CppOwnership);
+                                                 return m_ctrl.get();
+                                             });
+    qmlRegisterUncreatableType<CalendarItemModel>("MainController", 1, 0, "CalendarItemModel",
+                                                  "Can't be instantiate in qml");
 
     m_engine->load(QUrl("qrc:/qml/main.qml"));
     setAttribute(Qt::WA_DeleteOnClose, true);
+
+    ui->m_calendrier->setSource(QUrl("qrc:/qml/Calendrier.qml"));
 }
 
 void MainWindow::displayCorrectImage(QString user)
@@ -280,6 +280,7 @@ void MainWindow::loadFile()
     QJsonDocument doc= QJsonDocument::fromJson(file.readAll());
     auto array= doc.array();
     m_ctrl->avatarModel()->readData(array);
+    IOHelper::fetchCalendarModel(m_ctrl->calendarModel());
 }
 
 void MainWindow::saveFile(bool saveAs)
@@ -308,6 +309,8 @@ void MainWindow::saveFile(bool saveAs)
         savefile.write(ui->m_editor->toPlainText().toUtf8());
         savefile.commit();
     }
+
+    IOHelper::writeCalendarModel(m_ctrl->calendarModel());
 }
 void MainWindow::resizeEvent(QResizeEvent* ev)
 {

@@ -68,6 +68,9 @@ QVariant CharacterAvatarModel::data(const QModelIndex& index, int role) const
     case Position:
         var= QVariant::fromValue(item->position());
         break;
+    case GameMaster:
+        var= item->gamemaster();
+        break;
     default:
         break;
     }

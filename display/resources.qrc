@@ -56,5 +56,10 @@
         <file>resources/L5RRiz/symbols/spider.png</file>
         <file>resources/L5RRiz/symbols/unicorn.png</file>
         <file>resources/L5RRiz/symbols/fox.png</file>
+        <file>qml/Calendrier.qml</file>
+        <file>qml/Months.qml</file>
+        <file>qml/Seasons.qml</file>
+        <file>qml/Celebrations.qml</file>
+        <file>qml/CalendarItem.qml</file>
     </qresource>
 </RCC>

@@ -31,6 +31,7 @@ MainController::MainController(QObject* parent)
           "/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/01_resources/images/blog"}}
     , m_carouselModel{new DiaporamaModel{"/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/15_riz/img/PNJ"}}
     , m_npcSortedModel(new SortedModel)
+    , m_calendarModel{new CalendarItemModel}
     , m_previewCtrl{new PreviewController}
     , m_haikus{new HaikuModel}
 {
@@ -177,4 +178,9 @@ HaikuModel* MainController::haikus() const
 PreviewController* MainController::previewCtrl() const
 {
     return m_previewCtrl.get();
+}
+
+CalendarItemModel* MainController::calendarModel() const
+{
+    return m_calendarModel.get();
 }

@@ -25,9 +25,15 @@
 #include <QJsonObject>
 #include <QSaveFile>
 
+#include "model/calendaritemmodel.h"
 #include "model/charactermodel.h"
+
 namespace IOHelper
 {
+namespace
+{
+constexpr char const* CALENDAR_PATH{"/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/15_riz/calendar.json"};
+}
 void fetchModel(const QString& database, const QString& internalData, CharacterModel* model)
 {
     QHash<QString, NonPlayableCharacter*> npcs;
@@ -187,5 +193,58 @@ QStringList readJsonArrayToStringList(const QString& filepath)
                    [](const QJsonValue& val) { return val.toString(); });
 
     return list;
+}
+
+void fetchCalendarModel(CalendarItemModel* model)
+{
+    QFile file(CALENDAR_PATH);
+    if(!file.open(QIODevice::ReadOnly))
+    {
+        qDebug() << "can't open calendar path";
+        return;
+    }
+    auto jsondata= file.readAll();
+
+    QJsonDocument doc= QJsonDocument::fromJson(jsondata);
+    auto array= doc.array();
+    for(auto const& val : array)
+    {
+        auto obj= val.toObject();
+        model->append(obj["title"].toString(), obj["desc"].toString(), obj["start"].toInt(), obj["dura"].toInt(),
+                      static_cast<core::Table>(obj["table"].toInt()), obj["row"].toInt(),
+                      QColor(obj["color"].toString()), obj["lock"].toBool(), obj["image"].toString());
+    }
+}
+
+void writeCalendarModel(CalendarItemModel* model)
+{
+    auto const& vec= model->items();
+
+    QJsonArray array;
+    for(auto const& item : vec)
+    {
+        QJsonObject obj;
+
+        obj["title"]= item.m_title;
+        obj["desc"]= item.m_desc;
+        obj["start"]= item.m_startDay;
+        obj["dura"]= item.m_duration;
+        obj["table"]= static_cast<int>(item.m_table);
+        obj["row"]= item.m_row;
+        obj["color"]= item.m_color.name();
+        obj["lock"]= item.m_lock;
+        obj["image"]= item.m_image;
+
+        array.append(obj);
+    }
+    QJsonDocument doc;
+    doc.setArray(array);
+
+    QSaveFile file(CALENDAR_PATH);
+    if(file.open(QIODevice::WriteOnly))
+    {
+        file.write(doc.toJson());
+        file.commit();
+    }
 }
 } // namespace IOHelper

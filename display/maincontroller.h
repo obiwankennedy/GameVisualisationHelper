@@ -25,6 +25,7 @@
 #include "characteravatarmodel.h"
 #include "controller/previewcontroller.h"
 #include "diaporamamodel.h"
+#include "model/calendaritemmodel.h"
 #include "model/haikumodel.h"
 #include "model/sortedmodel.h"
 #include "player.h"
@@ -49,6 +50,7 @@ class MainController : public QObject
     Q_PROPERTY(SortedModel* sortedModel READ sortedModel CONSTANT)
     Q_PROPERTY(PreviewController* previewCtrl READ previewCtrl CONSTANT)
     Q_PROPERTY(HaikuModel* haikus READ haikus CONSTANT)
+    Q_PROPERTY(CalendarItemModel* calendarModel READ calendarModel CONSTANT)
 public:
     explicit MainController(QObject* parent= nullptr);
     ~MainController();
@@ -73,6 +75,8 @@ public:
 
     void setCampaign(const QString& newCampaign);
 
+    CalendarItemModel* calendarModel() const;
+
 signals:
     void campaignChanged();
     void maxSpeakingTimeChanged();
@@ -84,6 +88,7 @@ private:
     std::unique_ptr<DiaporamaModel> m_diaporamaModel;
     std::unique_ptr<DiaporamaModel> m_carouselModel;
     std::unique_ptr<SortedModel> m_npcSortedModel;
+    std::unique_ptr<CalendarItemModel> m_calendarModel;
     QString m_campaign;
     bool m_table1{false};
     std::unique_ptr<PreviewController> m_previewCtrl;

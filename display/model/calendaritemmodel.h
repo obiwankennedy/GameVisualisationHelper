@@ -17,23 +17,61 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef IOHELPER_H
-#define IOHELPER_H
+#ifndef CALENDARITEMMODEL_H
+#define CALENDARITEMMODEL_H
 
-#include <QString>
+#include "coretype.h"
+#include "qqmlregistration.h"
+#include <QAbstractListModel>
+#include <QColor>
 
-class CharacterModel;
-class CalendarItemModel;
-namespace IOHelper
+struct CalendarItem
 {
-void fetchModel(const QString& database, const QString& internalData, CharacterModel* model);
-void writeModel(const QString& internalData, CharacterModel* model);
+    QString m_title;
+    QString m_desc;
+    int m_startDay;
+    int m_duration; // in days
+    core::Table m_table;
+    int m_row;
+    QColor m_color;
+    bool m_lock;
+    QString m_image;
+};
 
-void writeStringListAsJsonArray(const QString& file, QStringList data);
-QStringList readJsonArrayToStringList(const QString& file);
+class CalendarItemModel : public QAbstractListModel
+{
+    Q_OBJECT
+    QML_ELEMENT
+public:
+    enum CustomRole
+    {
+        TitleRole= Qt::UserRole + 1,
+        DescRole,
+        StartRole,
+        DurationRole,
+        TableRole,
+        RowRole,
+        ColorRole,
+        LockRole,
+        ImageRole
+    };
+    Q_ENUM(CustomRole)
+    explicit CalendarItemModel(QObject* parent= nullptr);
 
-void fetchCalendarModel(CalendarItemModel* model);
-void writeCalendarModel(CalendarItemModel* model);
-}; // namespace IOHelper
+    // Basic functionality:
+    int rowCount(const QModelIndex& parent= QModelIndex()) const override;
+    QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
+    bool setData(const QModelIndex& index, const QVariant& var, int role) override;
+    QHash<int, QByteArray> roleNames() const override;
 
-#endif // IOHELPER_H
+    const std::vector<CalendarItem>& items() const;
+
+public slots:
+    void append(const QString& title, const QString& desc, int startDay, int duration, core::Table table, int row,
+                QColor color, bool lock= false, const QString& image= {});
+
+private:
+    std::vector<CalendarItem> m_items;
+};
+
+#endif // CALENDARITEMMODEL_H

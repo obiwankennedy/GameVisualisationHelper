@@ -446,6 +446,35 @@
                </item>
               </layout>
              </widget>
+             <widget class="QWidget" name="calendrier">
+              <attribute name="title">
+               <string>Calendrier</string>
+              </attribute>
+              <layout class="QVBoxLayout" name="verticalLayout_9">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QQuickWidget" name="m_calendrier">
+                 <property name="resizeMode">
+                  <enum>QQuickWidget::SizeRootObjectToView</enum>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
              <widget class="QWidget" name="tab_2">
               <attribute name="title">
                <string>Haiku</string>
@@ -633,6 +662,11 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
+  <customwidget>
+   <class>QQuickWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">QtQuickWidgets/QQuickWidget</header>
+  </customwidget>
   <customwidget>
    <class>QMarkdownTextEdit</class>
    <extends>QPlainTextEdit</extends>

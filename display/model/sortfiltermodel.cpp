@@ -146,13 +146,14 @@ bool SortFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceP
     auto correctGender= isCorrectGender(m_gender, genderIndex);
 
     auto correctTable= isCorrectTable(m_table, tableIndex);
-    qDebug() << "correct Table:" << m_table << "index: " << tableIndex;
+    // Debug() << "correct Table:" << m_table << "index: " << tableIndex;
 
-    return (nameIndex.contains(m_pattern.toLower()) | descIndex.contains(m_pattern.toLower())
-            | tagsIndex.contains(m_pattern.toLower()))
-           & correctGender & (m_clan.isEmpty() ? true : clanIndex == m_clan.toLower())
-           & (m_faction.isEmpty() ? true : factionIndex == m_faction.toLower())
-           & (m_owner.isEmpty() ? true : ownerIndex.contains(m_owner.toLower())) & correctTable;
+    return (nameIndex.contains(m_pattern.toLower()) || descIndex.contains(m_pattern.toLower())
+            || tagsIndex.contains(m_pattern.toLower()))
+               & correctGender
+           && (m_clan.isEmpty() ? true : clanIndex == m_clan.toLower())
+           && (m_faction.isEmpty() ? true : factionIndex == m_faction.toLower())
+           && (m_owner.isEmpty() ? true : ownerIndex.contains(m_owner.toLower())) & correctTable;
 }
 
 // end of sort filter
