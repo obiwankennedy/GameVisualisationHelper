@@ -280,6 +280,9 @@ QVariant CharacterModel::data(const QModelIndex& index, int role) const
         case TagsRole:
             res= npc->tags();
             break;
+        case SheetPropertiesRole:
+            res= QVariant::fromValue(npc->sheetProperties());
+            break;
         }
         return res;
     }
@@ -391,6 +394,12 @@ bool CharacterModel::setData(const QModelIndex& index, const QVariant& value, in
     if(data(index, role) != value)
     {
         auto& npc= m_characters[index.row()];
+
+        if(role == SheetPropertiesRole)
+        {
+            npc->setSheetProperties(value.value<QHash<QString, QString>>());
+            return true;
+        }
 
         switch(index.column())
         {
@@ -565,4 +574,17 @@ QHash<int, QByteArray> CharacterModel::roleNames() const
     return {{NameRole, "name"},     {DescRole, "desc"}, {AgeRole, "age"},         {AvatarUrlRole, "avatarpath"},
             {GenderRole, "gender"}, {ClanRole, "clan"}, {FactionRole, "faction"}, {TableRole, "table"},
             {OwnerRole, "owner"},   {TagsRole, "tags"}};
+}
+
+const QHash<QString, QString>& NonPlayableCharacter::sheetProperties() const
+{
+    return m_sheetProperties;
+}
+
+void NonPlayableCharacter::setSheetProperties(const QHash<QString, QString>& newSheetProperties)
+{
+    if(m_sheetProperties == newSheetProperties)
+        return;
+    m_sheetProperties= newSheetProperties;
+    emit sheetPropertiesChanged();
 }

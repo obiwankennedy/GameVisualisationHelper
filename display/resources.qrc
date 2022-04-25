@@ -61,5 +61,6 @@
         <file>qml/Seasons.qml</file>
         <file>qml/Celebrations.qml</file>
         <file>qml/CalendarItem.qml</file>
+        <file>resources/L5RRiz/Perso/yasuki_kinjiro.png</file>
     </qresource>
 </RCC>

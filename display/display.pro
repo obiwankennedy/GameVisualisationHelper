@@ -30,7 +30,8 @@ SOURCES += main.cpp\
   player.cpp \
   presentproxymodel.cpp \
   utils/iohelper.cpp \
-  widgets/dragabletableview.cpp
+  widgets/dragabletableview.cpp \
+  widgets/l5rcharactersheetdialog.cpp
 
 HEADERS  += mainwindow.h \
   clandelegate.h \
@@ -49,9 +50,11 @@ HEADERS  += mainwindow.h \
   player.h \
   presentproxymodel.h \
   utils/iohelper.h \
-  widgets/dragabletableview.h
+  widgets/dragabletableview.h \
+  widgets/l5rcharactersheetdialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+  widgets/l5rcharactersheetdialog.ui
 
 DISTFILES += \
     qml/SheetViewer.qml \

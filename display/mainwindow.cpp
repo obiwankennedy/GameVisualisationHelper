@@ -37,6 +37,7 @@
 #include "player.h"
 #include "presentproxymodel.h"
 #include "utils/iohelper.h"
+#include "widgets/l5rcharactersheetdialog.h"
 
 #include "clandelegate.h"
 
@@ -105,6 +106,22 @@ MainWindow::MainWindow(QWidget* parent)
     // Table view
     auto vHeader= ui->m_tableview->verticalHeader();
     vHeader->setDefaultSectionSize(60);
+
+    connect(ui->m_tableview, &QTableView::doubleClicked, this, [this](const QModelIndex& index) {
+        if(!index.isValid())
+            return;
+
+        auto model= ui->m_tableview->model();
+
+        auto sheet= model->data(index, CharacterModel::SheetPropertiesRole).value<QHash<QString, QString>>();
+        qDebug() << "sheet " << sheet;
+
+        L5RCharacterSheetDialog dia(sheet);
+
+        dia.exec();
+
+        model->setData(index, QVariant::fromValue(dia.sheetProperties()), CharacterModel::SheetPropertiesRole);
+    });
 
     auto filter= m_characterCtrl->filteredModel();
 

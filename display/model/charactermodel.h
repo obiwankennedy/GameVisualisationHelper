@@ -39,6 +39,8 @@ class NonPlayableCharacter : public QObject
     Q_PROPERTY(QStringList owners READ owners WRITE setOwners NOTIFY ownersChanged)
     Q_PROPERTY(bool local READ local WRITE setLocal NOTIFY localChanged)
     Q_PROPERTY(QString urlAvatar READ urlAvatar WRITE setUrlAvatar NOTIFY urlAvatarChanged)
+    Q_PROPERTY(QHash<QString, QString> sheetProperties READ sheetProperties WRITE setSheetProperties NOTIFY
+                   sheetPropertiesChanged)
 
 public:
     const QStringList& owners() const;
@@ -74,6 +76,9 @@ public:
     const QString& urlAvatar() const;
     void setUrlAvatar(const QString& newUrlAvatar);
 
+    const QHash<QString, QString>& sheetProperties() const;
+    void setSheetProperties(const QHash<QString, QString>& newSheetProperties);
+
 signals:
     void ownersChanged();
     void tableChanged();
@@ -83,12 +88,11 @@ signals:
     void ageChanged();
     void descriptionChanged();
     void nameChanged();
-
     void localChanged();
-
     void clanChanged();
-
     void urlAvatarChanged();
+
+    void sheetPropertiesChanged();
 
 private:
     QStringList m_owners;
@@ -102,6 +106,7 @@ private:
     bool m_local= true;
     QString m_clan;
     QString m_urlAvatar;
+    QHash<QString, QString> m_sheetProperties;
 };
 
 class CharacterModel : public QAbstractTableModel
@@ -120,7 +125,8 @@ public:
         FactionRole,
         TableRole,
         OwnerRole,
-        TagsRole
+        TagsRole,
+        SheetPropertiesRole
     };
     explicit CharacterModel(QObject* parent= nullptr);
 
@@ -151,7 +157,8 @@ public:
 
     QStringList mimeTypes() const override;
 
-    QMimeData *mimeData(const QModelIndexList &indexes) const;
+    QMimeData* mimeData(const QModelIndexList& indexes) const;
+
 private:
     std::vector<std::unique_ptr<NonPlayableCharacter>> m_characters;
     QHash<QString, QPixmap> m_avatars;

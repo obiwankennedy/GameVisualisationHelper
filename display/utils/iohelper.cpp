@@ -117,6 +117,16 @@ void fetchModel(const QString& database, const QString& internalData, CharacterM
                 auto desc= current->description();
                 auto newDesc= obj["desc"].toString();
 
+                auto sheetObj= obj["sheet"].toObject();
+                QHash<QString, QString> sheet;
+
+                for(auto key : sheetObj.keys())
+                {
+                    auto val= sheetObj[key].toString();
+                    sheet.insert(key, val);
+                }
+                current->setSheetProperties(sheet);
+
                 if(desc.isEmpty() && !newDesc.isEmpty())
                     current->setDescription(newDesc);
                 else if(newDesc.contains(desc))
@@ -148,6 +158,16 @@ void writeModel(const QString& internalData, CharacterModel* model)
         obj["desc"]= item->description();
         obj["faction"]= item->faction();
         obj["tags"]= item->tags().join(", ");
+        auto sheet= item->sheetProperties();
+        QVariantHash varhash;
+        auto keys= sheet.keys();
+        for(auto const& key : keys)
+        {
+            auto val= sheet[key];
+            varhash.insert(key, QVariant(val));
+        }
+
+        obj["sheet"]= QJsonObject::fromVariantHash(varhash);
 
         array.append(obj);
     }

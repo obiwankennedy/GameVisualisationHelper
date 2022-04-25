@@ -57,7 +57,7 @@ MainController::MainController(QObject* parent)
                                             QStringLiteral("qrc:/resources/L5RRiz/Perso/aka.png"),
                                             QStringLiteral("jeudi"), QColor(Qt::darkBlue), "_third"));
 
-        m_avatarModel->addPerson(new Player(QStringLiteral("Yasuki Dazai"), QStringLiteral("Houss"),
+        m_avatarModel->addPerson(new Player(QStringLiteral("Yasuki Kinjiro"), QStringLiteral("Yasuki Kinjiro"),
                                             QStringLiteral("qrc:/resources/L5RRiz/Perso/yasuki_dazai.png"),
                                             QStringLiteral("jeudi"), QColor(Qt::darkBlue), "_fourth"));
     }
