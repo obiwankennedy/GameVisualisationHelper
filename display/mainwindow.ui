@@ -82,7 +82,7 @@
            <item>
             <widget class="QTabWidget" name="tabWidget">
              <property name="currentIndex">
-              <number>4</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="players">
               <attribute name="title">
@@ -140,38 +140,170 @@
                  <property name="title">
                   <string>Filter</string>
                  </property>
-                 <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0,0,0,0,0,0,0,1,0,0">
-                  <item row="0" column="10">
-                   <widget class="QLabel" name="label_5">
-                    <property name="text">
-                     <string>Faction:</string>
-                    </property>
-                   </widget>
+                 <layout class="QHBoxLayout" name="horizontalLayout_4">
+                  <item>
+                   <layout class="QFormLayout" name="formLayout">
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_2">
+                      <property name="text">
+                       <string>Clan:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QComboBox" name="m_clanCb"/>
+                    </item>
+                    <item row="1" column="0">
+                     <widget class="QLabel" name="label_6">
+                      <property name="text">
+                       <string>Genre:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QComboBox" name="m_genderCb">
+                      <item>
+                       <property name="text">
+                        <string>All</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>F</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>H</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
-                  <item row="0" column="9">
-                   <spacer name="horizontalSpacer_6">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>47</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
+                  <item>
+                   <layout class="QFormLayout" name="formLayout_2">
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_3">
+                      <property name="text">
+                       <string>Owner:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QComboBox" name="m_ownerCb"/>
+                    </item>
+                    <item row="1" column="0">
+                     <widget class="QLabel" name="label_4">
+                      <property name="text">
+                       <string>Pattern:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QLineEdit" name="m_patternLine"/>
+                    </item>
+                   </layout>
                   </item>
-                  <item row="0" column="1">
-                   <widget class="QComboBox" name="m_clanCb"/>
+                  <item>
+                   <layout class="QFormLayout" name="formLayout_3">
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_7">
+                      <property name="text">
+                       <string>Table:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QComboBox" name="m_tableCb">
+                      <item>
+                       <property name="text">
+                        <string>All</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Table 1</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Table 2</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                    <item row="1" column="0">
+                     <widget class="QLabel" name="label_10">
+                      <property name="text">
+                       <string>Ignore:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QLineEdit" name="m_ignoredLine"/>
+                    </item>
+                   </layout>
                   </item>
-                  <item row="1" column="11">
-                   <widget class="QPushButton" name="m_resetBtn">
-                    <property name="text">
-                     <string>Reset</string>
-                    </property>
-                   </widget>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_10">
+                    <item>
+                     <widget class="QCheckBox" name="m_hideDead">
+                      <property name="text">
+                       <string>Hide Dead</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="m_hideNoAvatar">
+                      <property name="text">
+                       <string>Hide no avatar</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
-                  <item row="0" column="5">
+                  <item>
+                   <layout class="QFormLayout" name="formLayout_4">
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_8">
+                      <property name="text">
+                       <string>Status:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QComboBox" name="m_statusCb">
+                      <item>
+                       <property name="text">
+                        <string>All</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Samourai</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Non samourai</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                    <item row="1" column="0">
+                     <widget class="QLabel" name="label_5">
+                      <property name="text">
+                       <string>Faction:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QComboBox" name="m_factionCb"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
                    <spacer name="horizontalSpacer_3">
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
@@ -184,125 +316,11 @@
                     </property>
                    </spacer>
                   </item>
-                  <item row="1" column="4" colspan="6">
-                   <widget class="QLineEdit" name="m_patternLine"/>
-                  </item>
-                  <item row="0" column="2">
-                   <spacer name="horizontalSpacer_4">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item row="0" column="8">
-                   <widget class="QComboBox" name="m_tableCb">
-                    <item>
-                     <property name="text">
-                      <string>All</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>Table 1</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>Table 2</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="1" column="10">
-                   <spacer name="horizontalSpacer_5">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>83</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item row="0" column="3">
-                   <widget class="QLabel" name="label_3">
+                  <item>
+                   <widget class="QPushButton" name="m_resetBtn">
                     <property name="text">
-                     <string>Owner:</string>
+                     <string>Reset</string>
                     </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="4">
-                   <widget class="QComboBox" name="m_ownerCb"/>
-                  </item>
-                  <item row="1" column="0">
-                   <widget class="QLabel" name="label_6">
-                    <property name="text">
-                     <string>Genre:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="2">
-                   <spacer name="horizontalSpacer_2">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item row="1" column="3">
-                   <widget class="QLabel" name="label_4">
-                    <property name="text">
-                     <string>Pattern:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="0">
-                   <widget class="QLabel" name="label_2">
-                    <property name="text">
-                     <string>Clan:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="7">
-                   <widget class="QLabel" name="label_7">
-                    <property name="text">
-                     <string>Table:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="11">
-                   <widget class="QComboBox" name="m_factionCb"/>
-                  </item>
-                  <item row="1" column="1">
-                   <widget class="QComboBox" name="m_genderCb">
-                    <item>
-                     <property name="text">
-                      <string>All</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>F</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>H</string>
-                     </property>
-                    </item>
                    </widget>
                   </item>
                  </layout>

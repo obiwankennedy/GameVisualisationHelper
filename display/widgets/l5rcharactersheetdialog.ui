@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" columnstretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+  <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" columnstretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
    <property name="sizeConstraint">
     <enum>QLayout::SetMinimumSize</enum>
    </property>
@@ -29,6 +29,9 @@
    </item>
    <item row="9" column="6">
     <widget class="QLabel" name="label_12">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(150, 150, 255);</string>
+     </property>
      <property name="text">
       <string>Intuition</string>
      </property>
@@ -56,6 +59,9 @@
    </item>
    <item row="6" column="0">
     <widget class="QLabel" name="label_4">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(233, 185, 110);</string>
+     </property>
      <property name="text">
       <string>Earth:</string>
      </property>
@@ -66,6 +72,9 @@
    </item>
    <item row="11" column="6">
     <widget class="QLabel" name="label_13">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(239, 41, 41);</string>
+     </property>
      <property name="text">
       <string>Agilité</string>
      </property>
@@ -83,6 +92,9 @@
    </item>
    <item row="13" column="0">
     <widget class="QLabel" name="label_9">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(114, 159, 207);</string>
+     </property>
      <property name="text">
       <string>Eau</string>
      </property>
@@ -129,6 +141,9 @@
    </item>
    <item row="8" column="0">
     <widget class="QLabel" name="label_5">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(233, 185, 110);</string>
+     </property>
      <property name="text">
       <string>Constitution:</string>
      </property>
@@ -136,6 +151,9 @@
    </item>
    <item row="11" column="0">
     <widget class="QLabel" name="label_7">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(114, 159, 207);</string>
+     </property>
      <property name="text">
       <string>Force:</string>
      </property>
@@ -163,6 +181,9 @@
    </item>
    <item row="13" column="6">
     <widget class="QLabel" name="label_15">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(239, 41, 41);</string>
+     </property>
      <property name="text">
       <string>Feu</string>
      </property>
@@ -170,6 +191,9 @@
    </item>
    <item row="6" column="6">
     <widget class="QLabel" name="label_10">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(150, 150, 255);</string>
+     </property>
      <property name="text">
       <string>Air:</string>
      </property>
@@ -203,6 +227,9 @@
    </item>
    <item row="9" column="0">
     <widget class="QLabel" name="label_6">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(233, 185, 110);</string>
+     </property>
      <property name="text">
       <string>Volonté:</string>
      </property>
@@ -210,6 +237,9 @@
    </item>
    <item row="12" column="6">
     <widget class="QLabel" name="label_14">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(239, 41, 41);</string>
+     </property>
      <property name="text">
       <string>intelligence</string>
      </property>
@@ -227,6 +257,9 @@
    </item>
    <item row="12" column="0">
     <widget class="QLabel" name="label_8">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(114, 159, 207);</string>
+     </property>
      <property name="text">
       <string>Perception</string>
      </property>
@@ -237,6 +270,9 @@
    </item>
    <item row="8" column="6">
     <widget class="QLabel" name="label_11">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(150, 150, 255);</string>
+     </property>
      <property name="text">
       <string>Reflexes:</string>
      </property>
@@ -254,7 +290,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-361</y>
+        <y>0</y>
         <width>260</width>
         <height>899</height>
        </rect>
@@ -376,6 +412,34 @@
        </item>
       </layout>
      </widget>
+    </widget>
+   </item>
+   <item row="6" column="3">
+    <widget class="QLabel" name="m_earth">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="3">
+    <widget class="QLabel" name="m_water">
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="9">
+    <widget class="QLabel" name="m_fire">
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="9">
+    <widget class="QLabel" name="m_air">
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
     </widget>
    </item>
   </layout>

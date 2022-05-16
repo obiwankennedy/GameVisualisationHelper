@@ -39,6 +39,7 @@
 #include "utils/iohelper.h"
 #include "widgets/l5rcharactersheetdialog.h"
 
+#include "checkboxdelegate.h"
 #include "clandelegate.h"
 
 MainWindow::MainWindow(QWidget* parent)
@@ -77,6 +78,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     ui->m_tableview->setModel(m_characterCtrl->filteredModel());
     ui->m_tableview->setItemDelegateForColumn(5, new ClanDelegate());
+    ui->m_tableview->setItemDelegateForColumn(7, new CheckBoxDelegate());
     auto header= ui->m_tableview->horizontalHeader();
     header->setSectionResizeMode(2, QHeaderView::Stretch);
     header->setSectionResizeMode(3, QHeaderView::ResizeToContents);
@@ -109,6 +111,9 @@ MainWindow::MainWindow(QWidget* parent)
 
     connect(ui->m_tableview, &QTableView::doubleClicked, this, [this](const QModelIndex& index) {
         if(!index.isValid())
+            return;
+
+        if(index.column() != 10)
             return;
 
         auto model= ui->m_tableview->model();
@@ -148,6 +153,30 @@ MainWindow::MainWindow(QWidget* parent)
         auto idx= ui->m_ownerCb->currentIndex();
         filter->setOwner(idx == 0 ? QString() : ui->m_ownerCb->currentText());
     });
+
+    connect(ui->m_ignoredLine, &QLineEdit::editingFinished, filter,
+            [filter, this]() { filter->setIgnoredPattern(ui->m_ignoredLine->text()); });
+
+    connect(ui->m_statusCb, &QComboBox::currentIndexChanged, filter, [filter, this]() {
+        switch(ui->m_statusCb->currentIndex())
+        {
+        case 0:
+            filter->setStatus(core::Status::All);
+            break;
+        case 1:
+            filter->setStatus(core::Status::Samurai);
+            break;
+        case 2:
+            filter->setStatus(core::Status::NonSamurai);
+            break;
+        }
+    });
+
+    connect(ui->m_hideDead, &QCheckBox::toggled, this,
+            [filter, this]() { filter->setHideDead(ui->m_hideDead->isChecked()); });
+
+    connect(ui->m_hideNoAvatar, &QCheckBox::toggled, this,
+            [filter, this]() { filter->setHideNoAvatar(ui->m_hideNoAvatar->isChecked()); });
 
     connect(ui->m_resetBtn, &QPushButton::clicked, this, [filter, this]() {
         ui->m_patternLine->setText(QString());

@@ -57,6 +57,7 @@ void DragableTableView::mouseMoveEvent(QMouseEvent* event)
 
     if((event->buttons() == Qt::LeftButton) && (tmp.isValid()))
     {
-        startDrag(Qt::MoveAction);
+        if(tmp.flags() & Qt::ItemIsDropEnabled)
+            startDrag(Qt::MoveAction);
     }
 }

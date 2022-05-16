@@ -18,6 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "sortfiltermodel.h"
+
+#include "charactermodel.h"
+
 constexpr char const* toutes{"toutes"};
 SortFilterModel::SortFilterModel(QObject* parent) : QSortFilterProxyModel{parent}
 {
@@ -28,6 +31,13 @@ SortFilterModel::SortFilterModel(QObject* parent) : QSortFilterProxyModel{parent
     connect(this, &SortFilterModel::clanChanged, this, &SortFilterModel::invalidateFilter);
     connect(this, &SortFilterModel::genderChanged, this, &SortFilterModel::invalidateFilter);
     connect(this, &SortFilterModel::tableChanged, this, &SortFilterModel::invalidateFilter);
+
+    connect(this, &SortFilterModel::hideDeadChanged, this, &SortFilterModel::invalidateFilter);
+    connect(this, &SortFilterModel::hideNoAvatarChanged, this, &SortFilterModel::invalidateFilter);
+    connect(this, &SortFilterModel::statusChanged, this, &SortFilterModel::invalidateFilter);
+    connect(this, &SortFilterModel::ignoredPatternChanged, this, &SortFilterModel::invalidateFilter);
+
+    setSortRole(CharacterModel::AvatarUrlRole);
 }
 
 const QString& SortFilterModel::pattern() const
@@ -116,6 +126,17 @@ bool isCorrectTable(core::Table wish, const core::Table& table)
         return wish == table;
 }
 
+bool isCorrectStatus(core::Status wish, bool isSamurai)
+{
+    if(wish == core::Status::All)
+        return true;
+
+    if(isSamurai)
+        return wish == core::Status::Samurai;
+    else
+        return wish == core::Status::NonSamurai;
+}
+
 bool isCorrectGender(core::Gender wish, const QChar& gender)
 {
     if(wish == core::Gender::All)
@@ -131,29 +152,105 @@ bool isCorrectGender(core::Gender wish, const QChar& gender)
 bool SortFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const
 {
     if(m_pattern.isEmpty() && m_table == core::Table::All && m_gender == core::Gender::All && m_clan.isEmpty()
-       && m_faction.isEmpty() && m_owner.isEmpty())
+       && m_faction.isEmpty() && m_owner.isEmpty() && !m_hideDead && !m_hideNoAvatar && m_ignoredPattern.isEmpty()
+       && m_status == core::Status::All)
         return true;
 
-    auto nameIndex= sourceModel()->index(sourceRow, 1, sourceParent).data().toString().toLower();
-    auto descIndex= sourceModel()->index(sourceRow, 2, sourceParent).data().toString().toLower();
-    auto genderIndex= sourceModel()->index(sourceRow, 3, sourceParent).data().toChar();
-    auto clanIndex= sourceModel()->index(sourceRow, 5, sourceParent).data().toString().toLower();
-    auto factionIndex= sourceModel()->index(sourceRow, 6, sourceParent).data().toString().toLower();
-    auto tableIndex= sourceModel()->index(sourceRow, 7, sourceParent).data().value<core::Table>();
-    auto ownerIndex= sourceModel()->index(sourceRow, 8, sourceParent).data().toString().toLower();
-    auto tagsIndex= sourceModel()->index(sourceRow, 9, sourceParent).data().toString().toLower();
+    auto idx= sourceModel()->index(sourceRow, 0, sourceParent);
+
+    auto nameIndex= idx.data(CharacterModel::NameRole).toString().toLower();
+    auto avatarIndex= idx.data(CharacterModel::AvatarUrlRole).toString().toLower();
+    auto descIndex= idx.data(CharacterModel::DescRole).toString().toLower();
+    auto genderIndex= idx.data(CharacterModel::GenderRole).toChar();
+    auto clanIndex= idx.data(CharacterModel::ClanRole).toString().toLower();
+    auto factionIndex= idx.data(CharacterModel::FactionRole).toString().toLower();
+    auto tableIndex= idx.data(CharacterModel::TableRole).value<core::Table>();
+    auto ownerIndex= idx.data(CharacterModel::OwnerRole).toString().toLower();
+    auto tagsIndex= idx.data(CharacterModel::TagsRole).toStringList().join(',').toLower();
+    auto statusIndex= idx.data(CharacterModel::StatusRole).toBool();
 
     auto correctGender= isCorrectGender(m_gender, genderIndex);
-
     auto correctTable= isCorrectTable(m_table, tableIndex);
-    // Debug() << "correct Table:" << m_table << "index: " << tableIndex;
 
-    return (nameIndex.contains(m_pattern.toLower()) || descIndex.contains(m_pattern.toLower())
-            || tagsIndex.contains(m_pattern.toLower()))
-               & correctGender
-           && (m_clan.isEmpty() ? true : clanIndex == m_clan.toLower())
+    auto isDead= tagsIndex.contains(QStringLiteral("mort"), Qt::CaseInsensitive);
+    auto hasNoAvatar= avatarIndex.isEmpty();
+
+    auto correctStatus= isCorrectStatus(m_status, statusIndex);
+
+    if(m_hideDead && isDead)
+        return false;
+
+    if(m_hideNoAvatar && hasNoAvatar)
+        return false;
+
+    if(!correctStatus)
+        return false;
+
+    auto ignored= m_ignoredPattern.isEmpty() ?
+                      false :
+                      nameIndex.contains(m_ignoredPattern.toLower(), Qt::CaseInsensitive)
+                          || descIndex.contains(m_ignoredPattern.toLower(), Qt::CaseInsensitive)
+                          || tagsIndex.contains(m_ignoredPattern.toLower(), Qt::CaseInsensitive);
+
+    auto matchSearch= (nameIndex.contains(m_pattern.toLower(), Qt::CaseInsensitive)
+                       || descIndex.contains(m_pattern.toLower(), Qt::CaseInsensitive)
+                       || tagsIndex.contains(m_pattern.toLower(), Qt::CaseInsensitive));
+
+    return !ignored && matchSearch && correctGender && (m_clan.isEmpty() ? true : clanIndex == m_clan.toLower())
            && (m_faction.isEmpty() ? true : factionIndex == m_faction.toLower())
            && (m_owner.isEmpty() ? true : ownerIndex.contains(m_owner.toLower())) & correctTable;
 }
 
 // end of sort filter
+
+const QString& SortFilterModel::ignoredPattern() const
+{
+    return m_ignoredPattern;
+}
+
+void SortFilterModel::setIgnoredPattern(const QString& newIgnoredPattern)
+{
+    if(m_ignoredPattern == newIgnoredPattern)
+        return;
+    m_ignoredPattern= newIgnoredPattern;
+    emit ignoredPatternChanged();
+}
+
+core::Status SortFilterModel::status() const
+{
+    return m_status;
+}
+
+void SortFilterModel::setStatus(core::Status newStatus)
+{
+    if(m_status == newStatus)
+        return;
+    m_status= newStatus;
+    emit statusChanged();
+}
+
+bool SortFilterModel::hideNoAvatar() const
+{
+    return m_hideNoAvatar;
+}
+
+void SortFilterModel::setHideNoAvatar(bool newHideNoAvatar)
+{
+    if(m_hideNoAvatar == newHideNoAvatar)
+        return;
+    m_hideNoAvatar= newHideNoAvatar;
+    emit hideNoAvatarChanged();
+}
+
+bool SortFilterModel::hideDead() const
+{
+    return m_hideDead;
+}
+
+void SortFilterModel::setHideDead(bool newHideDead)
+{
+    if(m_hideDead == newHideDead)
+        return;
+    m_hideDead= newHideDead;
+    emit hideDeadChanged();
+}

@@ -42,5 +42,13 @@ enum class Table : quint8
 };
 Q_ENUM_NS(Table)
 
+enum class Status : quint8
+{
+    All= 0,
+    Samurai= 1,
+    NonSamurai
+};
+Q_ENUM_NS(Status)
+
 } // namespace core
 #endif // core_type

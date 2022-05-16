@@ -14,6 +14,8 @@ RESOURCES += resources.qrc
 OTHER_FILES += qml/*.qml
 
 SOURCES += main.cpp\
+  centeredcheckbox.cpp \
+  checkboxdelegate.cpp \
   clandelegate.cpp \
   controller/charactercontroller.cpp \
   controller/previewcontroller.cpp \
@@ -34,6 +36,8 @@ SOURCES += main.cpp\
   widgets/l5rcharactersheetdialog.cpp
 
 HEADERS  += mainwindow.h \
+  centeredcheckbox.h \
+  checkboxdelegate.h \
   clandelegate.h \
   controller/charactercontroller.h \
   controller/previewcontroller.h \
@@ -58,6 +62,7 @@ FORMS    += mainwindow.ui \
 
 DISTFILES += \
     qml/SheetViewer.qml \
+    qml/bbb.qmodel \
     resources/oneshotFreaks/out/Hikaru_Ichijo.jpg \
     resources/oneshotFreaks/out/Hikaru_Ichijo-gray.jpg \
     resources/oneshotFreaks/out/Lilly_Claudel.jpg \
@@ -66,5 +71,8 @@ DISTFILES += \
     resources/oneshotFreaks/out/MJ_-gray.jpg \
     resources/oneshotFreaks/out/Renan_Charbonnier.jpg \
     resources/oneshotFreaks/out/Renan_Charbonnier-gray.jpg
+
+STATECHARTS += \
+  qml/aa.scxml
 
 

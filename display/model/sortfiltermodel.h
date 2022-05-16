@@ -28,11 +28,15 @@ class SortFilterModel : public QSortFilterProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(QString pattern READ pattern WRITE setPattern NOTIFY patternChanged)
+    Q_PROPERTY(QString ignoredPattern READ ignoredPattern WRITE setIgnoredPattern NOTIFY ignoredPatternChanged)
     Q_PROPERTY(QString faction READ faction WRITE setFaction NOTIFY factionChanged)
     Q_PROPERTY(QString owner READ owner WRITE setOwner NOTIFY ownerChanged)
     Q_PROPERTY(QString clan READ clan WRITE setClan NOTIFY clanChanged)
     Q_PROPERTY(core::Gender gender READ gender WRITE setGender NOTIFY genderChanged)
     Q_PROPERTY(core::Table table READ TABLE WRITE setTable NOTIFY tableChanged)
+    Q_PROPERTY(core::Status status READ status WRITE setStatus NOTIFY statusChanged)
+    Q_PROPERTY(bool hideDead READ hideDead WRITE setHideDead NOTIFY hideDeadChanged)
+    Q_PROPERTY(bool hideNoAvatar READ hideNoAvatar WRITE setHideNoAvatar NOTIFY hideNoAvatarChanged)
 
 public:
     SortFilterModel(QObject* parent= nullptr);
@@ -54,6 +58,18 @@ public:
     core::Table TABLE() const;
     void setTable(core::Table newTable);
 
+    const QString& ignoredPattern() const;
+    void setIgnoredPattern(const QString& newIgnoredPattern);
+
+    core::Status status() const;
+    void setStatus(core::Status newStatus);
+
+    bool hideNoAvatar() const;
+    void setHideNoAvatar(bool newHideNoAvatar);
+
+    bool hideDead() const;
+    void setHideDead(bool newHideDead);
+
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const override;
 
@@ -65,6 +81,14 @@ signals:
     void genderChanged();
     void tableChanged();
 
+    void ignoredPatternChanged();
+
+    void statusChanged();
+
+    void hideNoAvatarChanged();
+
+    void hideDeadChanged();
+
 private:
     QString m_pattern;
     QString m_faction;
@@ -72,5 +96,9 @@ private:
     QString m_clan;
     core::Gender m_gender= core::Gender::All;
     core::Table m_table= core::Table::All;
+    QString m_ignoredPattern;
+    core::Status m_status{core::Status::All};
+    bool m_hideNoAvatar{false};
+    bool m_hideDead{false};
 };
 #endif // SORTFILTERMODEL_H

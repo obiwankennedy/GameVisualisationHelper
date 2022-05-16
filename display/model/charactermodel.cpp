@@ -206,8 +206,9 @@ void NonPlayableCharacter::setClan(const QString& newClan)
 // END OF NONPLAYABLE CHARACTER
 
 CharacterModel::CharacterModel(QObject* parent)
-    : QAbstractTableModel(parent), m_columns{tr("Avatar"), tr("Name"),    tr("Description"), tr("Gender"), tr("Age"),
-                                             tr("Clan"),   tr("Faction"), tr("Table"),       tr("Owner"),  tr("Tags")}
+    : QAbstractTableModel(parent)
+    , m_columns{tr("Avatar"),  tr("Name"),   tr("Description"), tr("Gender"), tr("Age"),   tr("Clan"),
+                tr("Faction"), tr("Status"), tr("Table"),       tr("Owner"),  tr("Sheet"), tr("Tags")}
 {
 }
 
@@ -279,6 +280,9 @@ QVariant CharacterModel::data(const QModelIndex& index, int role) const
             break;
         case TagsRole:
             res= npc->tags();
+            break;
+        case StatusRole:
+            res= npc->isSamurai();
             break;
         case SheetPropertiesRole:
             res= QVariant::fromValue(npc->sheetProperties());
@@ -361,10 +365,15 @@ QVariant CharacterModel::data(const QModelIndex& index, int role) const
     case 5:
         res= npc->clan().toLower();
         break;
+        //, m_columns{tr("Avatar"),  tr("Name"),   tr("Description"), tr("Gender"), tr("Age"),   tr("Clan"),
+        //            tr("Faction"), tr("Status"), tr("Table"),       tr("Owner"),  tr("Sheet"), tr("Tags")}
     case 6:
         res= npc->faction();
         break;
     case 7:
+        res= npc->isSamurai();
+        break;
+    case 8:
         switch(npc->table())
         {
         case core::Table::All:
@@ -378,10 +387,13 @@ QVariant CharacterModel::data(const QModelIndex& index, int role) const
             break;
         }
         break;
-    case 8:
+    case 9:
         res= npc->owners().join(",");
         break;
-    case 9:
+    case 10:
+        res= npc->sheetProperties().isEmpty() ? QString() : tr("Fiche");
+        break;
+    case 11:
         res= npc->tags().join(",");
         break;
     }
@@ -413,9 +425,10 @@ bool CharacterModel::setData(const QModelIndex& index, const QVariant& value, in
             break;
         case 3:
         {
-            auto c= value.toChar();
-            npc->setGender(c == QChar('F') ? core::Gender::Feminin :
-                                             c == QChar('M') ? core::Gender::Masculin : core::Gender::Unknown);
+            auto c= value.toString();
+            qDebug() << c;
+            npc->setGender(c == QString("F") ? core::Gender::Feminin :
+                                               c == QString("M") ? core::Gender::Masculin : core::Gender::Unknown);
         }
         break;
         case 4:
@@ -428,6 +441,9 @@ bool CharacterModel::setData(const QModelIndex& index, const QVariant& value, in
             npc->setFaction(value.toString());
             break;
         case 7:
+            npc->setSamuraiStatus(value.toBool());
+            break;
+        case 8:
         {
             auto table= static_cast<core::Table>(value.toInt());
             npc->setTable(table == core::Table::All ?
@@ -436,7 +452,7 @@ bool CharacterModel::setData(const QModelIndex& index, const QVariant& value, in
         }
 
         break;
-        case 9:
+        case 11:
             npc->setTags(value.toString().split(","));
             break;
         }
@@ -452,7 +468,7 @@ Qt::ItemFlags CharacterModel::flags(const QModelIndex& index) const
     if(!index.isValid())
         return Qt::NoItemFlags;
 
-    QList<int> readOnlyColumn{1, 3, 5, 7, 8};
+    QList<int> readOnlyColumn{1, 8, 9, 10};
 
     if(index.column() == 0)
         return Qt::ItemIsEditable | Qt::ItemIsDropEnabled | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
@@ -587,4 +603,17 @@ void NonPlayableCharacter::setSheetProperties(const QHash<QString, QString>& new
         return;
     m_sheetProperties= newSheetProperties;
     emit sheetPropertiesChanged();
+}
+
+bool NonPlayableCharacter::isSamurai() const
+{
+    return m_samurai;
+}
+
+void NonPlayableCharacter::setSamuraiStatus(bool newSamurai)
+{
+    if(m_samurai == newSamurai)
+        return;
+    m_samurai= newSamurai;
+    emit samuraiStatusChanged();
 }

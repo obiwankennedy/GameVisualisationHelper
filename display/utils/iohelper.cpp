@@ -113,6 +113,14 @@ void fetchModel(const QString& database, const QString& internalData, CharacterM
                 current->setAge(obj["age"].toInt());
                 current->setUrlAvatar(obj["avatarpath"].toString());
                 current->setFaction(obj["faction"].toString());
+                current->setSamuraiStatus(obj["status"].toBool());
+
+                auto g= obj["genre"].toVariant().value<core::Gender>();
+                current->setGender(g);
+
+                auto clan= obj["clan"].toString();
+                if(!clan.isEmpty())
+                    current->setClan(clan);
 
                 auto desc= current->description();
                 auto newDesc= obj["desc"].toString();
@@ -120,7 +128,7 @@ void fetchModel(const QString& database, const QString& internalData, CharacterM
                 auto sheetObj= obj["sheet"].toObject();
                 QHash<QString, QString> sheet;
 
-                for(auto key : sheetObj.keys())
+                for(const auto& key : sheetObj.keys())
                 {
                     auto val= sheetObj[key].toString();
                     sheet.insert(key, val);
@@ -156,8 +164,11 @@ void writeModel(const QString& internalData, CharacterModel* model)
         obj["age"]= item->age();
         obj["avatarpath"]= item->urlAvatar();
         obj["desc"]= item->description();
+        obj["genre"]= QJsonValue::fromVariant(QVariant::fromValue(item->gender()));
+        obj["clan"]= item->clan();
         obj["faction"]= item->faction();
         obj["tags"]= item->tags().join(", ");
+        obj["status"]= item->isSamurai();
         auto sheet= item->sheetProperties();
         QVariantHash varhash;
         auto keys= sheet.keys();

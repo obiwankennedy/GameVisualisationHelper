@@ -39,6 +39,7 @@ class NonPlayableCharacter : public QObject
     Q_PROPERTY(QStringList owners READ owners WRITE setOwners NOTIFY ownersChanged)
     Q_PROPERTY(bool local READ local WRITE setLocal NOTIFY localChanged)
     Q_PROPERTY(QString urlAvatar READ urlAvatar WRITE setUrlAvatar NOTIFY urlAvatarChanged)
+    Q_PROPERTY(bool samurai READ isSamurai WRITE setSamuraiStatus NOTIFY samuraiStatusChanged)
     Q_PROPERTY(QHash<QString, QString> sheetProperties READ sheetProperties WRITE setSheetProperties NOTIFY
                    sheetPropertiesChanged)
 
@@ -79,6 +80,9 @@ public:
     const QHash<QString, QString>& sheetProperties() const;
     void setSheetProperties(const QHash<QString, QString>& newSheetProperties);
 
+    bool isSamurai() const;
+    void setSamuraiStatus(bool newSamurai);
+
 signals:
     void ownersChanged();
     void tableChanged();
@@ -94,6 +98,8 @@ signals:
 
     void sheetPropertiesChanged();
 
+    void samuraiStatusChanged();
+
 private:
     QStringList m_owners;
     core::Table m_table;
@@ -107,6 +113,7 @@ private:
     QString m_clan;
     QString m_urlAvatar;
     QHash<QString, QString> m_sheetProperties;
+    bool m_samurai{true};
 };
 
 class CharacterModel : public QAbstractTableModel
@@ -123,6 +130,7 @@ public:
         GenderRole,
         ClanRole,
         FactionRole,
+        StatusRole,
         TableRole,
         OwnerRole,
         TagsRole,
@@ -157,7 +165,7 @@ public:
 
     QStringList mimeTypes() const override;
 
-    QMimeData* mimeData(const QModelIndexList& indexes) const;
+    QMimeData* mimeData(const QModelIndexList& indexes) const override;
 
 private:
     std::vector<std::unique_ptr<NonPlayableCharacter>> m_characters;

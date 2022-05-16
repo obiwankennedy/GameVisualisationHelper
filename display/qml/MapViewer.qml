@@ -26,14 +26,23 @@ Item {
                 model: MainController.proxyModel
                 Token {
                     id: _token
-                    x: model.position.x
-                    y: model.position.y
+                    x: model.position.x * _root.factor
+                    y: model.position.y * _root.factor
+                    property real revfactor: 1/_root.factor
                     source: img
                     color: model.colorCh
+                    /*Connections {
+                        target: _root
+                        function onFactorChanged () {
+                            var f = 1/_root.factor
+                            model.position = Qt.point(model.position.x * f , model.position.y * f)
+                        }
+                    }*/
+
                     visible: !model.gameMaster
                     function updatePosition() {
-                        if(/*model.position.x !== _token.x || model.position.y !== _token.y*/_token.dragged)
-                            model.position = Qt.point(_token.x, _token.y)
+                        if(_token.dragged)
+                            model.position = Qt.point(_token.x * _token.revfactor, _token.y * _token.revfactor)
                     }
 
                     onXChanged: updatePosition()
