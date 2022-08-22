@@ -9,8 +9,8 @@ QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = teamspeakPlugin
-TEMPLATE = dir
-SUBDIRS = display plugin
+TEMPLATE = subdirs
+SUBDIRS =  plugin display
 
 
 OTHER_FILES = plugin/plugin.pro display/display.pro

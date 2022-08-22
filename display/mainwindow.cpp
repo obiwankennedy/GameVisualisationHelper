@@ -28,6 +28,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QQmlContext>
+#include <QRandomGenerator>
 #include <QSaveFile>
 #include <QTimer>
 
@@ -41,6 +42,8 @@
 
 #include "checkboxdelegate.h"
 #include "clandelegate.h"
+
+constexpr int WaitingTime{1000 * 30};
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
@@ -79,6 +82,25 @@ MainWindow::MainWindow(QWidget* parent)
     ui->m_tableview->setModel(m_characterCtrl->filteredModel());
     ui->m_tableview->setItemDelegateForColumn(5, new ClanDelegate());
     ui->m_tableview->setItemDelegateForColumn(7, new CheckBoxDelegate());
+    ui->m_tableview->setContextMenuPolicy(Qt::ActionsContextMenu);
+
+    m_generateAgeForAll= new QAction(tr("Set Age for All"), ui->m_tableview);
+    m_generateSheetForAll= new QAction(tr("Sheet for All"), ui->m_tableview);
+    connect(m_generateAgeForAll, &QAction::triggered, this, [this]() {
+        auto rows= m_characterCtrl->filteredModel()->rowCount();
+
+        for(auto i= 0; i < rows; ++i)
+        {
+            m_characterCtrl->filteredModel()->setData(m_characterCtrl->filteredModel()->index(i, 4),
+                                                      QRandomGenerator::global()->bounded(20, 60));
+        }
+    });
+
+    connect(m_generateAgeForAll, &QAction::triggered, this, &MainWindow::generateSheetForAll);
+
+    ui->m_tableview->addAction(m_generateAgeForAll);
+    ui->m_tableview->addAction(m_generateSheetForAll);
+
     auto header= ui->m_tableview->horizontalHeader();
     header->setSectionResizeMode(2, QHeaderView::Stretch);
     header->setSectionResizeMode(3, QHeaderView::ResizeToContents);
@@ -243,8 +265,15 @@ MainWindow::MainWindow(QWidget* parent)
         ui->m_viewer->setMarkdown(data);
     }
 
+    m_updateMarkDown= new QTimer(this);
+
+    connect(m_updateMarkDown, &QTimer::timeout, this, [this] {
+        ui->m_viewer->setMarkdown(ui->m_editor->toPlainText());
+        m_updateMarkDown->stop();
+    });
+
     connect(ui->m_editor, &QPlainTextEdit::textChanged, ui->m_viewer,
-            [this]() { ui->m_viewer->setMarkdown(ui->m_editor->toPlainText()); });
+            [this]() { m_updateMarkDown->start(WaitingTime); });
 }
 
 MainWindow::~MainWindow() {}
@@ -398,4 +427,15 @@ void MainWindow::on_actionErase_Time_triggered()
     {
         it.value()= 0;
     }
+}
+
+void MainWindow::generateSheetForAll()
+{
+    /*auto rows= m_characterCtrl->filteredModel()->rowCount();
+
+    for(auto i= 0; i < rows; ++i)
+    {
+        m_characterCtrl->filteredModel()->setData(m_characterCtrl->filteredModel()->index(i, 4),
+                                                  QRandomGenerator::global()->bounded(20, 60));
+    }*/
 }

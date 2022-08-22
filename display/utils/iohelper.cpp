@@ -67,6 +67,7 @@ void fetchModel(const QString& database, const QString& internalData, CharacterM
             current->setName(name);
             auto desc= current->description();
             auto newDesc= obj["desc"].toString();
+            current->setPrivate(!obj["public"].toBool());
 
             if(desc.isEmpty() && !newDesc.isEmpty())
                 current->setDescription(obj["desc"].toString());

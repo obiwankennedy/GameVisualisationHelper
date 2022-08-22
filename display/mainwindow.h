@@ -73,6 +73,7 @@ private slots:
     void on_actionRefresh_triggered();
 
     void on_actionErase_Time_triggered();
+    void generateSheetForAll();
 
 private:
     Ui::MainWindow* ui;
@@ -91,6 +92,11 @@ private:
 
     // QACTION
     QAction* m_addHaiku{nullptr};
+
+    QAction* m_generateAgeForAll{nullptr};
+    QAction* m_generateSheetForAll{nullptr};
+
+    QTimer* m_updateMarkDown;
 };
 
 #endif // MAINWINDOW_H

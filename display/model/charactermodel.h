@@ -42,6 +42,7 @@ class NonPlayableCharacter : public QObject
     Q_PROPERTY(bool samurai READ isSamurai WRITE setSamuraiStatus NOTIFY samuraiStatusChanged)
     Q_PROPERTY(QHash<QString, QString> sheetProperties READ sheetProperties WRITE setSheetProperties NOTIFY
                    sheetPropertiesChanged)
+    Q_PROPERTY(bool isPrivate READ isPrivate WRITE setPrivate NOTIFY privateChanged)
 
 public:
     const QStringList& owners() const;
@@ -83,6 +84,9 @@ public:
     bool isSamurai() const;
     void setSamuraiStatus(bool newSamurai);
 
+    bool isPrivate() const;
+    void setPrivate(bool newIsPrivate);
+
 signals:
     void ownersChanged();
     void tableChanged();
@@ -100,6 +104,8 @@ signals:
 
     void samuraiStatusChanged();
 
+    void privateChanged();
+
 private:
     QStringList m_owners;
     core::Table m_table;
@@ -114,6 +120,7 @@ private:
     QString m_urlAvatar;
     QHash<QString, QString> m_sheetProperties;
     bool m_samurai{true};
+    bool m_isPrivate;
 };
 
 class CharacterModel : public QAbstractTableModel

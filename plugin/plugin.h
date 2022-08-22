@@ -21,7 +21,7 @@
 #ifndef PLUGIN_H
 #define PLUGIN_H
 #include <stdint.h>
-#include <stdint-gcc.h>
+#include <teamspeak/public_definitions.h>
 
 typedef uint64_t uint64;
 

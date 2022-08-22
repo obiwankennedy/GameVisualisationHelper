@@ -326,6 +326,14 @@ QVariant CharacterModel::data(const QModelIndex& index, int role) const
             return Qt::AlignCenter;
     }
 
+    if(role == Qt::ToolTipRole)
+    {
+        if(index.column() == 2)
+        {
+            return npc->description();
+        }
+    }
+
     QSet<int> allowedRole{Qt::DisplayRole, Qt::EditRole};
 
     if(!allowedRole.contains(role))
@@ -616,4 +624,17 @@ void NonPlayableCharacter::setSamuraiStatus(bool newSamurai)
         return;
     m_samurai= newSamurai;
     emit samuraiStatusChanged();
+}
+
+bool NonPlayableCharacter::isPrivate() const
+{
+    return m_isPrivate;
+}
+
+void NonPlayableCharacter::setPrivate(bool newIsPrivate)
+{
+    if(m_isPrivate == newIsPrivate)
+        return;
+    m_isPrivate= newIsPrivate;
+    emit privateChanged();
 }

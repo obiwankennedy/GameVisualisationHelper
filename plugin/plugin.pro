@@ -1,4 +1,4 @@
-T = teamspeakPlugin
+TARGET = teamspeakPlugin
 TEMPLATE = lib
 INCLUDEPATH = /home/renaud/application/mine/teamspeakPlugin/ts3client-pluginsdk/include/
 

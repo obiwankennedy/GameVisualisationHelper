@@ -20,60 +20,12 @@
 #include "l5rcharactersheetdialog.h"
 #include "ui_l5rcharactersheetdialog.h"
 
-namespace keys
-{
-// generals
-constexpr char const* key_name{"name"};
-constexpr char const* key_school{"school"};
-constexpr char const* key_clan{"clan"};
-constexpr char const* key_glory{"glory"};
-constexpr char const* key_honor{"honor"};
-constexpr char const* key_teint{"teint"};
-constexpr char const* key_status{"status"};
-constexpr char const* key_pv{"pv"};
-
-// schools
-constexpr char const* key_rank1t{"rank1t"};
-constexpr char const* key_rank1d{"rank1d"};
-constexpr char const* key_rank2t{"rank2t"};
-constexpr char const* key_rank2d{"rank2d"};
-constexpr char const* key_rank3t{"rank3t"};
-constexpr char const* key_rank3d{"rank3d"};
-constexpr char const* key_rank4t{"rank4t"};
-constexpr char const* key_rank4d{"rank4d"};
-constexpr char const* key_rank5t{"rank5t"};
-constexpr char const* key_rank5d{"rank5d"};
-constexpr char const* key_ranka1t{"ranka1t"};
-constexpr char const* key_ranka1d{"ranka1d"};
-constexpr char const* key_ranka2t{"ranka2t"};
-constexpr char const* key_ranka2d{"ranka2d"};
-constexpr char const* key_ranka3t{"ranka3t"};
-constexpr char const* key_ranka3d{"ranka3d"};
-
-// attributs:
-// earth
-constexpr char const* key_volonte{"volonte"};
-constexpr char const* key_constitu{"constittue"};
-// air
-constexpr char const* key_reflexe{"reflexe"};
-constexpr char const* key_intuition{"intuition"};
-// fire
-constexpr char const* key_agility{"agility"};
-constexpr char const* key_intelli{"intelligence"};
-// Water
-constexpr char const* key_force{"force"};
-constexpr char const* key_perception{"perception"};
-
-constexpr char const* key_void{"void"};
-// skill defaut adv
-constexpr char const* key_skills{"skills"};
-constexpr char const* key_advs{"adv"};
-constexpr char const* key_defaut{"defaut"};
-} // namespace keys
 L5RCharacterSheetDialog::L5RCharacterSheetDialog(const QHash<QString, QString>& newSheetProperties, QWidget* parent)
     : QDialog(parent), ui(new Ui::L5RCharacterSheetDialog), m_sheetProperties(newSheetProperties)
 {
     ui->setupUi(this);
+
+    setUpAction();
 
     // Make sure all values are in the hash
     m_sheetProperties.value(keys::key_name);
@@ -214,4 +166,32 @@ void L5RCharacterSheetDialog::updateUi()
     ui->m_comps->setPlainText(m_sheetProperties[keys::key_skills]);
     ui->m_adv->setPlainText(m_sheetProperties[keys::key_advs]);
     ui->m_defaut->setPlainText(m_sheetProperties[keys::key_defaut]);
+}
+
+void L5RCharacterSheetDialog::setUpAction()
+{
+
+    auto updateEarth= [this]() {
+        ui->m_earth->setText(QString::number(std::min(ui->m_volo->text().toInt(), ui->m_const->text().toInt())));
+    };
+    connect(ui->m_volo, &QLineEdit::textChanged, this, updateEarth);
+    connect(ui->m_const, &QLineEdit::textChanged, this, updateEarth);
+
+    auto updateAir= [this]() {
+        ui->m_air->setText(QString::number(std::min(ui->m_reflexes->text().toInt(), ui->m_intuition->text().toInt())));
+    };
+    connect(ui->m_reflexes, &QLineEdit::textChanged, this, updateAir);
+    connect(ui->m_intuition, &QLineEdit::textChanged, this, updateAir);
+
+    auto updateFeu= [this]() {
+        ui->m_fire->setText(QString::number(std::min(ui->m_agi->text().toInt(), ui->m_intell->text().toInt())));
+    };
+    connect(ui->m_agi, &QLineEdit::textChanged, this, updateFeu);
+    connect(ui->m_intell, &QLineEdit::textChanged, this, updateFeu);
+
+    auto updateEau= [this]() {
+        ui->m_water->setText(QString::number(std::min(ui->m_force->text().toInt(), ui->m_percep->text().toInt())));
+    };
+    connect(ui->m_force, &QLineEdit::textChanged, this, updateEau);
+    connect(ui->m_percep, &QLineEdit::textChanged, this, updateEau);
 }
