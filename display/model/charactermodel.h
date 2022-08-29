@@ -173,6 +173,9 @@ public:
     QStringList mimeTypes() const override;
 
     QMimeData* mimeData(const QModelIndexList& indexes) const override;
+    bool dropMimeData(const QMimeData* data, Qt::DropAction act, int row, int column,
+                      const QModelIndex& parent) override;
+    Qt::DropActions supportedDropActions() const override;
 
 private:
     std::vector<std::unique_ptr<NonPlayableCharacter>> m_characters;

@@ -296,6 +296,8 @@ void CharacterAvatarModel::writeData(QJsonArray& array)
 }
 void CharacterAvatarModel::readData(QJsonArray& array)
 {
+    if(array.isEmpty())
+        return;
     beginResetModel();
     qDeleteAll(std::begin(m_persons), std::end(m_persons));
     m_persons.clear();

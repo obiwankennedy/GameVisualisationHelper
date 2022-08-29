@@ -20,6 +20,7 @@
 #include "charactermodel.h"
 
 #include <QColor>
+#include <QFileInfo>
 #include <QMimeData>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -27,6 +28,19 @@
 #include <QUrl>
 #include <QVariant>
 #include <set>
+
+QString copyFieldInto(const QString& dir, const QUrl& url, const QString& name)
+{
+    auto source= url.toLocalFile();
+    QFileInfo srcInfo(source);
+    auto ext= srcInfo.completeSuffix();
+    auto res= QStringLiteral("%1/%2.%3").arg(dir, name, ext);
+
+    qDebug() << "copy:" << source << res;
+    QFile::copy(source, res);
+
+    return QStringLiteral("file://%1/%2.%3").arg(dir, name, ext);
+}
 
 QPixmap readImage(const QString& path, CharacterModel* model, const QString& name)
 {
@@ -42,13 +56,15 @@ QPixmap readImage(const QString& path, CharacterModel* model, const QString& nam
     else
     {
         QNetworkAccessManager* man= new QNetworkAccessManager;
-        QObject::connect(man, &QNetworkAccessManager::finished, model, [model, name, man](QNetworkReply* reply) {
-            auto data= reply->readAll();
-            QPixmap map= QPixmap::fromImage(QImage::fromData(data));
-            if(!map.isNull())
-                model->setImage(map, name);
-            man->deleteLater();
-        });
+        QObject::connect(man, &QNetworkAccessManager::finished, model,
+                         [model, name, man](QNetworkReply* reply)
+                         {
+                             auto data= reply->readAll();
+                             QPixmap map= QPixmap::fromImage(QImage::fromData(data));
+                             if(!map.isNull())
+                                 model->setImage(map, name);
+                             man->deleteLater();
+                         });
         man->get(QNetworkRequest(url));
     }
 
@@ -436,7 +452,8 @@ bool CharacterModel::setData(const QModelIndex& index, const QVariant& value, in
             auto c= value.toString();
             qDebug() << c;
             npc->setGender(c == QString("F") ? core::Gender::Feminin :
-                                               c == QString("M") ? core::Gender::Masculin : core::Gender::Unknown);
+                           c == QString("M") ? core::Gender::Masculin :
+                                               core::Gender::Unknown);
         }
         break;
         case 4:
@@ -454,9 +471,9 @@ bool CharacterModel::setData(const QModelIndex& index, const QVariant& value, in
         case 8:
         {
             auto table= static_cast<core::Table>(value.toInt());
-            npc->setTable(table == core::Table::All ?
-                              core::Table::All :
-                              table == core::Table::Table1 ? core::Table::Table1 : core::Table::Table2);
+            npc->setTable(table == core::Table::All    ? core::Table::All :
+                          table == core::Table::Table1 ? core::Table::Table1 :
+                                                         core::Table::Table2);
         }
 
         break;
@@ -531,11 +548,37 @@ QMimeData* CharacterModel::mimeData(const QModelIndexList& indexes) const
     return mimeData;
 }
 
+Qt::DropActions CharacterModel::supportedDropActions() const
+{
+    return Qt::CopyAction | Qt::MoveAction | Qt::LinkAction;
+}
+
+bool CharacterModel::dropMimeData(const QMimeData* data, Qt::DropAction act, int row, int column,
+                                  const QModelIndex& parent)
+{
+    auto idx= index(parent.row(), 0);
+    auto avatar= idx.data().toString();
+    auto name= index(parent.row(), 1).data().toString().replace(" ", "_");
+    if(avatar.isEmpty() && data->hasUrls())
+    {
+        auto urls= data->urls();
+        for(auto u : urls)
+        {
+            qDebug() << u << act;
+            auto res= copyFieldInto("/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/15_riz/img/PNJ", u, name);
+            setData(idx, res);
+        }
+        return true;
+    }
+    return false;
+}
+
 QStringList CharacterModel::ownerList() const
 {
     std::set<QString> set;
     std::for_each(std::begin(m_characters), std::end(m_characters),
-                  [&set](const std::unique_ptr<NonPlayableCharacter>& character) {
+                  [&set](const std::unique_ptr<NonPlayableCharacter>& character)
+                  {
                       auto owners= character->owners();
                       for(auto const& o : owners)
                       {

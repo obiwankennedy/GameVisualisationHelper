@@ -80,21 +80,26 @@ MainWindow::MainWindow(QWidget* parent)
     ui->comboBox->setCurrentText(currentCampaign);
 
     ui->m_tableview->setModel(m_characterCtrl->filteredModel());
+    ui->m_tableview->setDragEnabled(true);
+    ui->m_tableview->setAcceptDrops(true);
+    ui->m_tableview->setDropIndicatorShown(true);
     ui->m_tableview->setItemDelegateForColumn(5, new ClanDelegate());
     ui->m_tableview->setItemDelegateForColumn(7, new CheckBoxDelegate());
     ui->m_tableview->setContextMenuPolicy(Qt::ActionsContextMenu);
 
     m_generateAgeForAll= new QAction(tr("Set Age for All"), ui->m_tableview);
     m_generateSheetForAll= new QAction(tr("Sheet for All"), ui->m_tableview);
-    connect(m_generateAgeForAll, &QAction::triggered, this, [this]() {
-        auto rows= m_characterCtrl->filteredModel()->rowCount();
+    connect(m_generateAgeForAll, &QAction::triggered, this,
+            [this]()
+            {
+                auto rows= m_characterCtrl->filteredModel()->rowCount();
 
-        for(auto i= 0; i < rows; ++i)
-        {
-            m_characterCtrl->filteredModel()->setData(m_characterCtrl->filteredModel()->index(i, 4),
-                                                      QRandomGenerator::global()->bounded(20, 60));
-        }
-    });
+                for(auto i= 0; i < rows; ++i)
+                {
+                    m_characterCtrl->filteredModel()->setData(m_characterCtrl->filteredModel()->index(i, 4),
+                                                              QRandomGenerator::global()->bounded(20, 60));
+                }
+            });
 
     connect(m_generateAgeForAll, &QAction::triggered, this, &MainWindow::generateSheetForAll);
 
@@ -131,68 +136,83 @@ MainWindow::MainWindow(QWidget* parent)
     auto vHeader= ui->m_tableview->verticalHeader();
     vHeader->setDefaultSectionSize(60);
 
-    connect(ui->m_tableview, &QTableView::doubleClicked, this, [this](const QModelIndex& index) {
-        if(!index.isValid())
-            return;
+    connect(ui->m_tableview, &QTableView::doubleClicked, this,
+            [this](const QModelIndex& index)
+            {
+                if(!index.isValid())
+                    return;
 
-        if(index.column() != 10)
-            return;
+                if(index.column() != 10)
+                    return;
 
-        auto model= ui->m_tableview->model();
+                auto model= ui->m_tableview->model();
 
-        auto sheet= model->data(index, CharacterModel::SheetPropertiesRole).value<QHash<QString, QString>>();
-        qDebug() << "sheet " << sheet;
+                auto sheet= model->data(index, CharacterModel::SheetPropertiesRole).value<QHash<QString, QString>>();
+                qDebug() << "sheet " << sheet;
 
-        L5RCharacterSheetDialog dia(sheet);
+                L5RCharacterSheetDialog dia(sheet);
 
-        dia.exec();
+                dia.exec();
 
-        model->setData(index, QVariant::fromValue(dia.sheetProperties()), CharacterModel::SheetPropertiesRole);
-    });
+                model->setData(index, QVariant::fromValue(dia.sheetProperties()), CharacterModel::SheetPropertiesRole);
+            });
 
     auto filter= m_characterCtrl->filteredModel();
 
     connect(ui->m_patternLine, &QLineEdit::editingFinished, filter,
             [filter, this]() { filter->setPattern(ui->m_patternLine->text()); });
-    connect(ui->m_genderCb, &QComboBox::currentTextChanged, filter, [filter, this]() {
-        auto idx= ui->m_genderCb->currentIndex();
-        filter->setGender(idx == 0 ? core::Gender::All : idx == 1 ? core::Gender::Masculin : core::Gender::Feminin);
-    });
-    connect(ui->m_tableCb, &QComboBox::currentTextChanged, filter, [filter, this]() {
-        auto idx= ui->m_tableCb->currentIndex();
-        filter->setTable(idx == 0 ? core::Table::All : idx == 1 ? core::Table::Table1 : core::Table::Table2);
-    });
+    connect(
+        ui->m_genderCb, &QComboBox::currentTextChanged, filter,
+        [filter, this]()
+        {
+            auto idx= ui->m_genderCb->currentIndex();
+            filter->setGender(idx == 0 ? core::Gender::All : idx == 1 ? core::Gender::Masculin : core::Gender::Feminin);
+        });
+    connect(ui->m_tableCb, &QComboBox::currentTextChanged, filter,
+            [filter, this]()
+            {
+                auto idx= ui->m_tableCb->currentIndex();
+                filter->setTable(idx == 0 ? core::Table::All : idx == 1 ? core::Table::Table1 : core::Table::Table2);
+            });
 
-    connect(ui->m_clanCb, &QComboBox::currentTextChanged, filter, [filter, this]() {
-        auto idx= ui->m_clanCb->currentIndex();
-        filter->setClan(idx == 0 ? QString() : ui->m_clanCb->currentText());
-    });
-    connect(ui->m_factionCb, &QComboBox::currentTextChanged, filter, [filter, this]() {
-        auto idx= ui->m_factionCb->currentIndex();
-        filter->setFaction(idx == 0 ? QString() : ui->m_factionCb->currentText());
-    });
-    connect(ui->m_ownerCb, &QComboBox::currentTextChanged, filter, [filter, this]() {
-        auto idx= ui->m_ownerCb->currentIndex();
-        filter->setOwner(idx == 0 ? QString() : ui->m_ownerCb->currentText());
-    });
+    connect(ui->m_clanCb, &QComboBox::currentTextChanged, filter,
+            [filter, this]()
+            {
+                auto idx= ui->m_clanCb->currentIndex();
+                filter->setClan(idx == 0 ? QString() : ui->m_clanCb->currentText());
+            });
+    connect(ui->m_factionCb, &QComboBox::currentTextChanged, filter,
+            [filter, this]()
+            {
+                auto idx= ui->m_factionCb->currentIndex();
+                filter->setFaction(idx == 0 ? QString() : ui->m_factionCb->currentText());
+            });
+    connect(ui->m_ownerCb, &QComboBox::currentTextChanged, filter,
+            [filter, this]()
+            {
+                auto idx= ui->m_ownerCb->currentIndex();
+                filter->setOwner(idx == 0 ? QString() : ui->m_ownerCb->currentText());
+            });
 
     connect(ui->m_ignoredLine, &QLineEdit::editingFinished, filter,
             [filter, this]() { filter->setIgnoredPattern(ui->m_ignoredLine->text()); });
 
-    connect(ui->m_statusCb, &QComboBox::currentIndexChanged, filter, [filter, this]() {
-        switch(ui->m_statusCb->currentIndex())
-        {
-        case 0:
-            filter->setStatus(core::Status::All);
-            break;
-        case 1:
-            filter->setStatus(core::Status::Samurai);
-            break;
-        case 2:
-            filter->setStatus(core::Status::NonSamurai);
-            break;
-        }
-    });
+    connect(ui->m_statusCb, &QComboBox::currentIndexChanged, filter,
+            [filter, this]()
+            {
+                switch(ui->m_statusCb->currentIndex())
+                {
+                case 0:
+                    filter->setStatus(core::Status::All);
+                    break;
+                case 1:
+                    filter->setStatus(core::Status::Samurai);
+                    break;
+                case 2:
+                    filter->setStatus(core::Status::NonSamurai);
+                    break;
+                }
+            });
 
     connect(ui->m_hideDead, &QCheckBox::toggled, this,
             [filter, this]() { filter->setHideDead(ui->m_hideDead->isChecked()); });
@@ -200,22 +220,24 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->m_hideNoAvatar, &QCheckBox::toggled, this,
             [filter, this]() { filter->setHideNoAvatar(ui->m_hideNoAvatar->isChecked()); });
 
-    connect(ui->m_resetBtn, &QPushButton::clicked, this, [filter, this]() {
-        ui->m_patternLine->setText(QString());
-        ui->m_genderCb->setCurrentIndex(0);
-        ui->m_tableCb->setCurrentIndex(0);
-        ui->m_clanCb->setCurrentIndex(0);
-        ui->m_factionCb->setCurrentIndex(0);
-        ui->m_ownerCb->setCurrentIndex(0);
+    connect(ui->m_resetBtn, &QPushButton::clicked, this,
+            [filter, this]()
+            {
+                ui->m_patternLine->setText(QString());
+                ui->m_genderCb->setCurrentIndex(0);
+                ui->m_tableCb->setCurrentIndex(0);
+                ui->m_clanCb->setCurrentIndex(0);
+                ui->m_factionCb->setCurrentIndex(0);
+                ui->m_ownerCb->setCurrentIndex(0);
 
-        filter->setClan(QString());
-        filter->setPattern(QString());
-        filter->setFaction(QString());
-        filter->setOwner(QString());
-        filter->setTable(core::Table::All);
-        filter->setGender(core::Gender::All);
-        // filter->setClan(QString());
-    });
+                filter->setClan(QString());
+                filter->setPattern(QString());
+                filter->setFaction(QString());
+                filter->setOwner(QString());
+                filter->setTable(core::Table::All);
+                filter->setGender(core::Gender::All);
+                // filter->setClan(QString());
+            });
 
     ui->m_clanCb->addItems(m_characterCtrl->clanModel());
     ui->m_factionCb->addItems(m_characterCtrl->factionModel());
@@ -223,10 +245,12 @@ MainWindow::MainWindow(QWidget* parent)
 
     m_addHaiku= new QAction{tr("Add Haiku"), this};
 
-    connect(m_addHaiku, &QAction::triggered, this, [this]() {
-        auto text= QInputDialog::getMultiLineText(this, tr("Your haiku"), tr("Your haiku"));
-        m_ctrl->haikus()->addHaiku(text);
-    });
+    connect(m_addHaiku, &QAction::triggered, this,
+            [this]()
+            {
+                auto text= QInputDialog::getMultiLineText(this, tr("Your haiku"), tr("Your haiku"));
+                m_ctrl->haikus()->addHaiku(text);
+            });
 
     m_haikuFiltered->setSourceModel(m_ctrl->haikus());
     m_haikuFiltered->setDynamicSortFilter(true);
@@ -234,12 +258,14 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->m_haikuTextEdit, &QLineEdit::textChanged, m_haikuFiltered.get(),
             &QSortFilterProxyModel::setFilterFixedString);
 
-    connect(ui->m_haikuList, &QListView::customContextMenuRequested, this, [this](const QPoint& point) {
-        QMenu menu;
+    connect(ui->m_haikuList, &QListView::customContextMenuRequested, this,
+            [this](const QPoint& point)
+            {
+                QMenu menu;
 
-        menu.addAction(m_addHaiku);
-        menu.exec(point);
-    });
+                menu.addAction(m_addHaiku);
+                menu.exec(point);
+            });
 
     ui->m_haikuList->setModel(m_haikuFiltered.get());
 
@@ -267,10 +293,12 @@ MainWindow::MainWindow(QWidget* parent)
 
     m_updateMarkDown= new QTimer(this);
 
-    connect(m_updateMarkDown, &QTimer::timeout, this, [this] {
-        ui->m_viewer->setMarkdown(ui->m_editor->toPlainText());
-        m_updateMarkDown->stop();
-    });
+    connect(m_updateMarkDown, &QTimer::timeout, this,
+            [this]
+            {
+                ui->m_viewer->setMarkdown(ui->m_editor->toPlainText());
+                m_updateMarkDown->stop();
+            });
 
     connect(ui->m_editor, &QPlainTextEdit::textChanged, ui->m_viewer,
             [this]() { m_updateMarkDown->start(WaitingTime); });
@@ -283,7 +311,8 @@ void MainWindow::refreshQMLEngine()
     m_engine.reset(new QQmlApplicationEngine());
 
     qmlRegisterSingletonType<MainController>("Controller", 1, 0, "MainController",
-                                             [this](QQmlEngine* engine, QJSEngine*) {
+                                             [this](QQmlEngine* engine, QJSEngine*)
+                                             {
                                                  engine->setObjectOwnership(m_ctrl.get(), QQmlEngine::CppOwnership);
                                                  return m_ctrl.get();
                                              });
