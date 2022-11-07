@@ -175,6 +175,11 @@ ApplicationWindow {
                     visible: !MainController.characterFour.hidden
                     reverse: true
                 }
+                CharacterItem {
+                    character: MainController.characterFifth
+                    visible: MainController.characterFifth && !MainController.characterFifth.hidden
+                    reverse: true
+                }
             }
         }
 

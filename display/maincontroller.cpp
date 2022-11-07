@@ -60,6 +60,10 @@ MainController::MainController(QObject* parent)
         m_avatarModel->addPerson(new Player(QStringLiteral("Yasuki Kinjiro"), QStringLiteral("Yasuki Kinjiro"),
                                             QStringLiteral("qrc:/resources/L5RRiz/Perso/yasuki_dazai.png"),
                                             QStringLiteral("jeudi"), QColor(Qt::darkBlue), "_fourth"));
+
+        m_avatarModel->addPerson(new Player(QStringLiteral("Yasuki Kinjiro"), QStringLiteral("Yasuki Kinjiro"),
+                                            QStringLiteral("qrc:/resources/L5RRiz/Perso/yasuki_kinjiro.png"),
+                                            QStringLiteral("jeudi"), QColor(Qt::darkBlue), "_fourth"));
     }
     else
     {

@@ -43,6 +43,7 @@ class MainController : public QObject
     Q_PROPERTY(Player* characterTwo READ characterTwo CONSTANT)
     Q_PROPERTY(Player* characterThree READ characterThree CONSTANT)
     Q_PROPERTY(Player* characterFour READ characterFour CONSTANT)
+    Q_PROPERTY(Player* characterFifth READ characterFifth CONSTANT)
     Q_PROPERTY(QString campaign READ campaign WRITE setCampaign NOTIFY campaignChanged)
     Q_PROPERTY(qreal maxSpeakingTime READ maxSpeakingTime NOTIFY maxSpeakingTimeChanged)
     Q_PROPERTY(bool table1 READ table1 CONSTANT)
@@ -62,6 +63,7 @@ public:
     Player* characterTwo() const;
     Player* characterThree() const;
     Player* characterFour() const;
+    Player* characterFifth() const;
     SortedModel* sortedModel() const;
     PreviewController* previewCtrl() const;
     PresentProxyModel* proxyModel() const;
