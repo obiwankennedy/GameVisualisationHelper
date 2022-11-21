@@ -123,6 +123,11 @@ Player* MainController::characterFour() const
     return m_avatarModel->characterAt(4);
 }
 
+Player* MainController::characterFifth() const
+{
+    return m_avatarModel->characterAt(5);
+}
+
 bool MainController::table1() const
 {
     return m_table1;
