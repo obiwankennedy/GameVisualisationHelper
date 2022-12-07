@@ -42,7 +42,7 @@ MainController::MainController(QObject* parent)
     auto today= QDate::currentDate();
     auto w= today.weekNumber();
     if(w % 2 == 1)
-    // if(true)
+    // if(!true)
     {
         m_table1= true;
         m_avatarModel->addPerson(new Player(QStringLiteral("Yasuki Gosetsu"), QStringLiteral("Caladbolg"),

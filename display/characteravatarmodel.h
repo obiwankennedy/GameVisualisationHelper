@@ -22,6 +22,7 @@ public:
         Color,
         Hidden,
         Position,
+        PositionBis,
         GameMaster,
         Sheet
     };

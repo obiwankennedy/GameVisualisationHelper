@@ -116,11 +116,23 @@ ApplicationWindow {
                 }
             },
             State {
-                name: "Sheet"
+                name: "GenericMap"
                 when: MainController.previewCtrl.currentMode === 7
                 PropertyChanges {
                     target: _content
                     panel: 7
+                }
+                PropertyChanges {
+                    target: _avatarPanel
+                    visible: true
+                }
+            },
+            State {
+                name: "Sheet"
+                when: MainController.previewCtrl.currentMode === 8
+                PropertyChanges {
+                    target: _content
+                    panel: 8
                 }
                 PropertyChanges {
                     target: _avatarPanel
@@ -242,11 +254,18 @@ ApplicationWindow {
                     onTriggered: MainController.previewCtrl.currentMode = 6
                 }
                 Action  {
-                    text: "8. Sheet"
+                    text: "8. Generic Map"
                     checkable: true
-                    checked: main.state === "Sheet"
+                    checked: main.state === "GenericMap"
                     onTriggered: MainController.previewCtrl.currentMode = 7
                 }
+                Action  {
+                    text: "9. Sheet"
+                    checkable: true
+                    checked: main.state === "Sheet"
+                    onTriggered: MainController.previewCtrl.currentMode = 8
+                }
+
 
             }
         }

@@ -61,6 +61,7 @@ FORMS    += mainwindow.ui \
   widgets/l5rcharactersheetdialog.ui
 
 DISTFILES += \
+    qml/MapViewerGenerique.qml \
     qml/SheetViewer.qml \
     qml/bbb.qmodel \
     resources/oneshotFreaks/out/Hikaru_Ichijo.jpg \

@@ -68,6 +68,9 @@ QVariant CharacterAvatarModel::data(const QModelIndex& index, int role) const
     case Position:
         var= QVariant::fromValue(item->position());
         break;
+    case PositionBis:
+        var= QVariant::fromValue(item->positionBis());
+        break;
     case GameMaster:
         var= item->gamemaster();
         break;
@@ -136,6 +139,16 @@ bool CharacterAvatarModel::setData(const QModelIndex& index, const QVariant& val
             return true;
         }
     }
+    if(role == PositionBis)
+    {
+        auto item= m_persons[index.row()];
+        if(item)
+        {
+            item->setPositionBis(value.toPointF());
+            emit dataChanged(index, index, QVector<int>() << role);
+            return true;
+        }
+    }
 
     return false;
 }
@@ -167,6 +180,7 @@ QHash<int, QByteArray> CharacterAvatarModel::roleNames() const
     roles.insert(Percent, "percent");
     roles.insert(Color, "colorCh");
     roles.insert(Position, "position");
+    roles.insert(PositionBis, "positionBis");
     roles.insert(Sheet, "sheet");
     roles.insert(GameMaster, "gameMaster");
     return roles;
@@ -289,6 +303,9 @@ void CharacterAvatarModel::writeData(QJsonArray& array)
         object["id"]= character->id();
         object["x"]= character->position().x();
         object["y"]= character->position().y();
+        object["xb"]= character->positionBis().x();
+        object["yb"]= character->positionBis().y();
+
         object["gm"]= character->gamemaster();
         object["sheet"]= character->sheet();
         array.append(object);
@@ -312,10 +329,13 @@ void CharacterAvatarModel::readData(QJsonArray& array)
         auto id= obj["id"].toString();
         auto x= obj["x"].toDouble();
         auto y= obj["y"].toDouble();
+        auto xb= obj["xb"].toDouble();
+        auto yb= obj["yb"].toDouble();
         auto gm= obj["gm"].toBool();
         auto sheet= obj["sheet"].toString();
         auto character= new Player(name, playerName, imageId, campaign, QColor(color), id, gm);
         character->setPosition({x, y});
+        character->setPositionBis({xb, yb});
         character->setSheet(sheet);
         m_persons.push_back(character);
     }

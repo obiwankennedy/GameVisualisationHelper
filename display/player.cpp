@@ -145,3 +145,16 @@ void Player::setSheet(const QString &newSheet)
     m_sheet = newSheet;
     emit sheetChanged();
 }
+
+QPointF Player::positionBis() const
+{
+    return m_positionBis;
+}
+
+void Player::setPositionBis(QPointF newPositionBis)
+{
+    if (m_positionBis == newPositionBis)
+        return;
+    m_positionBis = newPositionBis;
+    emit positionBisChanged();
+}

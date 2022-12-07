@@ -32,6 +32,9 @@ Item {
             _stack.push(grid)
             break;
         case 7:
+            _stack.push(mapGen)
+            break;
+        case 8:
             _stack.push(sheet)
             break;
         }
@@ -73,6 +76,12 @@ Item {
         id: carte
         MapViewer {
             id: mapScreen
+        }
+    }
+    Component {
+        id: mapGen
+        MapViewerGenerique {
+            id: mapGenScreen
         }
     }
 

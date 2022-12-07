@@ -30,15 +30,15 @@ int main(int argc, char* argv[])
 {
     QtWebEngineQuick::initialize();
     QApplication a(argc, argv);
+    a.setApplicationName("L5R display");
+    a.setOrganizationName("rolisteam");
+    a.setOrganizationDomain("rolisteam.org");
     MainWindow* w= new MainWindow();
     new GuiAdaptor(w);
     w->show();
 
     QImageReader::setAllocationLimit(0);
 
-    /*  auto f= QFontDatabase::families();
-      for(const auto& p : f)
-          qDebug() << p;*/
 
     QDBusConnection connection= QDBusConnection::sessionBus();
     bool rel= connection.registerService("org.rolisteam.display");

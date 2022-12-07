@@ -1,11 +1,14 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import Qt.labs.settings
 import Controller
 
 Item {
     id: _root
-    property real factor: (1344/6187)
+    property int imgWidth: 0
+    property int imgHeight: 0
+    property real factor: imgWidth == 0 ? 1 : (imgHeight/imgWidth)
 
     Flickable {
         anchors.fill: parent
@@ -15,26 +18,32 @@ Item {
         contentHeight:  _image.height
         clip: true
         boundsBehavior: Flickable.StopAtBounds
+        visible: _image.source
+
+        Settings {
+            id: settings
+            category: MainController.table1 ? "MapTable1" : "MapTable2"
+            property alias imgSource: _image.source
+        }
 
         Image {
             id: _image
-            source: "file:///home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/01_resources/Carte/Rokugan-map2.svg"
-            sourceSize.width: 6187*_root.factor
-            sourceSize.height: 9381*_root.factor
+            sourceSize.width: _root.imgWidth*_root.factor
+            sourceSize.height: _root.imgHeight*_root.factor
 
             Repeater {
                 model: MainController.proxyModel
                 Token {
                     id: _token
-                    x: model.position.x * _root.factor
-                    y: model.position.y * _root.factor
+                    x: model.positionBis.x * _root.factor
+                    y: model.positionBis.y * _root.factor
                     property real revfactor: 1/_root.factor
                     source: img
                     color: model.colorCh
                     visible: !model.gameMaster
                     function updatePosition() {
                         if(_token.dragged)
-                            model.position = Qt.point(_token.x * _token.revfactor, _token.y * _token.revfactor)
+                            model.positionBis = Qt.point(_token.x * _token.revfactor, _token.y * _token.revfactor)
                     }
 
                     onXChanged: updatePosition()
@@ -44,6 +53,8 @@ Item {
 
         }
     }
+
+
 
     MouseArea {
         id: _mArea
@@ -116,7 +127,23 @@ Item {
         }
     }
 
+    DropArea {
+        id: _drop
+        anchors.fill: parent
+        enabled: true
+        Rectangle {
+                anchors.fill: parent
+                color: "darkgreen"
+                visible: parent.containsDrag && !_drop.drag.source
+        }
+        onDropped:(drop)=>{
+                _image.source= drop.urls[0]
+        }
+        Drag.dragType: Drag.Automatic
+    }
+
     RowLayout {
+        visible: false
         Button {
             text: "mini"
             checkable: true

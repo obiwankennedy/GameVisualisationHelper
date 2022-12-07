@@ -18,6 +18,7 @@ class Player : public QObject
     Q_PROPERTY(quint64 speakingTime READ speakingTime WRITE setSpeakingTime NOTIFY speakingTimeChanged)
     Q_PROPERTY(bool hidden READ hidden WRITE setHidden NOTIFY hiddenChanged)
     Q_PROPERTY(QPointF position READ position WRITE setPosition NOTIFY positionChanged)
+    Q_PROPERTY(QPointF positionBis READ positionBis WRITE setPositionBis NOTIFY positionBisChanged)
     Q_PROPERTY(bool gamemaster READ gamemaster CONSTANT)
     Q_PROPERTY(QString sheet READ sheet WRITE setSheet NOTIFY sheetChanged)
 public:
@@ -57,6 +58,9 @@ public:
     const QString& sheet() const;
     void setSheet(const QString& newSheet);
 
+    QPointF positionBis() const;
+    void setPositionBis(QPointF newPositionBis);
+
 signals:
     void nameChanged();
     void playerNameChanged();
@@ -68,6 +72,8 @@ signals:
     void positionChanged();
 
     void sheetChanged();
+
+    void positionBisChanged();
 
 private:
     QString m_name;
@@ -82,6 +88,7 @@ private:
     QPointF m_position;
     bool m_gamemaster{false};
     QString m_sheet;
+    QPointF m_positionBis;
 };
 
 #endif // PLAYER_H
