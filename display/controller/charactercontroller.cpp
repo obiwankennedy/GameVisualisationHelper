@@ -25,7 +25,6 @@ constexpr char const* none{"none"};
 CharacterController::CharacterController(QObject* parent)
     : QObject{parent}, m_model{new CharacterModel}, m_filteredModel{new SortFilterModel}
 {
-
     IOHelper::fetchModel("/home/renaud/www/scripts/28_pnj_database/database.json",
                          "/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/15_riz/additinal_data_npc.json",
                          m_model.get());

@@ -443,6 +443,7 @@ bool CharacterModel::setData(const QModelIndex& index, const QVariant& value, in
             npc->setUrlAvatar(value.toString());
             break;
         case 1:
+            npc->setName(value.toString());
             break;
         case 2:
             npc->setDescription(value.toString());
@@ -493,7 +494,7 @@ Qt::ItemFlags CharacterModel::flags(const QModelIndex& index) const
     if(!index.isValid())
         return Qt::NoItemFlags;
 
-    QList<int> readOnlyColumn{1, 8, 9, 10};
+    QList<int> readOnlyColumn{8, 9, 10};
 
     if(index.column() == 0)
         return Qt::ItemIsEditable | Qt::ItemIsDropEnabled | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
@@ -613,15 +614,21 @@ void CharacterModel::resetModel(QList<NonPlayableCharacter*> values)
 {
     beginResetModel();
     m_characters.clear();
+    qDebug() << "NPC Count : " << values.size();
 
+    int i= 0;
     for(auto& val : values)
     {
         std::unique_ptr<NonPlayableCharacter> p(val);
         QPixmap map= readImage(p->urlAvatar(), this, p->name());
         if(!map.isNull())
+        {
             m_avatars.insert(p->name(), map);
+            ++i;
+        }
         m_characters.push_back(std::move(p));
     }
+    qDebug() << "NPC With avatar Count:" << i;
     endResetModel();
 }
 
