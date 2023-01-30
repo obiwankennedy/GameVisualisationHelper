@@ -272,15 +272,20 @@ MainWindow::MainWindow(QWidget* parent)
     loadFile();
     refreshQMLEngine();
 
-    QObject* root= m_engine->rootObjects().first();
-    if(nullptr != root)
-    {
-        auto window= qobject_cast<QQuickWindow*>(root);
-        connect(window, &QQuickWindow::frameSwapped, this,
-                [this, window]() { m_ctrl->previewCtrl()->setImage(window->grabWindow()); });
+    auto rooObj = m_engine->rootObjects();
 
-        connect(m_ctrl->previewCtrl(), &PreviewController::sendEvent, this,
-                [window](QMouseEvent* event) { QCoreApplication::sendEvent(window, event); });
+    if(!rooObj.empty())
+    {
+        QObject* root= rooObj.first();
+        if(nullptr != root)
+        {
+            auto window= qobject_cast<QQuickWindow*>(root);
+            connect(window, &QQuickWindow::frameSwapped, this,
+                    [this, window]() { m_ctrl->previewCtrl()->setImage(window->grabWindow()); });
+
+            connect(m_ctrl->previewCtrl(), &PreviewController::sendEvent, this,
+                    [window](QMouseEvent* event) { QCoreApplication::sendEvent(window, event); });
+        }
     }
 
     QFile file("/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/15_riz/01_Notes.md");

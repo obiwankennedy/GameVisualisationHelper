@@ -52,6 +52,8 @@ class MainController : public QObject
     Q_PROPERTY(PreviewController* previewCtrl READ previewCtrl CONSTANT)
     Q_PROPERTY(HaikuModel* haikus READ haikus CONSTANT)
     Q_PROPERTY(CalendarItemModel* calendarModel READ calendarModel CONSTANT)
+    Q_PROPERTY(QString tempFile READ tempFile NOTIFY tempFileChanged)
+    Q_PROPERTY(QVariantMap mimeData READ mimeData NOTIFY tempFileChanged)
 public:
     explicit MainController(QObject* parent= nullptr);
     ~MainController();
@@ -79,9 +81,17 @@ public:
 
     CalendarItemModel* calendarModel() const;
 
+    QString tempFile() const;
+
+    QVariantMap mimeData() const;
+
+public slots:
+    void refreshTempFile();
+
 signals:
     void campaignChanged();
     void maxSpeakingTimeChanged();
+    void tempFileChanged();
 
 private:
     std::unique_ptr<CharacterAvatarModel> m_avatarModel;
@@ -95,6 +105,8 @@ private:
     bool m_table1{false};
     std::unique_ptr<PreviewController> m_previewCtrl;
     std::unique_ptr<HaikuModel> m_haikus;
+    QString m_tempFile;
+    QVariantMap m_mimeData;
 };
 
 #endif // MAINCONTROLLER_H

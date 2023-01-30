@@ -19,6 +19,10 @@ Item {
         clip: true
         boundsBehavior: Flickable.StopAtBounds
         visible: _image.source
+        Drag.active: dragHandler.active
+        Drag.dragType: Drag.Automatic
+        Drag.supportedActions: Qt.CopyAction
+        Drag.mimeData: MainController.mimeData
 
         Settings {
             id: settings
@@ -51,6 +55,23 @@ Item {
                 }
             }
 
+        }
+
+
+        DragHandler {
+            id: dragHandler
+            acceptedModifiers: Qt.ControlModifier
+            acceptedButtons: Qt.LeftButton
+            onActiveChanged:{
+                _root.Drag.mimeData = MainController.mimeData
+                if (active) {
+                    _root.grabToImage(function(result) {
+                        result.saveToFile(MainController.tempFile)
+                        _root.Drag.imageSource = MainController.tempFile
+                        MainController.refreshTempFile()
+                    })
+                }
+            }
         }
     }
 

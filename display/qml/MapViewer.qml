@@ -8,6 +8,7 @@ Item {
     property real factor: (1344/6187)
 
     Flickable {
+        id: flick
         anchors.fill: parent
         focus: true
         interactive: true
@@ -15,6 +16,10 @@ Item {
         contentHeight:  _image.height
         clip: true
         boundsBehavior: Flickable.StopAtBounds
+        Drag.active: dragHandler.active
+        Drag.dragType: Drag.Automatic
+        Drag.supportedActions: Qt.CopyAction
+        Drag.mimeData: MainController.mimeData
 
         Image {
             id: _image
@@ -43,6 +48,22 @@ Item {
             }
 
         }
+
+        DragHandler {
+            id: dragHandler
+            acceptedModifiers: Qt.ControlModifier
+            acceptedButtons: Qt.LeftButton
+            onActiveChanged:{
+                flick.Drag.mimeData = MainController.mimeData
+                if (active) {
+                    flick.grabToImage(function(result) {
+                        result.saveToFile(MainController.tempFile)
+                        flick.Drag.imageSource = MainController.tempFile
+                        MainController.refreshTempFile()
+                    })
+                }
+            }
+        }
     }
 
     MouseArea {
@@ -62,10 +83,22 @@ Item {
         }
 
         onPositionChanged: (mouse)=>{
+            console.log("mouse vent")
             end = Qt.point(mouse.x, mouse.y)
             _mArea.dist = Math.sqrt(Math.pow(Math.abs(end.x - start.x),2)+Math.pow(Math.abs(end.y - start.y),2))
                         console.log("Dist:",_mArea.dist)
             _canvas.requestPaint()
+
+            if((mouse.button == Qt.LeftButton) && (mouse.modifiers & Qt.ControlModifier))
+            {
+                console.log("grab image")
+               flick.grabToImage(function(result) {
+                   _mArea.image = result.image;
+                   _mArea.drag.imageSource = result.url
+                   _mArea.drag.startDrag()
+                   // _img.Drag.imageSource = result.url;
+               })
+            }
         }
         Canvas {
             id: _canvas
@@ -92,6 +125,7 @@ Item {
                 ctx.stroke();
             }
         }
+       /* */
         Rectangle {
             x: parent.start.x-width/2
             y: parent.start.y-width/2

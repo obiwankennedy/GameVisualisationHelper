@@ -174,9 +174,11 @@ Item {
                 Drag.active: dragHandler.active
                 Drag.dragType: Drag.Automatic
                 Drag.supportedActions: Qt.CopyAction
-                Drag.mimeData: {
-                     "text/uri-list": model.avatarpath
+
+                Drag.mimeData:{
+                    "text/uri-list": model.avatarpath
                 }
+
                 Image {
                     id: _img
                     anchors.fill: parent

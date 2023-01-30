@@ -89,6 +89,8 @@ MainController::MainController(QObject* parent)
 
     connect(m_avatarModel.get(), &CharacterAvatarModel::totaltimeChanged, this,
             &MainController::maxSpeakingTimeChanged);
+
+    refreshTempFile();
 }
 
 MainController::~MainController()= default;
@@ -192,4 +194,22 @@ PreviewController* MainController::previewCtrl() const
 CalendarItemModel* MainController::calendarModel() const
 {
     return m_calendarModel.get();
+}
+
+QString MainController::tempFile() const
+{
+    return m_tempFile;
+}
+
+void MainController::refreshTempFile()
+{
+    static int i = 0;
+    auto date = QDate::currentDate().toString("yyyy-MM-dd");
+    m_tempFile = QStringLiteral("/home/renaud/documents/03_jdr/01_Scenariotheque/16_l5r/15_riz/img/export_maps/carte_%1_%2.jpg").arg(date).arg(i++);
+    emit tempFileChanged();
+}
+
+QVariantMap MainController::mimeData() const
+{
+    return {{"text/uri-list",QUrl::fromLocalFile(m_tempFile)}};
 }
