@@ -61,6 +61,8 @@ FORMS    += mainwindow.ui \
   widgets/l5rcharactersheetdialog.ui
 
 DISTFILES += \
+    CMakeLists.txt \
+    qml/Effect01/export/qmldir \
     qml/MapViewerGenerique.qml \
     qml/SheetViewer.qml \
     qml/bbb.qmodel \

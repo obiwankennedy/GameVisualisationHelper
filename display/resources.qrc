@@ -63,5 +63,17 @@
         <file>qml/CalendarItem.qml</file>
         <file>resources/L5RRiz/Perso/yasuki_kinjiro.png</file>
         <file>qml/MapViewerGenerique.qml</file>
+        <file>qml/glow.frag</file>
+        <file>qml/glow.vert</file>
+        <file>qml/BlurHelper.qml</file>
+        <file>qml/Effect01/export/BlurHelper.qml</file>
+        <file>qml/Effect01/export/bluritems.frag.qsb</file>
+        <file>qml/Effect01/export/bluritems.vert.qsb</file>
+        <file>qml/Effect01/export/effect01.frag</file>
+        <file>qml/Effect01/export/effect01.frag.qsb</file>
+        <file>qml/Effect01/export/effect01.vert</file>
+        <file>qml/Effect01/export/effect01.vert.qsb</file>
+        <file>qml/Effect01/export/Effect01.qml</file>
+        <file>qml/Effect01/export/qmldir</file>
     </qresource>
 </RCC>

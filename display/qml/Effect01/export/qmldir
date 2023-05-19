@@ -1,0 +1,3 @@
+module export
+
+BlurHelper 1.0 BlurHelper.qml

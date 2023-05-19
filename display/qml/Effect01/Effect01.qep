@@ -1,0 +1,191 @@
+{
+    "QEP": {
+        "QQEM": "0.43",
+        "connections": [
+            {
+                "fromId": 2,
+                "toId": 1
+            },
+            {
+                "fromId": 0,
+                "toId": 3
+            },
+            {
+                "fromId": 3,
+                "toId": 4
+            },
+            {
+                "fromId": 4,
+                "toId": 2
+            }
+        ],
+        "exportDirectory": "export",
+        "exportFlags": 15,
+        "exportName": "Effect01",
+        "nodes": [
+            {
+                "fragmentCode": [
+                    "void main() {",
+                    "    fragColor = texture(iSource, texCoord);",
+                    "    @nodes",
+                    "    fragColor = fragColor * qt_Opacity;",
+                    "}"
+                ],
+                "name": "Main",
+                "nodeId": 0,
+                "type": 0,
+                "vertexCode": [
+                    "void main() {",
+                    "    texCoord = qt_MultiTexCoord0;",
+                    "    fragCoord = qt_Vertex.xy;",
+                    "    vec2 vertCoord = qt_Vertex.xy;",
+                    "    @nodes",
+                    "    gl_Position = qt_Matrix * vec4(vertCoord, 0.0, 1.0);",
+                    "}"
+                ],
+                "x": 336.70001220703125,
+                "y": 64.20000457763672
+            },
+            {
+                "name": "Output",
+                "nodeId": 1,
+                "type": 1,
+                "x": 337.70001220703125,
+                "y": 1139.800048828125
+            },
+            {
+                "description": "This effect adjusts the source item colors. Brightness adjustment changes the perceived luminance of the source item. Contrast adjustment increases or decreases the color and brightness variations.",
+                "fragmentCode": [
+                    "@main",
+                    "{",
+                    "    fragColor.rgb /= max(1.0/256.0, fragColor.a);",
+                    "    float c = 1.0 + brightnessContrastContrast;",
+                    "    float contrastGainFactor = 1.0 + c * c * c * c * step(0.0, brightnessContrastContrast);",
+                    "    fragColor.rgb = ((fragColor.rgb - 0.5) * (contrastGainFactor * brightnessContrastContrast + 1.0)) + 0.5;",
+                    "    fragColor.rgb = mix(fragColor.rgb, vec3(step(0.0, brightnessContrastBrightness)), abs(brightnessContrastBrightness));",
+                    "    fragColor = vec4(fragColor.rgb * fragColor.a, fragColor.a);",
+                    "}"
+                ],
+                "name": "BrightnessContrast",
+                "nodeId": 2,
+                "properties": [
+                    {
+                        "defaultValue": "0",
+                        "description": "This property defines how much the source brightness is increased or decreased.\n\nThe value ranges from -1.0 to 1.0. By default, the property is set to 0.0 (no change).",
+                        "maxValue": "1",
+                        "minValue": "-1",
+                        "name": "brightnessContrastBrightness",
+                        "type": "float",
+                        "value": "0.561287"
+                    },
+                    {
+                        "defaultValue": "0",
+                        "description": "This property defines how much the source contrast is increased or decreased. The decrease of the contrast is linear, but the increase is applied with a non-linear curve to allow very high contrast adjustment at the high end of the value range.\n\nThe value ranges from -1.0 to 1.0. By default, the property is set to 0.0 (no change).",
+                        "maxValue": "1",
+                        "minValue": "-1",
+                        "name": "brightnessContrastContrast",
+                        "type": "float",
+                        "value": "0.927249"
+                    }
+                ],
+                "type": 2,
+                "x": 302.20001220703125,
+                "y": 617
+            },
+            {
+                "description": "This node is required e.g. for FastBlur and DropShadow. It generates blurred iSourceBlur[1..6] samplers to be available for shaders.",
+                "fragmentCode": [
+                    "@blursources"
+                ],
+                "name": "BlurHelper",
+                "nodeId": 3,
+                "properties": [
+                    {
+                        "defaultValue": "64",
+                        "description": "This property defines the maximum pixel radius that blur with value 1.0 will reach.\n\nMeaningful range of this value is from 2 (subtle blur) to 64 (high blur). By default, the property is set to 32. For the most optimal performance, select as small value as you need.\n\nNote: This affects to both blur and shadow effects.",
+                        "name": "BLUR_HELPER_MAX_LEVEL",
+                        "type": "define",
+                        "value": "64"
+                    },
+                    {
+                        "defaultValue": "0",
+                        "description": "This property defines a multiplier for extending the blur radius.\n\nThe value ranges from 0.0 (not multiplied) to inf. By default, the property is set to 0.0. Incresing the multiplier extends the blur radius, but decreases the blur quality. This is more performant option for a bigger blur radius than BLUR_HELPER_MAX_LEVEL as it doesn't increase the amount of texture lookups.\n\nNote: This affects to both blur and shadow effects.",
+                        "maxValue": "2",
+                        "minValue": "0",
+                        "name": "blurMultiplier",
+                        "type": "float",
+                        "value": "1.486"
+                    }
+                ],
+                "type": 2,
+                "x": 301.95001220703125,
+                "y": 348.1000061035156
+            },
+            {
+                "description": "The FastBlur effect softens the source content by blurring it with algorithm which uses the source content downscaling and bilinear filtering.",
+                "fragmentCode": [
+                    "@requires BlurHelper",
+                    "@main",
+                    "{",
+                    "    vec4 blurredColor = texture(iSource, texCoord) * blurWeight1[0];",
+                    "    blurredColor += texture(iSourceBlur1, texCoord) * blurWeight1[1];",
+                    "#if (BLUR_HELPER_MAX_LEVEL > 2)",
+                    "    blurredColor += texture(iSourceBlur2, texCoord) * blurWeight1[2];",
+                    "#endif",
+                    "#if (BLUR_HELPER_MAX_LEVEL > 8)",
+                    "    blurredColor += texture(iSourceBlur3, texCoord) * blurWeight1[3];",
+                    "#endif",
+                    "#if (BLUR_HELPER_MAX_LEVEL > 16)",
+                    "    blurredColor += texture(iSourceBlur4, texCoord) * blurWeight2[0];",
+                    "#endif",
+                    "#if (BLUR_HELPER_MAX_LEVEL > 32)",
+                    "    blurredColor += texture(iSourceBlur5, texCoord) * blurWeight2[1];",
+                    "#endif",
+                    "",
+                    "    fragColor = blurredColor;",
+                    "}"
+                ],
+                "name": "FastBlur",
+                "nodeId": 4,
+                "properties": [
+                    {
+                        "defaultValue": "0",
+                        "description": "This value defines the softness of the shadow. A larger value causes the edges of the shadow to appear more blurry.",
+                        "maxValue": "1",
+                        "minValue": "0",
+                        "name": "fastBlurAmount",
+                        "type": "float",
+                        "value": "0.544753"
+                    }
+                ],
+                "type": 2,
+                "vertexCode": [
+                    "out vec4 blurWeight1;",
+                    "out vec2 blurWeight2;",
+                    "",
+                    "float blurWeight(float v) {",
+                    "    return max(0.0, min(1.0, 1.0 - v * 2.0));",
+                    "}",
+                    "",
+                    "@main",
+                    "{",
+                    "    float blurLod = sqrt(fastBlurAmount * (BLUR_HELPER_MAX_LEVEL / 64.0)) * 1.2 - 0.2;",
+                    "    float bw1 = blurWeight(abs(blurLod - 0.1));",
+                    "    float bw2 = blurWeight(abs(blurLod - 0.3));",
+                    "    float bw3 = blurWeight(abs(blurLod - 0.5));",
+                    "    float bw4 = blurWeight(abs(blurLod - 0.7));",
+                    "    float bw5 = blurWeight(abs(blurLod - 0.9));",
+                    "    float bw6 = blurWeight(abs(blurLod - 1.1));",
+                    "",
+                    "    float bsum = bw1 + bw2 + bw3 + bw4 + bw5 + bw6;",
+                    "    blurWeight1 = vec4(bw1 / bsum, bw2 / bsum, bw3 / bsum, bw4 / bsum);",
+                    "    blurWeight2 = vec2(bw5 / bsum, bw6 / bsum);",
+                    "}"
+                ],
+                "x": 302.07501220703125,
+                "y": 482.54998779296875
+            }
+        ],
+        "version": 1
+    }
+}
