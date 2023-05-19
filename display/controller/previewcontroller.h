@@ -26,8 +26,6 @@
 #include <QQuickWindow>
 #include <QScrollArea>
 
-#include "ui_mainwindow.h"
-
 class PreviewController : public QObject
 {
     Q_OBJECT
@@ -66,7 +64,6 @@ protected:
 private:
     QPointer<QLabel> m_label;
     QScrollArea* m_widget;
-    Ui::MainWindow* m_ui;
     int m_currentMode;
     qreal m_imageW;
     qreal m_imageH;

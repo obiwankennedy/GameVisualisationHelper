@@ -94,7 +94,11 @@ QColor Player::color() const
 
 void Player::setColor(const QColor& color)
 {
+    if(color == m_color)
+        return;
     m_color= color;
+    emit colorChanged();
+
 }
 
 bool Player::hidden() const

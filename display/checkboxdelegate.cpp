@@ -21,24 +21,27 @@
 #include "checkboxdelegate.h"
 
 #include <QPainter>
+#include <QDebug>
 
 #include "centeredcheckbox.h"
 
-CheckBoxDelegate::CheckBoxDelegate(bool aRedCheckBox, QObject* parent) : m_editor(new CenteredCheckBox)
+CheckBoxDelegate::CheckBoxDelegate(bool aRedCheckBox, QObject* parent)
+    : QStyledItemDelegate(parent), m_editor(new CenteredCheckBox)
 {
     Q_UNUSED(aRedCheckBox)
-    Q_UNUSED(parent)
     // m_editor= new CenteredCheckBox();
     // m_editor->setParent(parent);
-    connect(m_editor.get(), &CenteredCheckBox::commitEditor, this, &CheckBoxDelegate::commitEditor);
+    //connect(m_editor.get(), &CenteredCheckBox::commitEditor, this, &CheckBoxDelegate::commitEditor);
 }
 CheckBoxDelegate::~CheckBoxDelegate()= default;
+
 QWidget* CheckBoxDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem& option,
                                         const QModelIndex& index) const
 {
     Q_UNUSED(option)
     Q_UNUSED(index)
     CenteredCheckBox* cb= new CenteredCheckBox(parent);
+    connect(cb, &CenteredCheckBox::commitEditor, this, &CheckBoxDelegate::commitEditor);
     return cb;
 }
 void CheckBoxDelegate::setEditorData(QWidget* editor, const QModelIndex& index) const
@@ -96,5 +99,7 @@ void CheckBoxDelegate::commitEditor()
 {
     CenteredCheckBox* editor= qobject_cast<CenteredCheckBox*>(sender());
     //	std::cout<<"commitEditor "<<(editor==m_editor)<<"  "<<editor->isCheckedDelegate()<<std::endl;
-    emit commitData(editor);
+
+    if(m_editor.get() != editor)
+        emit commitData(editor);
 }
