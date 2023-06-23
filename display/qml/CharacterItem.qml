@@ -25,14 +25,31 @@ Frame {
             layoutDirection: reverse ? Qt.RightToLeft : Qt.LeftToRight
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter
-            RectangularGlow {
-                glowRadius: 10
-                spread: 0.2
-                Layout.alignment: Qt.AlignBottom | Qt.AlignHCenter
+            Item {
                 Layout.preferredWidth: 8
-                height: 150*(_root.character.speakingTime / MainController.maxSpeakingTime)
-                color: _root.character.color
-                cornerRadius: 2 + glowRadius
+                Layout.preferredHeight: 150
+                RectangularGlow {
+                    id: glowRect
+                    glowRadius: 10
+                    spread: 0.2
+                    anchors.bottom: parent.bottom
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    width: 8
+                    //property real factor: 1.0
+                    height: 150*(_root.character.speakingTime / MainController.maxSpeakingTime)
+                    /*Timer {
+                        running: true
+                        repeat: true
+                        onTriggered: {
+                            console.log("factor:",glowRect.factor)
+                            glowRect.factor = (glowRect.factor >= 1.0) ? 0.0 : glowRect.factor+0.05
+                        }
+                    }*/
+
+                    color: _root.character.color
+                    cornerRadius: 2 + glowRadius
+                }
             }
 
             Rectangle {
